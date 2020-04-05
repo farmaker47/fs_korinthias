@@ -57,10 +57,15 @@ class ImportantViewModel : ViewModel() {
                 val doc = importantResponse.parse()
                 //check if element exists
                 if(checkElement(doc.select("div[class=image]").first())){
-                    val image = doc.select(".image").select("img[alt]")
+                    val image = doc.select(".image")
                     for (element in image){
-                        val eachElement = element.attr("alt")
-                        Log.e("IMAGEATTR", eachElement.toString())
+                        val altElement = element.select("img[alt]").attr("alt")
+                        Log.e("IMAGEATTR", altElement.toString())
+                        val srcElement = element.select("img[src]").attr("src")
+                        Log.e("IMAGEATTR", srcElement.toString())
+                        val hrefElement = element.select("a[href]").attr("href")
+                        Log.e("IMAGEATTR", hrefElement.toString())
+
                     }
 
                 }
