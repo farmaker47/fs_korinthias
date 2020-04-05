@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">fs_korinthias</string>
+    <string name="title_home">FSKorinthias</string>
+    <string name="title_dashboard">FSKorinthias</string>
+    <string name="title_home_bottom">Important</string>
+    <string name="title_dashboard_bottom">All news</string>
+    <string name="title_notifications">Notifications</string>
+</resources>
