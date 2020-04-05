@@ -10,6 +10,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.jsoup.Connection
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
 import java.io.IOException
 import java.util.HashMap
 
@@ -23,7 +24,7 @@ class ImportantViewModel : ViewModel() {
     private var viewModelJob = Job()
 
     // the Coroutine runs using the Main (UI) dispatcher
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Default)
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
     // Internally, we use a MutableLiveData, because we will be updating the List of WeatherJsonObject
     // with new values
@@ -40,8 +41,12 @@ class ImportantViewModel : ViewModel() {
 
     fun getImportantNews() {
 
-        Log.e("IMPORTANT", "IMPORTANT")
+        /*Log.e("IMPORTANT", "IMPORTANT")
         Thread(Runnable {
+            //run on UI
+        }).start()*/
+
+        coroutineScope.launch {
             val cookies = HashMap<String, String>()
             try {
                 val importantResponse = Jsoup.connect(BASE_URL_IMPORTANT)
@@ -50,18 +55,20 @@ class ImportantViewModel : ViewModel() {
                     .execute()
                 cookies.putAll(importantResponse.cookies())
                 val doc = importantResponse.parse()
-                //check if table exists
+                //check if element exists
+                if(checkElement(doc.select("div[class=image]").first())){
+                    val image = doc.select(".image").select("img[alt]")
+                    for (element in image){
+                        val eachElement = element.attr("alt")
+                        Log.e("IMAGEATTR", eachElement.toString())
+                    }
+
+                }
                 Log.e("IMPORTANT", doc.toString())
+
             } catch (e: IOException) {
                 Log.e("EXCEPTION", e.toString())
             }
-
-            //run on UI
-
-        }).start()
-
-        coroutineScope.launch {
-
         }
 
 
@@ -70,6 +77,10 @@ class ImportantViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+    }
+
+    private fun checkElement(elem: Element?): Boolean {
+        return elem != null
     }
 
 
