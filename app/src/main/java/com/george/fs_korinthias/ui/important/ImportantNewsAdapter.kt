@@ -11,12 +11,12 @@ class ImportantNewsAdapter(
     val onClickListener: OnClickListener
     //val weatherViewModel: WeatherViewModel
 ) :
-    ListAdapter<String, ImportantNewsAdapter.ImportantNewsViewHolder>(DiffCallback) {
+    ListAdapter<MainInfo, ImportantNewsAdapter.ImportantNewsViewHolder>(DiffCallback) {
 
     class ImportantNewsViewHolder(private var binding: CardImportantListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(mainInfo: String) {
-            binding.title = mainInfo
+        fun bind(mainInfo: MainInfo) {
+            binding.info = mainInfo
             //binding.viewModel = weatherViewModel
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
@@ -28,13 +28,13 @@ class ImportantNewsAdapter(
      * Allows the RecyclerView to determine which items have changed when the [List] of [MainInfo]
      * has been updated.
      */
-    companion object DiffCallback : DiffUtil.ItemCallback<String>() {
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<MainInfo>() {
+        override fun areItemsTheSame(oldItem: MainInfo, newItem: MainInfo): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
-            return oldItem == newItem
+        override fun areContentsTheSame(oldItem: MainInfo, newItem: MainInfo): Boolean {
+            return oldItem.link == newItem.link
         }
     }
 
@@ -64,7 +64,7 @@ class ImportantNewsAdapter(
      * associated with the current item to the [onClick] function.
      * @param clickListener lambda that will be called with the current [MarsProperty]
      */
-    class OnClickListener(val clickListener: (mainInfo: String) -> Unit) {
-        fun onClick(mainInfo: String) = clickListener(mainInfo)
+    class OnClickListener(val clickListener: (mainInfo: MainInfo) -> Unit) {
+        fun onClick(mainInfo: MainInfo) = clickListener(mainInfo)
     }
 }

@@ -1,52 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
-            name="title"
-            type="String" />
+            name="info"
+            type="com.george.fs_korinthias.ui.important.MainInfo" />
     </data>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true"
-        android:layout_margin="4dp"
-        android:foreground="?android:attr/selectableItemBackground">
 
-        <RelativeLayout
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/imageImportant"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"/>
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_margin="4dp"
+            app:cardPreventCornerOverlap="false"
+            app:cardUseCompatPadding="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="5dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
-                android:layout_alignParentBottom="true">
-                <View
+                android:layout_height="match_parent"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/imageImportant"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#80c6c6c6"/>
+                    android:layout_marginStart="8dp" />
 
-                <TextView
-                    android:id="@+id/textTitleImportant"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_centerVertical="true"
-                    android:padding="20dp"
-                    android:text="@{title}"
-                    android:textColor="#fff"
-                    android:textSize="48sp" />
+                    android:layout_height="280dp"
+                    android:layout_alignParentBottom="true">
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#80c6c6c6" />
+
+                    <TextView
+                        android:id="@+id/textTitleImportant"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_centerVertical="true"
+                        android:padding="20dp"
+                        android:text="@{info.title}"
+                        android:textColor="#fff"
+                        android:textSize="42sp" />
+
+                </RelativeLayout>
             </RelativeLayout>
-        </RelativeLayout>
 
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 </layout>

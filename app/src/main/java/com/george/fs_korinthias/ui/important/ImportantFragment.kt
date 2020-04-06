@@ -15,19 +15,19 @@ import com.george.fs_korinthias.databinding.FragmentImportantBinding
 class ImportantFragment : Fragment() {
 
     private lateinit var importantViewModel: ImportantViewModel
-    private lateinit var binding:FragmentImportantBinding
+    private lateinit var binding: FragmentImportantBinding
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
-        binding=FragmentImportantBinding.inflate(inflater)
+        binding = FragmentImportantBinding.inflate(inflater)
         binding.setLifecycleOwner(this)
         importantViewModel = ViewModelProvider(this).get(ImportantViewModel::class.java)
 
-        binding.viewModel=importantViewModel
+        binding.viewModel = importantViewModel
 
         /*val handler = Handler()
         handler.postDelayed(
@@ -53,6 +53,8 @@ class ImportantFragment : Fragment() {
     }
 }
 
-data class MainTitle(
-    val title: ArrayList<String>
+data class MainInfo(
+    val title: String?,
+    val image: String?,
+    val link: String?
 )

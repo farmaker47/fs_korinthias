@@ -43,9 +43,9 @@ class ImportantViewModel : ViewModel() {
     val linkList: ArrayList<String>
         get() = _linkList
 
-    private var _titleList = MutableLiveData<ArrayList<String>>()
+    private var _titleList = MutableLiveData<ArrayList<MainInfo>>()
     // The external LiveData interface to the property is immutable, so only this class can modify
-    val titleList: LiveData<ArrayList<String>>
+    val titleList: LiveData<ArrayList<MainInfo>>
         get() = _titleList
 
     /*private val _titleList = ArrayList<String>()
@@ -53,7 +53,7 @@ class ImportantViewModel : ViewModel() {
     val titleList: ArrayList<String>
         get() = _titleList*/
 
-    val _toUseArrayList = ArrayList<String>()
+    val _toUseArrayList = ArrayList<MainInfo>()
 
     init {
         //_titleList.add("Xiaomi Redmi Note 6 Pro Android 9, API 28")
@@ -82,7 +82,7 @@ class ImportantViewModel : ViewModel() {
                     val image = doc.select(".image")
                     //_titleList.value=image.select("img[alt]")
                     for (element in image) {
-                        val altElement = element.select("img[alt]").attr("alt")
+                        /*val altElement = element.select("img[alt]").attr("alt")
                         _toUseArrayList.add(altElement)
                         //_titleList.value?.add(altElement)
                         Log.e("IMAGEATTR", altElement.toString())
@@ -93,7 +93,11 @@ class ImportantViewModel : ViewModel() {
 
                         val hrefElement = element.select("a[href]").attr("href")
                         _linkList.add(hrefElement)
-                        Log.e("IMAGEATTR", hrefElement.toString())
+                        Log.e("IMAGEATTR", hrefElement.toString())*/
+
+                        val generalElement = MainInfo(element.select("img[alt]").attr("alt"),
+                            element.select("img[src]").attr("src"),element.select("a[href]").attr("href"))
+                        _toUseArrayList.add(generalElement)
 
                     }
 
@@ -101,11 +105,11 @@ class ImportantViewModel : ViewModel() {
 
                 }
 
-                Log.e("LIST", _toUseArrayList.toString())
+                //Log.e("LIST", _toUseArrayList.toString())
                 //_titleList.value?.add(_toUseArrayList[0])
                 //_titleList.value?.add("George")
-                Log.e("LIST_TITLE", _titleList.value.toString())
-                _titleList.value = _toUseArrayList
+                //Log.e("LIST_TITLE", _titleList.value.toString())
+                _titleList.postValue(_toUseArrayList)
 
 
             } catch (e: IOException) {
