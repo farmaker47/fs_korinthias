@@ -1,6 +1,7 @@
 package com.george.fs_korinthias.ui.important
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,21 @@ class ImportantFragment : Fragment() {
         binding.setLifecycleOwner(this)
         importantViewModel = ViewModelProvider(this).get(ImportantViewModel::class.java)
 
+        binding.viewModel=importantViewModel
+
+        /*val handler = Handler()
+        handler.postDelayed(
+            { binding.importantRecyclerView.adapter =
+                ImportantNewsAdapter(ImportantNewsAdapter.OnClickListener {
+                    //viewModel.displayPropertyDetails(it)
+                }) },
+            5000
+        )*/
+        binding.importantRecyclerView.adapter =
+            ImportantNewsAdapter(ImportantNewsAdapter.OnClickListener {
+                //viewModel.displayPropertyDetails(it)
+            })
+
 
 
 
@@ -36,3 +52,7 @@ class ImportantFragment : Fragment() {
         return binding.root
     }
 }
+
+data class MainTitle(
+    val title: ArrayList<String>
+)

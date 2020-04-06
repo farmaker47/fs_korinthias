@@ -34,9 +34,6 @@ class ImportantViewModel : ViewModel() {
     val text: String
         get() = _text*/
 
-    private var _titleList: ArrayList<String> = ArrayList()
-    val titleList: ArrayList<String>
-        get() = _linkList
 
     private var _imageList: ArrayList<String> = ArrayList()
     val imageList: ArrayList<String>
@@ -45,10 +42,22 @@ class ImportantViewModel : ViewModel() {
     private var _linkList: ArrayList<String> = ArrayList()
     val linkList: ArrayList<String>
         get() = _linkList
-    
-    
+
+    private var _titleList = MutableLiveData<ArrayList<String>>()
+    // The external LiveData interface to the property is immutable, so only this class can modify
+    val titleList: LiveData<ArrayList<String>>
+        get() = _titleList
+
+    /*private val _titleList = ArrayList<String>()
+    // The external LiveData interface to the property is immutable, so only this class can modify
+    val titleList: ArrayList<String>
+        get() = _titleList*/
+
+    val _toUseArrayList = ArrayList<String>()
 
     init {
+        //_titleList.add("Xiaomi Redmi Note 6 Pro Android 9, API 28")
+        //_titleList.add("Xiaomi Redmi Note 6 Pro Android 9, API 28")
         getImportantNews()
     }
 
@@ -69,11 +78,13 @@ class ImportantViewModel : ViewModel() {
                 cookies.putAll(importantResponse.cookies())
                 val doc = importantResponse.parse()
                 //check if element exists
-                if(checkElement(doc.select("div[class=image]").first())){
+                if (checkElement(doc.select("div[class=image]").first())) {
                     val image = doc.select(".image")
-                    for (element in image){
+                    //_titleList.value=image.select("img[alt]")
+                    for (element in image) {
                         val altElement = element.select("img[alt]").attr("alt")
-                        _linkList.add(altElement)
+                        _toUseArrayList.add(altElement)
+                        //_titleList.value?.add(altElement)
                         Log.e("IMAGEATTR", altElement.toString())
 
                         val srcElement = element.select("img[src]").attr("src")
@@ -86,7 +97,16 @@ class ImportantViewModel : ViewModel() {
 
                     }
 
+
+
                 }
+
+                Log.e("LIST", _toUseArrayList.toString())
+                //_titleList.value?.add(_toUseArrayList[0])
+                //_titleList.value?.add("George")
+                Log.e("LIST_TITLE", _titleList.value.toString())
+                _titleList.value = _toUseArrayList
+
 
             } catch (e: IOException) {
                 Log.e("EXCEPTION", e.toString())
