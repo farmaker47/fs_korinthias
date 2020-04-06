@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,53 +11,50 @@
     </data>
 
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
 
-        <androidx.cardview.widget.CardView
+        <ImageView
+            android:id="@+id/imageImportant"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_margin="4dp"
-            app:cardPreventCornerOverlap="false"
-            app:cardUseCompatPadding="true"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="5dp">
+            android:layout_marginStart="8dp"
+            android:scaleType="fitXY"
+            app:weatherIconDisplay="@{info.image}"
+            tools:src="@drawable/ic_news" />
 
-            <RelativeLayout
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="420dp"
+            android:layout_gravity="bottom">
+
+            <TextView
+                android:id="@+id/textTitleImportant"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp">
+                android:layout_height="wrap_content"
+                android:background="#B3c6c6c6"
+                android:layout_alignParentBottom="true"
+                android:padding="24dp"
+                android:textAlignment="gravity"
+                android:gravity="center_vertical"
+                tools:text="oikonomiköa möetra stöhrijhw tvn farmakeöivn"
+                android:text="@{info.title}"
+                android:textColor="#fff"
+                android:textSize="32sp" />
 
-                <ImageView
-                    android:id="@+id/imageImportant"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp" />
+        </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="280dp"
-                    android:layout_alignParentBottom="true">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#80c6c6c6" />
-
-                    <TextView
-                        android:id="@+id/textTitleImportant"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_centerVertical="true"
-                        android:padding="20dp"
-                        android:text="@{info.title}"
-                        android:textColor="#fff"
-                        android:textSize="42sp" />
-
-                </RelativeLayout>
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </layout>
