@@ -28,14 +28,27 @@ class ImportantViewModel : ViewModel() {
 
     // Internally, we use a MutableLiveData, because we will be updating the List of WeatherJsonObject
     // with new values
-    private var _text = String()
+    /*private var _text = String()
 
     // The external LiveData interface to the property is immutable, so only this class can modify
     val text: String
-        get() = _text
+        get() = _text*/
+
+    private var _titleList: ArrayList<String> = ArrayList()
+    val titleList: ArrayList<String>
+        get() = _linkList
+
+    private var _imageList: ArrayList<String> = ArrayList()
+    val imageList: ArrayList<String>
+        get() = _imageList
+
+    private var _linkList: ArrayList<String> = ArrayList()
+    val linkList: ArrayList<String>
+        get() = _linkList
+    
+    
 
     init {
-        _text = "George"
         getImportantNews()
     }
 
@@ -60,16 +73,20 @@ class ImportantViewModel : ViewModel() {
                     val image = doc.select(".image")
                     for (element in image){
                         val altElement = element.select("img[alt]").attr("alt")
+                        _linkList.add(altElement)
                         Log.e("IMAGEATTR", altElement.toString())
+
                         val srcElement = element.select("img[src]").attr("src")
+                        _imageList.add(srcElement)
                         Log.e("IMAGEATTR", srcElement.toString())
+
                         val hrefElement = element.select("a[href]").attr("href")
+                        _linkList.add(hrefElement)
                         Log.e("IMAGEATTR", hrefElement.toString())
 
                     }
 
                 }
-                Log.e("IMPORTANT", doc.toString())
 
             } catch (e: IOException) {
                 Log.e("EXCEPTION", e.toString())
