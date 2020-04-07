@@ -1,5 +1,6 @@
 package com.george.fs_korinthias.ui.allNews
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.george.fs_korinthias.R
 import com.george.fs_korinthias.databinding.FragmentAllNewsBinding
 import com.george.fs_korinthias.databinding.FragmentImportantBinding
+import com.george.fs_korinthias.ui.DetailsActivity
+import com.george.fs_korinthias.ui.important.PARCEL_TO_PASS
 import com.george.fs_korinthias.ui.news_adapter.NewsAdapter
 
 class AllNewsFragment : Fragment() {
@@ -32,6 +35,12 @@ class AllNewsFragment : Fragment() {
         binding.allNewsRecyclerView.adapter = NewsAdapter(
             NewsAdapter.OnClickListener {
                 //viewModel.displayPropertyDetails(it)
+                val intent = Intent(context, DetailsActivity::class.java)
+                intent.putExtra(
+                    PARCEL_TO_PASS,
+                    it
+                )
+                startActivity(intent)
             })
 
 

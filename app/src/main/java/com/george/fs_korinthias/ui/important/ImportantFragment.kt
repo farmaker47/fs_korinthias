@@ -46,7 +46,6 @@ class ImportantFragment : Fragment() {
         binding.importantRecyclerView.adapter =
             NewsAdapter(
                 NewsAdapter.OnClickListener {
-                    //viewModel.displayPropertyDetails(it)
                     val intent = Intent(context, DetailsActivity::class.java)
                     intent.putExtra(
                         PARCEL_TO_PASS,

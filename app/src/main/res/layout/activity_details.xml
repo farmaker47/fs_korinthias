@@ -3,6 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+    </data>
+
+    <!--<include layout="@layout/content_details" />-->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/packageFragmentCoordinatorLayout"
         android:layout_width="match_parent"
@@ -36,8 +41,8 @@
 
                     <ImageView
                         android:id="@+id/detail_activity_image"
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:adjustViewBounds="true" />
 
@@ -519,8 +524,6 @@
                     </androidx.cardview.widget.CardView>
 
 
-
-
                 </LinearLayout>
 
 
@@ -537,6 +540,14 @@
             app:fabSize="mini"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end" />-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:srcCompat="@android:drawable/ic_dialog_email" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </layout>
