@@ -94,6 +94,8 @@ class AllNewsVewModel : ViewModel() {
 
                     }
 
+                    //_status.postValue(WeatherApiStatus.DONE)
+                    _titleList.postValue(_toUseArrayList)
 
                 }
 

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller.ScrollVectorProvider
 import com.george.fs_korinthias.databinding.FragmentImportantBinding
+import com.george.fs_korinthias.ui.allNews.AllNewsVewModel
 import com.george.fs_korinthias.ui.news_adapter.NewsAdapter
 
 class ImportantFragment : Fragment() {

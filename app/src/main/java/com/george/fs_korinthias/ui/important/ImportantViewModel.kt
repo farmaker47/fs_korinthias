@@ -91,11 +91,11 @@ class ImportantViewModel : ViewModel() {
                             _toUseArrayList.add(generalElement)
 
                         }
-
                     }
+
+                    //_status.postValue(WeatherApiStatus.DONE)
+                    _titleList.postValue(_toUseArrayList)
                 }
-
-
 
                 _status.postValue(WeatherApiStatus.DONE)
                 _titleList.postValue(_toUseArrayList)
