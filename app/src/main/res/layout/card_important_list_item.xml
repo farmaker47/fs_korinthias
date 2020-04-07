@@ -36,22 +36,34 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="420dp"
+            android:layout_height="300dp"
             android:layout_gravity="bottom">
 
             <TextView
                 android:id="@+id/textTitleImportant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#CC8C8B8B"
+                android:background="#E68C8B8B"
                 android:layout_alignParentBottom="true"
-                android:padding="24dp"
+                android:padding="20dp"
                 android:textAlignment="gravity"
                 android:gravity="center_vertical"
                 tools:text="oikonomiköa möetra stöhrijhw tvn farmakeöivn"
                 android:text="@{info.title}"
                 android:textColor="#fff"
-                android:textSize="28sp" />
+                android:textSize="22sp" />
+            <TextView
+                android:id="@+id/textDateImportant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:padding="4dp"
+                tools:text="oikonomiköa möetra stöhrijhw tvn farmakeöivn"
+                android:text="@{info.date}"
+                android:textColor="#fff"
+                android:layout_marginEnd="4dp"
+                android:textSize="14sp" />
 
         </RelativeLayout>
 

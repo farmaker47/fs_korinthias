@@ -72,15 +72,21 @@ class ImportantViewModel : ViewModel() {
                     cookies.putAll(importantResponse.cookies())
                     val doc = importantResponse.parse()
                     //check if element exists
-                    if (checkElement(doc.select(".blog-block-2").first())) {
-                        val image = doc.select(".blog-block-2").select(".items").select(".image")
-                        //_titleList.value=image.select("img[alt]")
-                        for (element in image) {
-
+                    if (checkElement(doc.select(".main-content-column-1").first())) {
+                        val image = doc.select(".main-content-column-1").select(".blog-block-2")
+                            .select(".items").select(".image")
+                        for ((index, element) in image.withIndex()) {
+                            val datePlus =
+                                doc.select(".blog-block-2").select(".items").select(".title")
+                                    .select(".updated").text() + " "
+                            Log.e("DATE", datePlus)
+                            val date = datePlus.substring(index * 16, index * 16 + 15)
                             val generalElement = MainInfo(
-                                element.select("img[alt]").attr("alt"),
-                                element.select("img[src]").attr("src"),
-                                element.select("a[href]").attr("href")
+                                element.select(".image").select("img[alt]").attr("alt"),
+                                element.select(".image").select("img[src]").attr("src"),
+                                element.select(".image").select("a[href]").attr("href"),
+                                date
+                                //element.select(".title").select(".updated").text()
                             )
                             _toUseArrayList.add(generalElement)
 
@@ -88,6 +94,8 @@ class ImportantViewModel : ViewModel() {
 
                     }
                 }
+
+
 
                 _status.postValue(WeatherApiStatus.DONE)
                 _titleList.postValue(_toUseArrayList)
