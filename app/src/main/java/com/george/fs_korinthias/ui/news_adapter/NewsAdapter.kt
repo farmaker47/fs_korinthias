@@ -2,11 +2,15 @@ package com.george.fs_korinthias.ui.news_adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.databinding.CardImportantListItemBinding
+import kotlinx.android.synthetic.main.card_important_list_item.view.*
+
 
 class NewsAdapter(
     val onClickListener: OnClickListener
@@ -61,6 +65,14 @@ class NewsAdapter(
         holder.itemView.setOnClickListener {
             onClickListener.onClick(mainInfo)
         }
+        //Animation
+        val fadeIn: Animation = AlphaAnimation(0.0f, 1.0f)
+        fadeIn.duration = 700
+        fadeIn.startOffset = 300
+        fadeIn.fillAfter=true
+        holder.itemView.textTitleImportant.startAnimation(fadeIn);
+
+        //bind info
         holder.bind(mainInfo)
     }
 
