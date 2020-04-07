@@ -79,14 +79,12 @@ class ImportantViewModel : ViewModel() {
                             val datePlus =
                                 doc.select(".blog-block-2").select(".items").select(".title")
                                     .select(".updated").text() + " "
-                            Log.e("DATE", datePlus)
                             val date = datePlus.substring(index * 16, index * 16 + 15)
                             val generalElement = MainInfo(
                                 element.select(".image").select("img[alt]").attr("alt"),
                                 element.select(".image").select("img[src]").attr("src"),
                                 element.select(".image").select("a[href]").attr("href"),
                                 date
-                                //element.select(".title").select(".updated").text()
                             )
                             _toUseArrayList.add(generalElement)
 
