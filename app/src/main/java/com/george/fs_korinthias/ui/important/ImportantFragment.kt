@@ -1,16 +1,13 @@
 package com.george.fs_korinthias.ui.important
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.george.fs_korinthias.R
 import com.george.fs_korinthias.databinding.FragmentImportantBinding
+import com.george.fs_korinthias.ui.news_adapter.NewsAdapter
 
 class ImportantFragment : Fragment() {
 
@@ -32,15 +29,16 @@ class ImportantFragment : Fragment() {
         /*val handler = Handler()
         handler.postDelayed(
             { binding.importantRecyclerView.adapter =
-                ImportantNewsAdapter(ImportantNewsAdapter.OnClickListener {
+                NewsAdapter(NewsAdapter.OnClickListener {
                     //viewModel.displayPropertyDetails(it)
                 }) },
             5000
         )*/
         binding.importantRecyclerView.adapter =
-            ImportantNewsAdapter(ImportantNewsAdapter.OnClickListener {
-                //viewModel.displayPropertyDetails(it)
-            })
+            NewsAdapter(
+                NewsAdapter.OnClickListener {
+                    //viewModel.displayPropertyDetails(it)
+                })
 
 
 
@@ -52,9 +50,3 @@ class ImportantFragment : Fragment() {
         return binding.root
     }
 }
-
-data class MainInfo(
-    val title: String?,
-    val image: String?,
-    val link: String?
-)

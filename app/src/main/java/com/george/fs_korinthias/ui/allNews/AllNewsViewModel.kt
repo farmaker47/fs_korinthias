@@ -1,11 +1,11 @@
-package com.george.fs_korinthias.ui.important
+package com.george.fs_korinthias.ui.allNews
 
-import android.util.ArraySet
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.george.fs_korinthias.MainInfo
+import com.george.fs_korinthias.ui.important.WeatherApiStatus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,10 +18,10 @@ import java.util.HashMap
 
 enum class WeatherApiStatus { LOADING, ERROR, DONE }
 
-class ImportantViewModel : ViewModel() {
+class AllNewsVewModel : ViewModel() {
 
     companion object {
-        const val BASE_URL_IMPORTANT = "http://www.fsk.gr/wordpress/?cat=204&paged="
+        const val BASE_URL_IMPORTANT = "http://www.fsk.gr/wordpress/?cat=40&paged="
     }
 
     // Create a Coroutine scope using a job to be able to cancel when needed
@@ -64,7 +64,7 @@ class ImportantViewModel : ViewModel() {
                 _status.postValue(WeatherApiStatus.LOADING)
 
                 // 2 pages of important news
-                for (i in 1..2) {
+                for (i in 1..5) {
                     val importantResponse = Jsoup.connect(BASE_URL_IMPORTANT + i.toString())
                         .method(Connection.Method.GET)
                         .userAgent("Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36")
@@ -87,6 +87,8 @@ class ImportantViewModel : ViewModel() {
                         }
 
                     }
+
+
                 }
 
                 _status.postValue(WeatherApiStatus.DONE)
@@ -109,6 +111,4 @@ class ImportantViewModel : ViewModel() {
     private fun checkElement(elem: Element?): Boolean {
         return elem != null
     }
-
-
 }

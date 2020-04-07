@@ -4,9 +4,9 @@ import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.R
-import com.george.fs_korinthias.ui.important.ImportantNewsAdapter
-import com.george.fs_korinthias.ui.important.MainInfo
+import com.george.fs_korinthias.ui.news_adapter.NewsAdapter
 import com.george.fs_korinthias.ui.important.WeatherApiStatus
 import com.squareup.picasso.Picasso
 
@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso
  */
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<MainInfo>?) {
-    val adapter = recyclerView.adapter as ImportantNewsAdapter
+    val adapter = recyclerView.adapter as NewsAdapter
     adapter.submitList(data)
 }
 

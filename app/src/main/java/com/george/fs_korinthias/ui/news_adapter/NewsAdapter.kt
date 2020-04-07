@@ -1,17 +1,20 @@
-package com.george.fs_korinthias.ui.important
+package com.george.fs_korinthias.ui.news_adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.databinding.CardImportantListItemBinding
 
-class ImportantNewsAdapter(
+class NewsAdapter(
     val onClickListener: OnClickListener
     //val weatherViewModel: WeatherViewModel
 ) :
-    ListAdapter<MainInfo, ImportantNewsAdapter.ImportantNewsViewHolder>(DiffCallback) {
+    ListAdapter<MainInfo, NewsAdapter.ImportantNewsViewHolder>(
+        DiffCallback
+    ) {
 
     class ImportantNewsViewHolder(private var binding: CardImportantListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -45,7 +48,9 @@ class ImportantNewsAdapter(
         parent: ViewGroup,
         viewType: Int
     ): ImportantNewsViewHolder {
-        return ImportantNewsViewHolder(CardImportantListItemBinding.inflate(LayoutInflater.from(parent.context)))
+        return ImportantNewsViewHolder(
+            CardImportantListItemBinding.inflate(LayoutInflater.from(parent.context))
+        )
     }
 
     /**

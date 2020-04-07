@@ -7,7 +7,7 @@
 
         <variable
             name="info"
-            type="com.george.fs_korinthias.ui.important.MainInfo" />
+            type="com.george.fs_korinthias.MainInfo" />
     </data>
 
 
@@ -43,7 +43,7 @@
                 android:id="@+id/textTitleImportant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#B3c6c6c6"
+                android:background="#CC8C8B8B"
                 android:layout_alignParentBottom="true"
                 android:padding="24dp"
                 android:textAlignment="gravity"
@@ -51,7 +51,7 @@
                 tools:text="oikonomiköa möetra stöhrijhw tvn farmakeöivn"
                 android:text="@{info.title}"
                 android:textColor="#fff"
-                android:textSize="32sp" />
+                android:textSize="28sp" />
 
         </RelativeLayout>
 

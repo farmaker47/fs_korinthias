@@ -28,3 +28,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 }
+
+data class MainInfo(
+    val title: String?,
+    val image: String?,
+    val link: String?
+)
