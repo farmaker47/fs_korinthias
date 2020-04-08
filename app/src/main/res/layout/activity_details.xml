@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="detailsViewModel"
             type="com.george.fs_korinthias.ui.DetailsViewModel" />
@@ -47,9 +48,9 @@
                         android:id="@+id/detail_activity_image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:transitionName="@string/transition_photo"
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:scaleType="fitXY"
+                        android:transitionName="@string/transition_photo"
                         app:newsIconDisplay="@{detailsViewModel.selectedNews.image}" />
 
                     <View
@@ -71,10 +72,10 @@
                         android:id="@+id/imageArrowBack"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/ic_left_arrow_white"
                         android:foreground="?android:attr/selectableItemBackground"
+                        android:paddingStart="4dp"
                         android:paddingEnd="4dp"
-                        android:paddingStart="4dp"/>
+                        android:src="@drawable/ic_left_arrow_white" />
 
                     <TextView
                         android:id="@+id/toolbarText"
@@ -107,16 +108,23 @@
                     android:layout_margin="12dp"
                     android:transitionName="@string/transition_photo" />-->
 
-                <TextView
-                    android:id="@+id/titleTextViewGray"
-                    android:layout_width="wrap_content"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="12dp"
-                    android:text="@{detailsViewModel.selectedNews.title}"
-                    android:textColor="#000"
-                    android:textStyle="bold"
-                    android:textSize="22sp" />
+                    android:layout_margin="2dp">
+
+                    <TextView
+                        android:id="@+id/titleTextViewGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="2dp"
+                        android:padding="6dp"
+                        android:text="@{detailsViewModel.selectedNews.title}"
+                        android:textColor="#000"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+                </androidx.cardview.widget.CardView>
 
             </LinearLayout>
 
@@ -127,19 +135,10 @@
                 android:layout_height="@dimen/progressBar"
                 android:layout_gravity="center_horizontal"
                 android:indeterminate="true"
-                app:newsApiStatus="@{detailsViewModel.statusProgress}"
                 android:indeterminateTint="@color/colorPrimary"
                 android:indeterminateTintMode="src_atop"
-                android:visibility="gone" />
-
-            <!--<ImageView
-                android:id="@+id/status_image"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:weatherApiStatus="@{detailsViewModel.statusProgress}" />-->
+                android:visibility="gone"
+                app:newsApiStatus="@{detailsViewModel.statusProgress}" />
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/scrollViewPackage"
@@ -152,32 +151,26 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:background="#fff"
                     android:orientation="vertical">
 
-                    <androidx.cardview.widget.CardView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp">
+                        android:orientation="vertical">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/allNewsBlockTextView"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:layout_margin="2dp"
+                            android:autoLink="web"
+                            android:textColor="#000"
+                            android:textSize="20sp"
+                            app:htmlToString="@{detailsViewModel.selectedText}" />
 
-                            <TextView
-                                android:id="@+id/allNewsBlockTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="8dp"
-                                android:autoLink="web"
-                                android:textColor="#000"
-                                app:htmlToString="@{detailsViewModel.selectedText}"
-                                android:textSize="20sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
+                    </LinearLayout>
 
 
                 </LinearLayout>
