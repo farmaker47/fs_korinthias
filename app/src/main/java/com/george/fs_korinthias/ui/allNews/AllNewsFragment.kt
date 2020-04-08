@@ -22,13 +22,13 @@ class AllNewsFragment : Fragment() {
     ): View? {
 
         binding = FragmentAllNewsBinding.inflate(inflater)
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
         allNewsVewModel = ViewModelProvider(this).get(AllNewsVewModel::class.java)
 
         binding.viewModel = allNewsVewModel
 
         binding.allNewsRecyclerView.adapter = NewsAdapter(
-            NewsAdapter.OnClickListener {mainInfo,imageView->
+            NewsAdapter.OnClickListener { mainInfo, imageView ->
                 //viewModel.displayPropertyDetails(it)
                 (activity as MainActivity?)?.fragmentMethodTransition(mainInfo, imageView)
             })

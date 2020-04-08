@@ -11,6 +11,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.R
+import com.george.fs_korinthias.ui.NewsApiStatus
 import com.george.fs_korinthias.ui.news_adapter.NewsAdapter
 import com.george.fs_korinthias.ui.important.WeatherApiStatus
 import com.squareup.picasso.Picasso
@@ -48,17 +49,17 @@ fun bindStatus(statusImageView: ImageView, status: WeatherApiStatus?) {
 }
 
 @BindingAdapter("newsApiStatus")
-fun bindStatusProgressBar(progressbar: ProgressBar, status: WeatherApiStatus?) {
+fun bindStatusProgressBar(progressbar: ProgressBar, status: NewsApiStatus?) {
     when (status) {
-        WeatherApiStatus.LOADING -> {
+        NewsApiStatus.LOADING -> {
             progressbar.visibility = View.VISIBLE
             //Glide.with(statusImageView.context).load(R.drawable.loading_animation).into(statusImageView)
         }
-        WeatherApiStatus.ERROR -> {
-            progressbar.visibility = View.VISIBLE
+        NewsApiStatus.ERROR -> {
+            progressbar.visibility = View.GONE
             //statusImageView.setImageResource(R.drawable.ic_connection_error)
         }
-        WeatherApiStatus.DONE -> {
+        NewsApiStatus.DONE -> {
             progressbar.visibility = View.GONE
         }
     }

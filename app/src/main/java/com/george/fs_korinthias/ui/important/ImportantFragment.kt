@@ -27,7 +27,7 @@ class ImportantFragment : Fragment() {
     ): View? {
 
         binding = FragmentImportantBinding.inflate(inflater)
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
         importantViewModel = ViewModelProvider(this).get(ImportantViewModel::class.java)
 
         binding.viewModel = importantViewModel

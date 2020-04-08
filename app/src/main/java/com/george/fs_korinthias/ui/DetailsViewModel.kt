@@ -10,10 +10,7 @@ import androidx.lifecycle.ViewModel
 import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.ui.important.ImportantViewModel
 import com.george.fs_korinthias.ui.important.WeatherApiStatus
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.coroutines.selects.select
 import org.jsoup.Connection
 import org.jsoup.Jsoup
@@ -21,6 +18,7 @@ import org.jsoup.nodes.Element
 import java.io.IOException
 import java.util.HashMap
 
+enum class NewsApiStatus { LOADING, ERROR, DONE }
 
 class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewModel(app) {
 
@@ -43,14 +41,15 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
     // The internal MutableLiveData that stores the status of the most recent request
-    private val _status = MutableLiveData<WeatherApiStatus>()
+    private val _statusProgress = MutableLiveData<NewsApiStatus>()
+
     // The external immutable LiveData for the request status
-    val status: LiveData<WeatherApiStatus>
-        get() = _status
+    val statusProgress: LiveData<NewsApiStatus>
+        get() = _statusProgress
 
     // Initialize the _selectedNews MutableLiveData
     init {
-        _selectedText.value=" "
+        _selectedText.value = " "
         _selectedNews.value = detailsInfo
         getNews()
     }
@@ -62,12 +61,18 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
             //run on UI
         }).start()*/
 
+        //_statusProgress.value = NewsApiStatus.LOADING
+
         coroutineScope.launch {
+            //delay(1000)
             val cookies = HashMap<String, String>()
             try {
 
                 // status loading
-                //_status.value=WeatherApiStatus.LOADING
+                withContext(Dispatchers.Main) {
+                    // call to UI thread
+                    _statusProgress.value = NewsApiStatus.LOADING
+                }
 
                 val importantResponse = Jsoup.connect(_selectedNews.value?.link)
                     .method(Connection.Method.GET)
@@ -80,18 +85,34 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
                 if (checkElement(doc.select("div[itemprop=articleBody]").first())) {
                     Log.e("NEW", doc.select("div[itemprop=articleBody]").select("p").toString())
 
+                    withContext(Dispatchers.Main) {
+                        // call to UI thread
+                        _selectedText.value =
+                            doc.select("div[itemprop=articleBody]").select("p").toString()
+                        _statusProgress.value = NewsApiStatus.DONE
+                    }
+
                 }
 
 
                 //_status.value=WeatherApiStatus.DONE
-                _selectedText.postValue(doc.select("div[itemprop=articleBody]").select("p").toString())
+                //_selectedText.postValue(doc.select("div[itemprop=articleBody]").select("p").toString())
+
 
             } catch (e: IOException) {
                 Log.e("EXCEPTION", e.toString())
                 //_status.value=WeatherApiStatus.ERROR
+                //_statusProgress.postValue(NewsApiStatus.ERROR)
+                withContext(Dispatchers.Main) {
+                    // call to UI thread
+                    _statusProgress.value = NewsApiStatus.ERROR
+                }
             }
+
+
         }
 
+        //_statusProgress.value = NewsApiStatus.DONE
 
     }
 

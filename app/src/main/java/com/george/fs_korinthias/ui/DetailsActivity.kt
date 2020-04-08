@@ -16,11 +16,13 @@ import kotlinx.android.synthetic.main.activity_details.*
 class DetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailsBinding
+    private lateinit var viewModel: DetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.lifecycleOwner = this
         setSupportActionBar(binding.toolbar)
         /*supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
 
@@ -32,22 +34,22 @@ class DetailsActivity : AppCompatActivity() {
         val intent = intent
         if (intent.hasExtra(PARCEL_TO_PASS)) {
             val somethingPassed = intent.getParcelableExtra<MainInfo>(PARCEL_TO_PASS)
-            Log.e("SOMETHING",somethingPassed.title)
-            Log.e("SOMETHING",somethingPassed.image)
-            Log.e("SOMETHING",somethingPassed.link)
-            Log.e("SOMETHING",somethingPassed.date)
+            Log.i("SOMETHING", somethingPassed.title)
+            Log.i("SOMETHING", somethingPassed.image)
+            Log.i("SOMETHING", somethingPassed.link)
+            Log.i("SOMETHING", somethingPassed.date)
 
             //Picasso.get().load(somethingPassed?.image).into(binding.detailActivityImage)
             val viewModelFactory = DetailsActivityViewModelFactory(somethingPassed, application)
-            binding.detailsViewModel = ViewModelProvider(
-                this, viewModelFactory).get(DetailsViewModel::class.java)
+            viewModel = ViewModelProvider(
+                this, viewModelFactory
+            ).get(DetailsViewModel::class.java)
+            binding.detailsViewModel = viewModel
         }
 
         binding.imageArrowBack.setOnClickListener {
-            finish()
+            onBackPressed()
         }
-
-
 
 
     }

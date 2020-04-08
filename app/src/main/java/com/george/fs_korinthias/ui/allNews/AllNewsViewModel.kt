@@ -6,10 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.ui.important.WeatherApiStatus
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
@@ -91,12 +88,21 @@ class AllNewsVewModel : ViewModel() {
                     }
 
                     //_status.postValue(WeatherApiStatus.DONE)
-                    _titleList.postValue(_toUseArrayList)
+                    //_titleList.postValue(_toUseArrayList)
+                    withContext(Dispatchers.Main) {
+                        // call to UI thread
+                        _titleList.value = _toUseArrayList
+                    }
 
                 }
 
-                _status.postValue(WeatherApiStatus.DONE)
-                _titleList.postValue(_toUseArrayList)
+                //_status.postValue(WeatherApiStatus.DONE)
+                //_titleList.postValue(_toUseArrayList)
+                withContext(Dispatchers.Main) {
+                    // call to UI thread
+                    _status.value = WeatherApiStatus.DONE
+                    _titleList.value = _toUseArrayList
+                }
 
             } catch (e: IOException) {
                 Log.e("EXCEPTION", e.toString())
