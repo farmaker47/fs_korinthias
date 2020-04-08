@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun FragmentMethodTransition(mainInfo: MainInfo,imageView: ImageView){
+    fun fragmentMethodTransition(mainInfo: MainInfo, imageView: ImageView){
         val intent = Intent(this, DetailsActivity::class.java)
         intent.putExtra(
             PARCEL_TO_PASS,

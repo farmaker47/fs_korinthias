@@ -49,7 +49,7 @@ class ImportantViewModel : ViewModel() {
         getImportantNews()
     }
 
-    fun getImportantNews() {
+    private fun getImportantNews() {
 
         /*Log.e("IMPORTANT", "IMPORTANT")
         Thread(Runnable {

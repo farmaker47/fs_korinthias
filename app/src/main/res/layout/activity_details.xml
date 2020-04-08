@@ -50,7 +50,7 @@
                         android:transitionName="@string/transition_photo"
                         android:layout_gravity="center_horizontal|center_vertical"
                         android:scaleType="fitXY"
-                        app:weatherIconDisplay="@{detailsViewModel.selectedNews.image}" />
+                        app:newsIconDisplay="@{detailsViewModel.selectedNews.image}" />
 
                     <View
                         android:id="@+id/article_title"
@@ -127,6 +127,7 @@
                 android:layout_height="@dimen/progressBar"
                 android:layout_gravity="center_horizontal"
                 android:indeterminate="true"
+                app:newsApiStatus="@{detailsViewModel.status}"
                 android:indeterminateTint="@color/colorPrimary"
                 android:indeterminateTintMode="src_atop"
                 android:visibility="gone" />
@@ -156,11 +157,12 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/allNewsBlockTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="8dp"
-                                android:text="@string/genika"
                                 android:textColor="#000"
+                                app:htmlToString="@{detailsViewModel.selectedText}"
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
 

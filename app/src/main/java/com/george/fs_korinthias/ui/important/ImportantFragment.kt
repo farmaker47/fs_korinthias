@@ -1,12 +1,10 @@
 package com.george.fs_korinthias.ui.important
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller.ScrollVectorProvider
 import com.george.fs_korinthias.MainActivity
 import com.george.fs_korinthias.databinding.FragmentImportantBinding
-import com.george.fs_korinthias.ui.DetailsActivity
 import com.george.fs_korinthias.ui.news_adapter.NewsAdapter
 
 class ImportantFragment : Fragment() {
@@ -47,7 +44,7 @@ class ImportantFragment : Fragment() {
             NewsAdapter(
                 NewsAdapter.OnClickListener { mainInfo, imageView ->
 
-                    (activity as MainActivity?)?.FragmentMethodTransition(mainInfo, imageView)
+                    (activity as MainActivity?)?.fragmentMethodTransition(mainInfo, imageView)
                 })
 
         /*val linearSnapHelper: LinearSnapHelper = SnapHelperOneByOne()

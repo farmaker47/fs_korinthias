@@ -32,7 +32,7 @@
             android:layout_marginStart="8dp"
             android:transitionName="@string/transition_photo"
             android:scaleType="fitXY"
-            app:weatherIconDisplay="@{info.image}"
+            app:newsIconDisplay="@{info.image}"
             tools:src="@drawable/ic_news" />
 
         <RelativeLayout

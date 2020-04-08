@@ -1,7 +1,12 @@
 package com.george.fs_korinthias.ui.bindingAdapters
 
+import android.os.Build
+import android.text.Html
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.george.fs_korinthias.MainInfo
@@ -19,7 +24,7 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<MainInfo>?) {
     adapter.submitList(data)
 }
 
-@BindingAdapter("weatherIconDisplay")
+@BindingAdapter("newsIconDisplay")
 fun bindWeatherIcon(iconImageView: ImageView, htmlValue: String?) {
     Picasso.get().load(htmlValue).into(iconImageView)
 }
@@ -39,5 +44,33 @@ fun bindStatus(statusImageView: ImageView, status: WeatherApiStatus?) {
         WeatherApiStatus.DONE -> {
             statusImageView.visibility = View.GONE
         }
+    }
+}
+
+@BindingAdapter("newsApiStatus")
+fun bindStatusProgressBar(progressbar: ProgressBar, status: WeatherApiStatus?) {
+    when (status) {
+        WeatherApiStatus.LOADING -> {
+            progressbar.visibility = View.VISIBLE
+            //Glide.with(statusImageView.context).load(R.drawable.loading_animation).into(statusImageView)
+        }
+        WeatherApiStatus.ERROR -> {
+            progressbar.visibility = View.VISIBLE
+            //statusImageView.setImageResource(R.drawable.ic_connection_error)
+        }
+        WeatherApiStatus.DONE -> {
+            progressbar.visibility = View.GONE
+        }
+    }
+}
+
+@BindingAdapter("htmlToString")
+fun bindTextViewHtml(textView: TextView, htmlValue: String?) {
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        textView.text = Html.fromHtml(htmlValue, Html.FROM_HTML_MODE_COMPACT)
+        Log.e("NEW_Adapter", Html.fromHtml(htmlValue, Html.FROM_HTML_MODE_COMPACT).toString())
+    } else {
+        textView.text = Html.fromHtml(htmlValue);
     }
 }
