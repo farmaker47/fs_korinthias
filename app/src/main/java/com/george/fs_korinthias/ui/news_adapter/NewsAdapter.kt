@@ -1,9 +1,11 @@
 package com.george.fs_korinthias.ui.news_adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -63,13 +65,16 @@ class NewsAdapter(
     override fun onBindViewHolder(holder: ImportantNewsViewHolder, position: Int) {
         val mainInfo = getItem(position)
         holder.itemView.setOnClickListener {
-            onClickListener.onClick(mainInfo)
+            onClickListener.onClick(
+                mainInfo,
+                holder.itemView.imageImportant
+            )
         }
         //Animation
         val fadeIn: Animation = AlphaAnimation(0.0f, 1.0f)
         fadeIn.duration = 700
         fadeIn.startOffset = 300
-        fadeIn.fillAfter=true
+        fadeIn.fillAfter = true
         holder.itemView.textTitleImportant.startAnimation(fadeIn);
 
         //bind info
@@ -81,7 +86,8 @@ class NewsAdapter(
      * associated with the current item to the [onClick] function.
      * @param clickListener lambda that will be called with the current [MarsProperty]
      */
-    class OnClickListener(val clickListener: (mainInfo: MainInfo) -> Unit) {
-        fun onClick(mainInfo: MainInfo) = clickListener(mainInfo)
+    class OnClickListener(val clickListener: (mainInfo: MainInfo, imageView: ImageView) -> Unit) {
+        fun onClick(mainInfo: MainInfo, imageView: ImageView) =
+            clickListener(mainInfo, imageView)
     }
 }

@@ -6,17 +6,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller.ScrollVectorProvider
+import com.george.fs_korinthias.MainActivity
 import com.george.fs_korinthias.databinding.FragmentImportantBinding
 import com.george.fs_korinthias.ui.DetailsActivity
 import com.george.fs_korinthias.ui.news_adapter.NewsAdapter
-
-const val PARCEL_TO_PASS = "parcel_to_pass"
 
 class ImportantFragment : Fragment() {
 
@@ -45,13 +45,9 @@ class ImportantFragment : Fragment() {
         )*/
         binding.importantRecyclerView.adapter =
             NewsAdapter(
-                NewsAdapter.OnClickListener {
-                    val intent = Intent(context, DetailsActivity::class.java)
-                    intent.putExtra(
-                        PARCEL_TO_PASS,
-                        it
-                    )
-                    startActivity(intent)
+                NewsAdapter.OnClickListener { mainInfo, imageView ->
+
+                    (activity as MainActivity?)?.FragmentMethodTransition(mainInfo, imageView)
                 })
 
         /*val linearSnapHelper: LinearSnapHelper = SnapHelperOneByOne()
