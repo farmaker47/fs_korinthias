@@ -1,9 +1,15 @@
 package com.george.fs_korinthias
 
+import android.app.ActivityOptions
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.transition.Explode
+import android.transition.Fade
+import android.transition.Slide
 import android.util.Log
+import android.view.Window
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
@@ -21,6 +27,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        with(window) {
+            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+
+            // set an exit transition
+            exitTransition = Explode()
+        }
+
         setContentView(R.layout.activity_main)
 
 
@@ -49,15 +63,23 @@ class MainActivity : AppCompatActivity() {
             mainInfo
         )
         // bundle for the transition effect
-        Log.i("transition", imageView.transitionName)
+        /*Log.i("transition", imageView.transitionName)
         val bundle: Bundle? = ActivityOptionsCompat
             .makeSceneTransitionAnimation(
                 this,
                 imageView,
                 imageView.transitionName
             ).toBundle()
-        startActivity(intent, bundle)
+        startActivity(intent, bundle)*/
 
+        // Check if we're running on Android 5.0 or higher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Apply activity transition
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+        } else {
+            // Swap without transition
+            startActivity(intent)
+        }
     }
 }
 

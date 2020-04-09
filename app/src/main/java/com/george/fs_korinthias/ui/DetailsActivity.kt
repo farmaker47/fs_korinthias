@@ -1,7 +1,10 @@
 package com.george.fs_korinthias.ui
 
 import android.os.Bundle
+import android.transition.Explode
+import android.transition.Fade
 import android.util.Log
+import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.george.fs_korinthias.MainInfo
@@ -20,6 +23,14 @@ class DetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /*with(window) {
+            requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
+
+            // set an exit transition
+            enterTransition = Fade()
+        }*/
+
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.lifecycleOwner = this

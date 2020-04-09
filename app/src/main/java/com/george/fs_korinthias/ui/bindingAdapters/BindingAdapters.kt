@@ -34,8 +34,8 @@ fun bindWeatherIcon(iconImageView: ImageView, htmlValue: String?) {
 fun bindStatus(statusImageView: ImageView, status: WeatherApiStatus?) {
     when (status) {
         WeatherApiStatus.LOADING -> {
-            statusImageView.visibility = View.VISIBLE
-            statusImageView.setImageResource(R.drawable.loading_animation)
+            //statusImageView.visibility = View.VISIBLE
+            //statusImageView.setImageResource(R.drawable.loading_animation)
             //Glide.with(statusImageView.context).load(R.drawable.loading_animation).into(statusImageView)
         }
         WeatherApiStatus.ERROR -> {
@@ -44,6 +44,23 @@ fun bindStatus(statusImageView: ImageView, status: WeatherApiStatus?) {
         }
         WeatherApiStatus.DONE -> {
             statusImageView.visibility = View.GONE
+        }
+    }
+}
+
+@BindingAdapter("progressApiStatus")
+fun bindStatusProgressBarImportantAndAllNews(progressbar: ProgressBar, status: WeatherApiStatus?) {
+    when (status) {
+        WeatherApiStatus.LOADING -> {
+            progressbar.visibility = View.VISIBLE
+            //Glide.with(statusImageView.context).load(R.drawable.loading_animation).into(statusImageView)
+        }
+        WeatherApiStatus.ERROR -> {
+            progressbar.visibility = View.GONE
+            //statusImageView.setImageResource(R.drawable.ic_connection_error)
+        }
+        WeatherApiStatus.DONE -> {
+            progressbar.visibility = View.GONE
         }
     }
 }
