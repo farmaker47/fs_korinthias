@@ -1,25 +1,20 @@
 package com.george.fs_korinthias.ui
 
+import android.content.Intent
 import android.os.Bundle
-import android.transition.Explode
-import android.transition.Fade
 import android.util.Log
-import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.PARCEL_TO_PASS
 import com.george.fs_korinthias.R
 import com.george.fs_korinthias.databinding.ActivityDetailsBinding
-import com.george.fs_korinthias.databinding.ContentDetailsBinding
-import com.google.android.material.snackbar.Snackbar
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_details.*
 
 class DetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailsBinding
     private lateinit var viewModel: DetailsViewModel
+    private var shareString: String? = " "
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +32,6 @@ class DetailsActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         /*supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
-
         val intent = intent
         if (intent.hasExtra(PARCEL_TO_PASS)) {
             val somethingPassed = intent.getParcelableExtra<MainInfo>(PARCEL_TO_PASS)
@@ -49,6 +39,7 @@ class DetailsActivity : AppCompatActivity() {
             Log.i("SOMETHING", somethingPassed.image)
             Log.i("SOMETHING", somethingPassed.link)
             Log.i("SOMETHING", somethingPassed.date)
+            shareString = somethingPassed.link
 
             //Picasso.get().load(somethingPassed?.image).into(binding.detailActivityImage)
             val viewModelFactory = DetailsActivityViewModelFactory(somethingPassed, application)
@@ -60,6 +51,15 @@ class DetailsActivity : AppCompatActivity() {
 
         binding.imageArrowBack.setOnClickListener {
             onBackPressed()
+        }
+
+        binding.fab.setOnClickListener { view ->
+            val text = getString(R.string.mainShareNews) + " " + shareString
+            val shire = Intent()
+            shire.action = Intent.ACTION_SEND
+            shire.putExtra(Intent.EXTRA_TEXT, text)
+            shire.type = "text/plain"
+            startActivity(Intent.createChooser(shire, getString(R.string.shareNews)))
         }
 
 

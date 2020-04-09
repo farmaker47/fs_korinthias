@@ -122,7 +122,7 @@
                         android:padding="6dp"
                         android:text="@{detailsViewModel.selectedNews.title}"
                         android:textColor="#000"
-                        android:textSize="22sp"
+                        android:textSize="24sp"
                         android:textStyle="bold" />
                 </androidx.cardview.widget.CardView>
 
@@ -167,7 +167,7 @@
                             android:layout_margin="2dp"
                             android:autoLink="web"
                             android:textColor="#000"
-                            android:textSize="20sp"
+                            android:textSize="18sp"
                             app:htmlToString="@{detailsViewModel.selectedText}" />
 
                     </LinearLayout>
@@ -195,7 +195,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
+            app:srcCompat="@drawable/ic_share" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
