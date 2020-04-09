@@ -18,4 +18,8 @@
     <string name="mainShareNews">Άρθρο απο το Φ.Σ.Κορινθίας:</string>
     <string name="shareNews">Share app:</string>
 
+    <string name="default_notification_channel_id">default</string>
+    <string name="notification_title">FSKorinthias News</string>
+    <string name="notification_message">Confirmed</string>
+
 </resources>

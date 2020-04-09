@@ -17,9 +17,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.work.*
 import com.george.fs_korinthias.ui.DetailsActivity
+import com.george.fs_korinthias.ui.worker.NotificationWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.parcel.Parcelize
+import java.util.concurrent.TimeUnit
 
 const val PARCEL_TO_PASS = "parcel_to_pass"
 
@@ -51,8 +54,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-
-
+        // Init worker
+        initWorker()
 
     }
 
@@ -80,6 +83,28 @@ class MainActivity : AppCompatActivity() {
             // Swap without transition
             startActivity(intent)
         }
+    }
+
+    private fun initWorker() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresBatteryNotLow(true)
+            .build()
+
+        val notificationWorkRequest =
+            PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.MINUTES)
+                .setConstraints(constraints)
+                .build()
+
+        WorkManager.getInstance(applicationContext).enqueueUniquePeriodicWork(
+            JOB_TAG,
+            ExistingPeriodicWorkPolicy.KEEP,
+            notificationWorkRequest
+        )
+    }
+
+    companion object {
+        const val JOB_TAG = "notificationWorkTag"
     }
 }
 
