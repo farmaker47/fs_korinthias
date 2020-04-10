@@ -133,7 +133,7 @@ class NotificationWorker(
                                 context.getString(R.string.save_first_news_article),
                                 context.getString(R.string.notification_message)
                             )
-                        Log.e("WORKER", firstNews)
+                        Log.i("WORKER", firstNews)
 
                         // Check if news are not the same
                         if (firstNews != toUseArrayList[0].link) {

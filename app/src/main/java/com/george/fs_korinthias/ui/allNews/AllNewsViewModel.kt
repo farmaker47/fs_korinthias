@@ -71,16 +71,17 @@ class AllNewsVewModel : ViewModel() {
                         val image = doc.select(".main-content-column-1").select(".blog-block-2")
                             .select(".items").select(".image")
                         for ((index, element) in image.withIndex()) {
-                            val datePlus =
-                                doc.select(".blog-block-2").select(".items").select(".title")
-                                    .select(".updated").text() + " "
+                            val datePlus = " " +
+                                    doc.select(".blog-block-2").select(".items").select(".title")
+                                        .select(".updated").text() + " "
                             //val date = datePlus.substring(index * 16, index * 16 + 16)
-                            val date = datePlus.split("2020")
+                            val date = datePlus.split("202")
+                            //val dateWithoutYear = dateYear[0]
                             val generalElement = MainInfo(
                                 element.select(".image").select("img[alt]").attr("alt"),
                                 element.select(".image").select("img[src]").attr("src"),
                                 element.select(".image").select("a[href]").attr("href"),
-                                date[index]
+                                date[index].substring(1)
                             )
                             _toUseArrayList.add(generalElement)
 

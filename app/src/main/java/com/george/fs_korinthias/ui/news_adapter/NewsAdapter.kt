@@ -63,7 +63,9 @@ class NewsAdapter(
      * Replaces the contents of a view (invoked by the layout manager)
      */
     override fun onBindViewHolder(holder: ImportantNewsViewHolder, position: Int) {
+
         val mainInfo = getItem(position)
+
         holder.itemView.setOnClickListener {
             onClickListener.onClick(
                 mainInfo,
@@ -75,16 +77,17 @@ class NewsAdapter(
         fadeIn.duration = 700
         fadeIn.startOffset = 300
         fadeIn.fillAfter = true
-        holder.itemView.textTitleImportant.startAnimation(fadeIn);
+        holder.itemView.textTitleImportant.startAnimation(fadeIn)
+        holder.itemView.textDateImportant.startAnimation(fadeIn)
 
         //bind info
         holder.bind(mainInfo)
     }
 
     /**
-     * Custom listener that handles clicks on [RecyclerView] items.  Passes the [MarsProperty]
+     * Custom listener that handles clicks on [RecyclerView] items.  Passes the [MainInfo]
      * associated with the current item to the [onClick] function.
-     * @param clickListener lambda that will be called with the current [MarsProperty]
+     * @param clickListener lambda that will be called with the current [MainInfo]
      */
     class OnClickListener(val clickListener: (mainInfo: MainInfo, imageView: ImageView) -> Unit) {
         fun onClick(mainInfo: MainInfo, imageView: ImageView) =
