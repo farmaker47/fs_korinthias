@@ -1,7 +1,9 @@
 package com.george.fs_korinthias
 
 import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -40,6 +42,8 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+        // Save first value to SharedPrefs
+        saveTitle()
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
@@ -59,7 +63,20 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun fragmentMethodTransition(mainInfo: MainInfo, imageView: ImageView){
+    private fun saveTitle() {
+        val sharedPref =
+            getSharedPreferences(getString(R.string.save_first_news_article), Context.MODE_PRIVATE)
+                ?: return
+        with(sharedPref.edit()) {
+            putString(
+                getString(R.string.save_first_news_article),
+                getString(R.string.notification_message)
+            )
+            commit()
+        }
+    }
+
+    fun fragmentMethodTransition(mainInfo: MainInfo, imageView: ImageView) {
         val intent = Intent(this, DetailsActivity::class.java)
         intent.putExtra(
             PARCEL_TO_PASS,
@@ -88,7 +105,7 @@ class MainActivity : AppCompatActivity() {
     private fun initWorker() {
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresBatteryNotLow(true)
+            //.setRequiresBatteryNotLow(true)
             .build()
 
         val notificationWorkRequest =

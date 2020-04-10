@@ -20,6 +20,7 @@
 
     <string name="default_notification_channel_id">default</string>
     <string name="notification_title">FSKorinthias News</string>
-    <string name="notification_message">Confirmed</string>
+    <string name="notification_message">FSKorinthias News</string>
+    <string name="save_first_news_article">first_news_article</string>
 
 </resources>

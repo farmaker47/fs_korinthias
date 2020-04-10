@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
@@ -15,14 +16,11 @@ import androidx.work.WorkerParameters
 import com.george.fs_korinthias.MainActivity
 import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.R
-import com.george.fs_korinthias.ui.important.ImportantViewModel
-import com.george.fs_korinthias.ui.important.WeatherApiStatus
 import kotlinx.coroutines.*
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.IOException
-import java.net.HttpRetryException
 import java.util.HashMap
 
 class NotificationWorker(
@@ -30,8 +28,16 @@ class NotificationWorker(
     params: WorkerParameters
 ) : CoroutineWorker(context, params) {
 
+    private val sharedPref: SharedPreferences? = context.getSharedPreferences(
+        context.getString(R.string.save_first_news_article),
+        Context.MODE_PRIVATE
+    )
+
     override suspend fun doWork(): Result {
         //Log.d(javaClass.simpleName, "Worker Started!")
+
+        //fetchFirstArticle()
+
 
         fetchImportantNews()
 
@@ -49,6 +55,10 @@ class NotificationWorker(
 
     }
 
+    private fun fetchFirstArticle() {
+
+    }
+
     private fun showNotification(news: String?) {
         val intent = Intent(context, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -60,7 +70,7 @@ class NotificationWorker(
         val channelId = context.getString(R.string.default_notification_channel_id)
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
-            .setColor(ContextCompat.getColor(context, android.R.color.holo_red_dark))
+            .setColor(ContextCompat.getColor(context, android.R.color.holo_green_light))
             .setSmallIcon(R.drawable.notification_icon)
             .setContentTitle(context.getString(R.string.notification_title))
             .setContentText(news)
@@ -130,8 +140,30 @@ class NotificationWorker(
                             date
                         )
                         toUseArrayList.add(generalElement)
-                        //Log.e("FIRST_LINK", toUseArrayList[0].link)
-                        showNotification(toUseArrayList[0].link)
+
+                        //Fetch first news link from SharedPrefs
+                        val firstNews =
+                            sharedPref?.getString(
+                                context.getString(R.string.save_first_news_article),
+                                context.getString(R.string.notification_message)
+                            )
+                        Log.e("WORKER", firstNews)
+
+                        // Check if news are not the same
+                        if (firstNews != toUseArrayList[0].link) {
+                            // Show notification
+                            showNotification(toUseArrayList[0].title)
+
+                            // And save the new link
+                            with(sharedPref!!.edit()) {
+                                putString(
+                                    context.getString(R.string.save_first_news_article),
+                                    toUseArrayList[0].link
+                                )
+                                commit()
+                            }
+                        }
+
 
                     }
                 }
