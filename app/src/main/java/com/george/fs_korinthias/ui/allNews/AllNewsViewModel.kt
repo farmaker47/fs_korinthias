@@ -74,7 +74,7 @@ class AllNewsVewModel : ViewModel() {
                             val datePlus =
                                 doc.select(".blog-block-2").select(".items").select(".title")
                                     .select(".updated").text() + " "
-                            val date = datePlus.substring(index * 16, index * 16 + 15)
+                            val date = datePlus.substring(index * 16, index * 16 + 16)
                             val generalElement = MainInfo(
                                 element.select(".image").select("img[alt]").attr("alt"),
                                 element.select(".image").select("img[src]").attr("src"),

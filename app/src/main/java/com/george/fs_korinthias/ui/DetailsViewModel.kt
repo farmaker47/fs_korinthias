@@ -83,7 +83,7 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
                     withContext(Dispatchers.Main) {
                         // call to UI thread
                         _selectedText.value =
-                            doc.select("div[itemprop=articleBody]").select("p").outerHtml()
+                            doc.select("div[itemprop=articleBody]").outerHtml()
 
                         // If doc contains youtube link
                         //<a href="https://ehealth.gov.gr/p-rv/p" data-blogger-escaped-target="_blank">διαδικτυακής πύλης gov.gr</a>
@@ -93,9 +93,17 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
                             // Make link clickable
                             _selectedText.value +=
                                 "<a href=\"" + doc.select("div[itemprop=articleBody]")
-                                    .select("iframe[src]").attr("src") + "\" data-blogger-escaped-target=\"_blank\">Βίντεο</a>"
-                            Log.e("BINTEO",_selectedText.value)
+                                    .select("iframe[src]")
+                                    .attr("src") + "\" data-blogger-escaped-target=\"_blank\">Βίντεο</a>"
+                            Log.i("BINTEO", _selectedText.value)
                         }
+
+                        /*// If contains embedded pdf go to original page
+                        if(checkElement(doc.select(".pdfemb-viewer").first())){
+                            //Log.e("PDF_EMMBEDED", "PDF")
+                            _selectedText.value +=
+                                "<a href=\"" + _selectedNews.value?.link + "\" data-blogger-escaped-target=\"_blank\">Σελίδα</a>"
+                        }*/
 
                         _statusProgress.value = NewsApiStatus.DONE
                     }
