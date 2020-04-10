@@ -20,6 +20,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -102,5 +103,8 @@ dependencies {
 
     // Work Manager
     implementation "androidx.work:work-runtime-ktx:$workmanager_version"
+
+    // Firebase analytics
+    implementation 'com.google.firebase:firebase-analytics:17.3.0'
 
 }

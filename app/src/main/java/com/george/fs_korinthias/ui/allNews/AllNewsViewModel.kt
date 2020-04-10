@@ -74,12 +74,13 @@ class AllNewsVewModel : ViewModel() {
                             val datePlus =
                                 doc.select(".blog-block-2").select(".items").select(".title")
                                     .select(".updated").text() + " "
-                            val date = datePlus.substring(index * 16, index * 16 + 16)
+                            //val date = datePlus.substring(index * 16, index * 16 + 16)
+                            val date = datePlus.split("2020")
                             val generalElement = MainInfo(
                                 element.select(".image").select("img[alt]").attr("alt"),
                                 element.select(".image").select("img[src]").attr("src"),
                                 element.select(".image").select("a[href]").attr("href"),
-                                date
+                                date[index]
                             )
                             _toUseArrayList.add(generalElement)
 
