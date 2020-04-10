@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val notificationWorkRequest =
-            PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<NotificationWorker>(30, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .build()
 

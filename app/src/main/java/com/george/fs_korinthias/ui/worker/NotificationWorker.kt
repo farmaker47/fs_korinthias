@@ -36,13 +36,7 @@ class NotificationWorker(
     override suspend fun doWork(): Result {
         //Log.d(javaClass.simpleName, "Worker Started!")
 
-        //fetchFirstArticle()
-
-
         fetchImportantNews()
-
-
-
 
         return Result.success()
 
@@ -52,10 +46,6 @@ class NotificationWorker(
 
         }*/
 
-
-    }
-
-    private fun fetchFirstArticle() {
 
     }
 
@@ -102,20 +92,16 @@ class NotificationWorker(
     private fun fetchImportantNews() {
 
         // Create a Coroutine scope using a job to be able to cancel when needed
-        var viewModelJob = Job()
+        val viewModelJob = Job()
 
-        // the Coroutine runs using the Main (UI) dispatcher
+        // the Coroutine runs using the dispatcher
         val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
         coroutineScope.launch {
             val cookies = HashMap<String, String>()
             try {
 
-                // status loading
-                //_status.postValue(WeatherApiStatus.LOADING)
-                var toUseArrayList: ArrayList<MainInfo> = ArrayList()
-
-                // 2 pages of important news
+                val toUseArrayList: ArrayList<MainInfo> = ArrayList()
 
                 val importantResponse =
                     Jsoup.connect(BASE_URL_IMPORTANT)
@@ -168,7 +154,6 @@ class NotificationWorker(
                     }
                 }
 
-                //_status.postValue(WeatherApiStatus.DONE)
 
 
                 withContext(Dispatchers.Main) {
@@ -180,7 +165,6 @@ class NotificationWorker(
 
             } catch (e: IOException) {
                 Log.e("EXCEPTION", e.toString())
-                //_status.postValue(WeatherApiStatus.ERROR)
             }
         }
     }

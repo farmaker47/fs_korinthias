@@ -5,18 +5,13 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
 import com.george.fs_korinthias.MainInfo
-import com.george.fs_korinthias.ui.important.ImportantViewModel
-import com.george.fs_korinthias.ui.important.WeatherApiStatus
 import kotlinx.coroutines.*
-import kotlinx.coroutines.selects.select
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.IOException
-import java.util.HashMap
+import java.util.*
 
 enum class NewsApiStatus { LOADING, ERROR, DONE }
 
@@ -88,7 +83,15 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
                     withContext(Dispatchers.Main) {
                         // call to UI thread
                         _selectedText.value =
-                            doc.select("div[itemprop=articleBody]").select("p").toString()
+                            doc.select("div[itemprop=articleBody]").select("p").outerHtml()
+
+                        // If doc contains youtube link
+                        if (doc.select("div[itemprop=articleBody]").select("p").select("iframe[src]").toString().contains("youtube")
+                        ) {
+                            val george = doc.select("div[itemprop=articleBody]").select("iframe[src]").toString()
+                            Log.e("LINK", george)
+                        }
+
                         _statusProgress.value = NewsApiStatus.DONE
                     }
 

@@ -2,6 +2,7 @@ package com.george.fs_korinthias.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -55,12 +56,16 @@ class DetailsActivity : AppCompatActivity() {
 
         binding.fab.setOnClickListener { view ->
             val text = getString(R.string.mainShareNews) + " " + shareString
-            val shire = Intent()
-            shire.action = Intent.ACTION_SEND
-            shire.putExtra(Intent.EXTRA_TEXT, text)
-            shire.type = "text/plain"
-            startActivity(Intent.createChooser(shire, getString(R.string.shareNews)))
+            val share = Intent()
+            share.action = Intent.ACTION_SEND
+            share.putExtra(Intent.EXTRA_TEXT, text)
+            share.type = "text/plain"
+            startActivity(Intent.createChooser(share, getString(R.string.shareNews)))
         }
+
+        // Set clickeble links to textView
+        binding.allNewsBlockTextView.movementMethod = LinkMovementMethod.getInstance()
+        //t2.setMovementMethod(LinkMovementMethod.getInstance());
 
 
     }
