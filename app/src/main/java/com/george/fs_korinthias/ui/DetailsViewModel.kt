@@ -86,10 +86,15 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
                             doc.select("div[itemprop=articleBody]").select("p").outerHtml()
 
                         // If doc contains youtube link
-                        if (doc.select("div[itemprop=articleBody]").select("p").select("iframe[src]").toString().contains("youtube")
+                        //<a href="https://ehealth.gov.gr/p-rv/p" data-blogger-escaped-target="_blank">διαδικτυακής πύλης gov.gr</a>
+                        if (doc.select("div[itemprop=articleBody]").select("p")
+                                .select("iframe[src]").toString().contains("youtube")
                         ) {
-                            val george = doc.select("div[itemprop=articleBody]").select("iframe[src]").toString()
-                            Log.e("LINK", george)
+                            // Make link clickable
+                            _selectedText.value +=
+                                "<a href=\"" + doc.select("div[itemprop=articleBody]")
+                                    .select("iframe[src]").attr("src") + "\" data-blogger-escaped-target=\"_blank\">Βίντεο</a>"
+                            Log.e("BINTEO",_selectedText.value)
                         }
 
                         _statusProgress.value = NewsApiStatus.DONE
