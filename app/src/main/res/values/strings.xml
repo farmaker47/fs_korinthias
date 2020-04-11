@@ -4,24 +4,24 @@
     <string name="title_dashboard">FS Korinthias</string>
     <string name="title_home_bottom">Important</string>
     <string name="title_dashboard_bottom">All news</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications" translatable="false">Notifications</string>
     <string name="title_activity_details">FS Korinthias</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="transition_photo" translatable="false">transition_photo</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="mainShareNews">Άρθρο απο το Φ.Σ.Κορινθίας:</string>
+    <string name="hello_first_fragment" translatable="false">Hello first fragment</string>
+    <string name="hello_second_fragment" translatable="false">Hello second fragment. Arg: %1$s</string>
+    <string name="mainShareNews">Article from FS Korinthias:</string>
     <string name="shareNews">Share app:</string>
 
-    <string name="default_notification_channel_id">default</string>
+    <string name="default_notification_channel_id" translatable="false">default</string>
     <string name="notification_title">FSKorinthias News</string>
-    <string name="notification_message">FSKorinthias News</string>
-    <string name="save_first_news_article">first_news_article</string>
+    <string name="notification_message" translatable="false">FSKorinthias News</string>
+    <string name="save_first_news_article" translatable="false">first_news_article</string>
     <string name="action_policy">Privacy policy</string>
 
 </resources>

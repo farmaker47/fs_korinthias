@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ΦΣ Κορινθίας</string>
+    <string name="title_home">ΦΣ Κορινθίας</string>
+    <string name="title_dashboard">ΦΣ Κορινθίας</string>
+    <string name="title_home_bottom">Σημαντικά νέα</string>
+    <string name="title_dashboard_bottom">Διάφορα νέα</string>
+    <string name="title_activity_details">ΦΣ Κορινθίας</string>
+    <string name="next">Επόμενο</string>
+    <string name="previous">Προηγούμενο</string>
+    <string name="mainShareNews">Άρθρο απο το Φ.Σ.Κορινθίας:</string>
+    <string name="shareNews">Αποστολή:</string>
+    <string name="notification_title">ΦΣ Κορινθίας νέα</string>
+    <string name="action_policy">Πολιτική απορρήτου</string>
+</resources>

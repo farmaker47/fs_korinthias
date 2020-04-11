@@ -82,6 +82,23 @@ fun bindStatusProgressBar(progressbar: ProgressBar, status: NewsApiStatus?) {
     }
 }
 
+@BindingAdapter("newsApiStatusImageViewDetails")
+fun bindStatusImageViewDetails(imageView: ImageView, status: NewsApiStatus?) {
+    when (status) {
+        NewsApiStatus.LOADING -> {
+            imageView.visibility = View.GONE
+            //Glide.with(statusImageView.context).load(R.drawable.loading_animation).into(statusImageView)
+        }
+        NewsApiStatus.ERROR -> {
+            imageView.visibility = View.VISIBLE
+            imageView.setImageResource(R.drawable.ic_connection_error)
+        }
+        NewsApiStatus.DONE -> {
+            imageView.visibility = View.GONE
+        }
+    }
+}
+
 @BindingAdapter("htmlToString")
 fun bindTextViewHtml(textView: TextView, htmlValue: String?) {
 
