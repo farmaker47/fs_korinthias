@@ -3,18 +3,16 @@ package com.george.fs_korinthias
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.transition.Explode
-import android.transition.Fade
-import android.transition.Slide
-import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.Window
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityOptionsCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -122,6 +120,33 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val JOB_TAG = "notificationWorkTag"
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            R.id.action_policy -> {
+
+                val myWebLink = Intent(Intent.ACTION_VIEW)
+                myWebLink.data =
+                    Uri.parse("https://docs.google.com/document/d/12DoY1JXV7-omRIhPPlk-cXEVyDa9Ctpwc46g6KVV_Ek/edit?usp=sharing")
+                if (myWebLink.resolveActivity(packageManager) != null) {
+                    startActivity(myWebLink)
+                }
+
+                return true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
 
