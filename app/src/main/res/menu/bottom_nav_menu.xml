@@ -11,4 +11,9 @@
         android:icon="@drawable/ic_news"
         android:title="@string/title_dashboard_bottom" />
 
+    <item
+        android:id="@+id/navigation_notifications"
+        android:icon="@drawable/ic_pharmacy"
+        android:title="@string/title_efimeries" />
+
 </menu>

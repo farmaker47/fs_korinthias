@@ -17,9 +17,9 @@
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_all_news" />
 
-    <!--<fragment
+    <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.george.fs_korinthias.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />-->
+        android:name="com.george.fs_korinthias.ui.efimeries.EfimeriesFragment"
+        android:label="@string/title_efimeries"
+        tools:layout="@layout/fragment_efimeries" />
 </navigation>

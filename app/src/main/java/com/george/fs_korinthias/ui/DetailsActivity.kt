@@ -80,7 +80,7 @@ class DetailsActivity : AppCompatActivity() {
         // Observe if there are images inside page
         viewModel.selectedImages.observe(this, Observer { listImages ->
 
-            Log.i("DETAILS", listImages[1])
+            //Log.i("DETAILS", listImages[1])
 
             for (image in listImages){
                 val ingredient = ImageView(this)
