@@ -34,7 +34,7 @@
                 android:padding="4dp"
                 android:text="@{info.titlePerioxi}"
                 android:textColor="#000"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 tools:text="oikonomiköa" />
