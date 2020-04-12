@@ -12,13 +12,20 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 enum class NewsApiStatus { LOADING, ERROR, DONE }
 
 class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewModel(app) {
 
-    private val _selectedNews = MutableLiveData<MainInfo>()
+    // Only if there are Images in html
+    private val _selectedImages = MutableLiveData<ArrayList<String>>()
+    // The external LiveData for the SelectedImages
+    val selectedImages: LiveData<ArrayList<String>>
+        get() = _selectedImages
 
+
+    private val _selectedNews = MutableLiveData<MainInfo>()
     // The external LiveData for the SelectedNews
     val selectedNews: LiveData<MainInfo>
         get() = _selectedNews
@@ -41,6 +48,8 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
     // The external immutable LiveData for the request status
     val statusProgress: LiveData<NewsApiStatus>
         get() = _statusProgress
+
+    val _toUseArrayList = ArrayList<String>()
 
     // Initialize the _selectedNews MutableLiveData
     init {
@@ -104,6 +113,22 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
                             _selectedText.value +=
                                 "<a href=\"" + _selectedNews.value?.link + "\" data-blogger-escaped-target=\"_blank\">Σελίδα</a>"
                         }*/
+
+                        // If contains Images
+                        if (checkElement(doc.select("div[itemprop=articleBody]")
+                                .select("a[href]").first())
+                        ) {
+                            val imagesLinks = doc.select("div[itemprop=articleBody]")
+                                .select("a[href]")
+                            //Log.e("LINKS",imagesLinks.toString())
+                            for (link in imagesLinks){
+
+                                _toUseArrayList.add(link.attr("href").toString())
+                            }
+
+                            _selectedImages.value = _toUseArrayList
+                            //Log.e("LINKS",_selectedImages.value.toString())
+                        }
 
                         _statusProgress.value = NewsApiStatus.DONE
                     }

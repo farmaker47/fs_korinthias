@@ -104,7 +104,7 @@ fun bindTextViewHtml(textView: TextView, htmlValue: String?) {
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         textView.text = Html.fromHtml(htmlValue, Html.FROM_HTML_MODE_COMPACT)
-        Log.e("NEW_Adapter", Html.fromHtml(htmlValue, Html.FROM_HTML_MODE_COMPACT).toString())
+        //Log.e("NEW_Adapter", Html.fromHtml(htmlValue, Html.FROM_HTML_MODE_COMPACT).toString())
     } else {
         textView.text = Html.fromHtml(htmlValue);
     }

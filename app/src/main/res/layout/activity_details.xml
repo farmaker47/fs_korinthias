@@ -148,6 +148,7 @@
                 tools:context=".ScrollingDetailsActivity"
                 tools:showIn="@layout/content_details">
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -155,29 +156,27 @@
                     android:background="#fff"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/allNewsBlockTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:textColor="#000"
+                        android:textSize="18sp"
+                        app:htmlToString="@{detailsViewModel.selectedText}" />
+
                     <LinearLayout
+                        android:id="@+id/linearForImages"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"/>
 
-                        <TextView
-                            android:id="@+id/allNewsBlockTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="2dp"
-                            android:textColor="#000"
-                            android:textSize="18sp"
-                            app:htmlToString="@{detailsViewModel.selectedText}" />
-
-                        <ImageView
-                            android:id="@+id/status_image"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:layout_gravity="center_horizontal"
-                            app:newsApiStatusImageViewDetails="@{detailsViewModel.statusProgress}" />
-
-                    </LinearLayout>
-
+                    <ImageView
+                        android:id="@+id/status_image"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center_horizontal"
+                        app:newsApiStatusImageViewDetails="@{detailsViewModel.statusProgress}" />
 
                 </LinearLayout>
 
