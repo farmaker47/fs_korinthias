@@ -1,6 +1,5 @@
-package com.george.fs_korinthias.ui.news_adapter
+package com.george.fs_korinthias.ui.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation

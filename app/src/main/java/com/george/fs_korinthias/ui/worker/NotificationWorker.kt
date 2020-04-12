@@ -86,7 +86,7 @@ class NotificationWorker(
     }
 
     companion object {
-        const val BASE_URL_IMPORTANT = "http://www.fsk.gr/wordpress/?cat=204&paged=1"
+        const val BASE_URL_IMPORTANT = "http://www.fsk.gr/wordpress/?cat=40&paged=1"
     }
 
     private fun fetchImportantNews() {

@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard
+                R.id.navigation_dashboard, R.id.navigation_home, R.id.navigation_notifications
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -156,4 +156,17 @@ data class MainInfo(
     val image: String?,
     val link: String?,
     val date: String?
+) : Parcelable
+
+@Parcelize
+data class MainEfimeries(
+    val titlePerioxi: String?,
+    val titleInfo: ArrayList<InfoOnoma>?
+) : Parcelable
+
+@Parcelize
+data class InfoOnoma(
+    val imerominia: String?,
+    val onoma: String?,
+    val tilefono: String?
 ) : Parcelable

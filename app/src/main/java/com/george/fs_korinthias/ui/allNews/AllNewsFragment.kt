@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.george.fs_korinthias.MainActivity
 import com.george.fs_korinthias.databinding.FragmentAllNewsBinding
-import com.george.fs_korinthias.ui.news_adapter.NewsAdapter
+import com.george.fs_korinthias.ui.adapters.NewsAdapter
 
 class AllNewsFragment : Fragment() {
 

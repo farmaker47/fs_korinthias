@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller.ScrollVectorProvider
 import com.george.fs_korinthias.MainActivity
 import com.george.fs_korinthias.databinding.FragmentImportantBinding
-import com.george.fs_korinthias.ui.news_adapter.NewsAdapter
+import com.george.fs_korinthias.ui.adapters.NewsAdapter
 
 class ImportantFragment : Fragment() {
 

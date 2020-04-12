@@ -2,17 +2,18 @@ package com.george.fs_korinthias.ui.bindingAdapters
 
 import android.os.Build
 import android.text.Html
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.george.fs_korinthias.MainEfimeries
 import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.R
 import com.george.fs_korinthias.ui.NewsApiStatus
-import com.george.fs_korinthias.ui.news_adapter.NewsAdapter
+import com.george.fs_korinthias.ui.adapters.EfimeriesAdapterMain
+import com.george.fs_korinthias.ui.adapters.NewsAdapter
 import com.george.fs_korinthias.ui.important.WeatherApiStatus
 import com.squareup.picasso.Picasso
 
@@ -22,6 +23,12 @@ import com.squareup.picasso.Picasso
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<MainInfo>?) {
     val adapter = recyclerView.adapter as NewsAdapter
+    adapter.submitList(data)
+}
+
+@BindingAdapter("listDataEfimeriesMain")
+fun bindRecyclerViewEfimeriesMain(recyclerView: RecyclerView, data: List<MainEfimeries>?) {
+    val adapter = recyclerView.adapter as EfimeriesAdapterMain
     adapter.submitList(data)
 }
 

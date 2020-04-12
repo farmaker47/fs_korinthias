@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.george.fs_korinthias.MainActivity
 import com.george.fs_korinthias.databinding.FragmentEfimeriesBinding
+import com.george.fs_korinthias.ui.adapters.EfimeriesAdapterMain
+import com.george.fs_korinthias.ui.adapters.NewsAdapter
 
 class EfimeriesFragment : Fragment() {
 
@@ -24,6 +25,15 @@ class EfimeriesFragment : Fragment() {
         binding.lifecycleOwner = this
         notificationsViewModel =
             ViewModelProvider(this).get(EfimeriesViewModel::class.java)
+
+        binding.viewModel=notificationsViewModel
+
+        binding.efimeriesRecyclerView.adapter =
+            EfimeriesAdapterMain(
+                EfimeriesAdapterMain.OnClickListener { mainEfimeries ->
+
+                    //(activity as MainActivity?)?.fragmentMethodTransition(mainInfo, imageView)
+                })
 
 
         /*val textView: TextView = root.findViewById(R.id.text_notifications)

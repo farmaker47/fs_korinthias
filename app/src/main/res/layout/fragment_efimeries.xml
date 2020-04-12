@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--<data>
+    <data>
         <variable
             name="viewModel"
-            type="com.george.fs_korinthias.ui.important.ImportantViewModel" />
+            type="com.george.fs_korinthias.ui.efimeries.EfimeriesViewModel" />
 
-    </data>-->
+    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,14 +23,15 @@
             android:layout_centerVertical="true" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/important_recycler_view"
+            android:id="@+id/efimeries_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            tools:listitem="@layout/card_important_list_item" />
+            app:listDataEfimeriesMain="@{viewModel.titlePerioxes}"
+            tools:listitem="@layout/card_efimeries_main" />
 
         <ProgressBar
             android:id="@+id/progressBar"
