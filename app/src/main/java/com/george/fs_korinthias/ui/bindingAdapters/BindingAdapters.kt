@@ -131,10 +131,39 @@ fun bindTextViewEfimeriesImerominia(textView: TextView, textValue: String?) {
     val date2020 = textValue?.split(" 2020")
     val tilefono = date2020!![1].split("274")
 
-    if (tilefono.size==2){
-        textView.text = date2020!![0] + "\n" + tilefono[0] + "\n" + "274" + tilefono[1]
-    }else if(tilefono.size == 3){
-        textView.text = date2020!![0] + "\n" + tilefono[0] + "\n" + "274" + tilefono[1]+ "274" + tilefono[2]
+    /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        textView.text = Html.fromHtml("<b>" + id + "</b> "date2020!![0] + "\n" + tilefono[0] + "\n" + "274" + tilefono[1], Html.FROM_HTML_MODE_COMPACT)
+    } else {
+        textView.text = Html.fromHtml(htmlValue);
+    }*/
+    if (tilefono.size == 2) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            textView.text =
+                Html.fromHtml(
+                    "<b>" + date2020!![0] + "</b>" + "<br>" + tilefono[0] + "<br>" + "274" + tilefono[1],
+                    Html.FROM_HTML_MODE_COMPACT
+                )
+        } else {
+            textView.text =
+                Html.fromHtml("<b>" + date2020!![0] + "</b>" + "<br>" + tilefono[0] + "<br>" + "274" + tilefono[1]);
+        }
+
+    } else if (tilefono.size == 3) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            textView.text =
+                Html.fromHtml(
+                    "<b>" + date2020!![0] + "</b>" + "<br>" + tilefono[0] + "<br>" + "274" + tilefono[1] + "274" + tilefono[2],
+                    Html.FROM_HTML_MODE_COMPACT
+                )
+        } else {
+            textView.text =
+                Html.fromHtml("<b>" + date2020!![0] + "</b>" + "<br>" + tilefono[0] + "<br>" + "274" + tilefono[1]+ "274" + tilefono[2]);
+        }
+
+
+        /*textView.text =
+            date2020!![0] + "\n" + tilefono[0] + "\n" + "274" + tilefono[1] + "274" + tilefono[2]*/
     }
 
 
