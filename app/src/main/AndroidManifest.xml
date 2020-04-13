@@ -14,10 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.DetailsActivity"
-            android:label="@string/title_activity_details"
+            android:name=".ui.efimeriesDetails.EfimeriesDetailsActivity"
+            android:label="@string/title_activity_efimeries_details"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".ui.detailsNews.DetailsActivity"
+            android:label="@string/title_activity_details"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

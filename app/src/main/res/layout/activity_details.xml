@@ -7,7 +7,7 @@
 
         <variable
             name="detailsViewModel"
-            type="com.george.fs_korinthias.ui.DetailsViewModel" />
+            type="com.george.fs_korinthias.ui.detailsNews.DetailsViewModel" />
 
     </data>
 
@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:background="#fff"
         android:fitsSystemWindows="true"
-        tools:context=".ui.DetailsActivity">
+        tools:context=".ui.detailsNews.DetailsActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"

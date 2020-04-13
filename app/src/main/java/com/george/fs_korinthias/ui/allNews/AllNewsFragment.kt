@@ -30,7 +30,7 @@ class AllNewsFragment : Fragment() {
         binding.allNewsRecyclerView.adapter = NewsAdapter(
             NewsAdapter.OnClickListener { mainInfo, imageView ->
                 //viewModel.displayPropertyDetails(it)
-                (activity as MainActivity?)?.fragmentMethodTransition(mainInfo, imageView)
+                (activity as MainActivity?)?.fragmentMethodTransitionNews(mainInfo, imageView)
             })
 
 

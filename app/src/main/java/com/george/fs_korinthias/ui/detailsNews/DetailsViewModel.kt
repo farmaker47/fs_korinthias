@@ -1,4 +1,4 @@
-package com.george.fs_korinthias.ui
+package com.george.fs_korinthias.ui.detailsNews
 
 import android.app.Application
 import android.util.Log
@@ -75,7 +75,8 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
                 // status loading
                 withContext(Dispatchers.Main) {
                     // call to UI thread
-                    _statusProgress.value = NewsApiStatus.LOADING
+                    _statusProgress.value =
+                        NewsApiStatus.LOADING
                 }
 
                 val importantResponse = Jsoup.connect(_selectedNews.value?.link)
@@ -130,7 +131,8 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
                             //Log.e("LINKS",_selectedImages.value.toString())
                         }
 
-                        _statusProgress.value = NewsApiStatus.DONE
+                        _statusProgress.value =
+                            NewsApiStatus.DONE
                     }
 
                 }
@@ -146,7 +148,8 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
                 //_statusProgress.postValue(NewsApiStatus.ERROR)
                 withContext(Dispatchers.Main) {
                     // call to UI thread
-                    _statusProgress.value = NewsApiStatus.ERROR
+                    _statusProgress.value =
+                        NewsApiStatus.ERROR
                 }
             }
 

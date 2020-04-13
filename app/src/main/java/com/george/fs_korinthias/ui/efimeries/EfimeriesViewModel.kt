@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.george.fs_korinthias.InfoOnoma
 import com.george.fs_korinthias.MainEfimeries
-import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.ui.important.WeatherApiStatus
 import kotlinx.coroutines.*
 import org.jsoup.Connection
@@ -34,7 +33,6 @@ class EfimeriesViewModel : ViewModel() {
         get() = _titlePerioxes
 
     val _toUseArrayList = ArrayList<MainEfimeries>()
-    val _toUseArrayListInfo = ArrayList<InfoOnoma>()
 
     // The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<WeatherApiStatus>()
@@ -69,20 +67,54 @@ class EfimeriesViewModel : ViewModel() {
                 val doc = importantResponse.parse()
                 Log.e("EFIMERIES", doc.toString())
                 //check if element exists
-                if (checkElement(doc.select(".vc_tta-title-text").first())) {
-                    val perioxes = doc.select(".vc_tta-title-text")
+                if (checkElement(
+                        doc.select(".vc_tta-panels").select(".vc_tta-title-text").first()
+                    )
+                ) {
+                    val perioxes = doc.select(".vc_tta-panels").select(".vc_tta-panel-heading")
+                    for ((i, onoma) in perioxes.withIndex()) {
 
-                    for (onoma in perioxes){
+                        val information = doc.select(".vc_tta-panels").select(".vc_tta-panel-body")
+                            .select(".wpb_wrapper").select("table")[i].select("tr")
+                        /*Log.e(
+                            "INFORMATION",
+                            information.select("td").get(601).text().toString()
+                        )*/
+                        Log.e(
+                            "INFORMATION",
+                            information.size.toString()
+                        )
+
+                        val toUseArrayListInfo = ArrayList<InfoOnoma>()
+                        for ((index, info) in information.withIndex()) {
+
+                            val infoObject = InfoOnoma(
+                                info.select("td").text(),
+                                "george",
+                                "soloupis"
+                            )
+                            toUseArrayListInfo.add(infoObject)
+                        }
+
+                        /*val chunkedList = arrayListString.chunked(3)
+                        Log.e("CHUNKED",chunkedList.toString())
+                        for ((index,k) in chunkedList.withIndex()){
+                            val infoObject = InfoOnoma(
+                                chunkedList[index][0],
+                                chunkedList[index][1],
+                                chunkedList[index][0]                            )
+                            toUseArrayListInfo.add(infoObject)
+                        }*/
+
 
                         val generalObject = MainEfimeries(
                             onoma.text(),
-                            _toUseArrayListInfo
+                            toUseArrayListInfo
                         )
                         _toUseArrayList.add(generalObject)
 
 
                     }
-
 
 
                 }
@@ -93,7 +125,7 @@ class EfimeriesViewModel : ViewModel() {
                     // call to UI thread
                     _titlePerioxes.value = _toUseArrayList
                     _status.value = WeatherApiStatus.DONE
-                    Log.e("PERIOXES", _titlePerioxes.value.toString())
+                    Log.e("PERIOXES", titlePerioxes.value.toString())
                 }
 
             } catch (e: IOException) {

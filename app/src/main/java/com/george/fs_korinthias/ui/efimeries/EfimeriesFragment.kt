@@ -36,7 +36,7 @@ class EfimeriesFragment : Fragment() {
             EfimeriesAdapterMain(
                 EfimeriesAdapterMain.OnClickListener { mainEfimeries ->
 
-                    //(activity as MainActivity?)?.fragmentMethodTransition(mainInfo, imageView)
+                    (activity as MainActivity?)?.fragmentMethodTransitionEfimeries(mainEfimeries)
                 })
 
         //running the animation at the beggining of showing the list

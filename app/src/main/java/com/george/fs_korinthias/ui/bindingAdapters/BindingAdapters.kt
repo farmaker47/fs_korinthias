@@ -8,10 +8,12 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.george.fs_korinthias.InfoOnoma
 import com.george.fs_korinthias.MainEfimeries
 import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.R
-import com.george.fs_korinthias.ui.NewsApiStatus
+import com.george.fs_korinthias.ui.adapters.EfimeriesAdapterDetails
+import com.george.fs_korinthias.ui.detailsNews.NewsApiStatus
 import com.george.fs_korinthias.ui.adapters.EfimeriesAdapterMain
 import com.george.fs_korinthias.ui.adapters.NewsAdapter
 import com.george.fs_korinthias.ui.important.WeatherApiStatus
@@ -29,6 +31,12 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<MainInfo>?) {
 @BindingAdapter("listDataEfimeriesMain")
 fun bindRecyclerViewEfimeriesMain(recyclerView: RecyclerView, data: List<MainEfimeries>?) {
     val adapter = recyclerView.adapter as EfimeriesAdapterMain
+    adapter.submitList(data)
+}
+
+@BindingAdapter("listDataEfimeriesDetails")
+fun bindRecyclerViewEfimeriesDetails(recyclerView: RecyclerView, data: List<InfoOnoma>?) {
+    val adapter = recyclerView.adapter as EfimeriesAdapterDetails
     adapter.submitList(data)
 }
 

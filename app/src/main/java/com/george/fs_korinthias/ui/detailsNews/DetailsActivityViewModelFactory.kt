@@ -1,4 +1,4 @@
-package com.george.fs_korinthias.ui
+package com.george.fs_korinthias.ui.detailsNews
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
@@ -12,7 +12,10 @@ class DetailsActivityViewModelFactory(
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailsViewModel::class.java)) {
-            return DetailsViewModel(detailsInfo, application) as T
+            return DetailsViewModel(
+                detailsInfo,
+                application
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

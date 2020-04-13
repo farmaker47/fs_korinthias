@@ -44,7 +44,7 @@ class ImportantFragment : Fragment() {
             NewsAdapter(
                 NewsAdapter.OnClickListener { mainInfo, imageView ->
 
-                    (activity as MainActivity?)?.fragmentMethodTransition(mainInfo, imageView)
+                    (activity as MainActivity?)?.fragmentMethodTransitionNews(mainInfo, imageView)
                 })
 
         /*val linearSnapHelper: LinearSnapHelper = SnapHelperOneByOne()

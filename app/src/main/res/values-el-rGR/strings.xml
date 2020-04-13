@@ -3,8 +3,8 @@
     <string name="app_name">ΦΣ Κορινθίας</string>
     <string name="title_home">ΦΣ Κορινθίας</string>
     <string name="title_dashboard">ΦΣ Κορινθίας</string>
-    <string name="title_home_bottom">Σημαντικά νέα</string>
-    <string name="title_dashboard_bottom">Όλα τα νέα</string>
+    <string name="title_home_bottom">Σημαντικά Άρθρα</string>
+    <string name="title_dashboard_bottom">Άρθρα</string>
     <string name="title_activity_details">ΦΣ Κορινθίας</string>
     <string name="next">Επόμενο</string>
     <string name="previous">Προηγούμενο</string>
@@ -13,4 +13,5 @@
     <string name="notification_title">ΦΣ Κορινθίας νέα</string>
     <string name="action_policy">Πολιτική απορρήτου</string>
     <string name="title_efimeries">Εφημερίες</string>
+    <string name="title_activity_efimeries_details">Περιοχή</string>
 </resources>

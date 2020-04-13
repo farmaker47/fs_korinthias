@@ -1,12 +1,10 @@
 package com.george.fs_korinthias.ui.important
 
-import android.util.ArraySet
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.george.fs_korinthias.MainInfo
-import com.george.fs_korinthias.ui.NewsApiStatus
 import kotlinx.coroutines.*
 import org.jsoup.Connection
 import org.jsoup.Jsoup

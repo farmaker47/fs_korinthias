@@ -18,7 +18,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.work.*
-import com.george.fs_korinthias.ui.DetailsActivity
+import com.george.fs_korinthias.ui.detailsNews.DetailsActivity
+import com.george.fs_korinthias.ui.efimeriesDetails.EfimeriesDetailsActivity
 import com.george.fs_korinthias.ui.worker.NotificationWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.parcel.Parcelize
@@ -74,11 +75,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun fragmentMethodTransition(mainInfo: MainInfo, imageView: ImageView) {
+    fun fragmentMethodTransitionNews(mainInfo: MainInfo, imageView: ImageView) {
         val intent = Intent(this, DetailsActivity::class.java)
         intent.putExtra(
             PARCEL_TO_PASS,
             mainInfo
+        )
+        // bundle for the transition effect
+        /*Log.i("transition", imageView.transitionName)
+        val bundle: Bundle? = ActivityOptionsCompat
+            .makeSceneTransitionAnimation(
+                this,
+                imageView,
+                imageView.transitionName
+            ).toBundle()
+        startActivity(intent, bundle)*/
+
+        // Check if we're running on Android 5.0 or higher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Apply activity transition
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+        } else {
+            // Swap without transition
+            startActivity(intent)
+        }
+    }
+
+    fun fragmentMethodTransitionEfimeries(mainEfimeries: MainEfimeries) {
+        val intent = Intent(this, EfimeriesDetailsActivity::class.java)
+        intent.putExtra(
+            PARCEL_TO_PASS,
+            mainEfimeries
         )
         // bundle for the transition effect
         /*Log.i("transition", imageView.transitionName)

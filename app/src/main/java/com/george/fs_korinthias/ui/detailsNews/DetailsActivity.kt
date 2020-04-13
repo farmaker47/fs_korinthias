@@ -1,17 +1,13 @@
-package com.george.fs_korinthias.ui
+package com.george.fs_korinthias.ui.detailsNews
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.util.TypedValue
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -45,15 +41,19 @@ class DetailsActivity : AppCompatActivity() {
 
         val intent = intent
         if (intent.hasExtra(PARCEL_TO_PASS)) {
-            val somethingPassed = intent.getParcelableExtra<MainInfo>(PARCEL_TO_PASS)
-            Log.i("SOMETHING", somethingPassed.title)
-            Log.i("SOMETHING", somethingPassed.image)
-            Log.i("SOMETHING", somethingPassed.link)
-            Log.i("SOMETHING", somethingPassed.date)
-            shareString = somethingPassed.link
+            val newsPassed = intent.getParcelableExtra<MainInfo>(PARCEL_TO_PASS)
+            Log.i("SOMETHING", newsPassed.title)
+            Log.i("SOMETHING", newsPassed.image)
+            Log.i("SOMETHING", newsPassed.link)
+            Log.i("SOMETHING", newsPassed.date)
+            shareString = newsPassed.link
 
             //Picasso.get().load(somethingPassed?.image).into(binding.detailActivityImage)
-            val viewModelFactory = DetailsActivityViewModelFactory(somethingPassed, application)
+            val viewModelFactory =
+                DetailsActivityViewModelFactory(
+                    newsPassed,
+                    application
+                )
             viewModel = ViewModelProvider(
                 this, viewModelFactory
             ).get(DetailsViewModel::class.java)
