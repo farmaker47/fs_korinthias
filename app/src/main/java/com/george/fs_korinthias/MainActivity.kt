@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Save first value to SharedPrefs
-        //saveTitle()
+        saveTitle()
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 

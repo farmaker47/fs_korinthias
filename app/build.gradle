@@ -30,8 +30,8 @@ android {
         applicationId "com.george.fs_korinthias"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -106,5 +106,6 @@ dependencies {
 
     // Firebase analytics
     implementation 'com.google.firebase:firebase-analytics:17.3.0'
+    implementation 'com.google.firebase:firebase-messaging:20.1.5'
 
 }

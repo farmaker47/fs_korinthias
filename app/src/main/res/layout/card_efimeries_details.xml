@@ -17,8 +17,9 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardElevation="4dp"
-        app:cardPreventCornerOverlap="false"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="1dp"
+        app:cardMaxElevation="1dp"
         app:cardUseCompatPadding="true">
 
         <RelativeLayout

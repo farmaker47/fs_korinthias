@@ -28,7 +28,7 @@ class NotificationWorker(
     params: WorkerParameters
 ) : CoroutineWorker(context, params) {
 
-    private val sharedPref: SharedPreferences? = context.getSharedPreferences(
+    private val sharedPref = context.getSharedPreferences(
         context.getString(R.string.save_first_news_article),
         Context.MODE_PRIVATE
     )
@@ -126,34 +126,31 @@ class NotificationWorker(
                             date
                         )
                         toUseArrayList.add(generalElement)
+                    }
 
-                        //Fetch first news link from SharedPrefs
-                        val firstNews =
-                            sharedPref?.getString(
+                    //Fetch first news link from SharedPrefs
+                    val firstNews =
+                        sharedPref.getString(
+                            context.getString(R.string.save_first_news_article),
+                            context.getString(R.string.notification_message)
+                        )
+                    Log.i("WORKER", firstNews)
+
+                    // Check if news are not the same
+                    if (firstNews != toUseArrayList[0].link) {
+                        // Show notification
+                        showNotification(toUseArrayList[0].title)
+
+                        // And save the new link
+                        with(sharedPref.edit()) {
+                            putString(
                                 context.getString(R.string.save_first_news_article),
-                                context.getString(R.string.notification_message)
+                                toUseArrayList[0].link
                             )
-                        Log.i("WORKER", firstNews)
-
-                        // Check if news are not the same
-                        if (firstNews != toUseArrayList[0].link) {
-                            // Show notification
-                            showNotification(toUseArrayList[0].title)
-
-                            // And save the new link
-                            with(sharedPref!!.edit()) {
-                                putString(
-                                    context.getString(R.string.save_first_news_article),
-                                    toUseArrayList[0].link
-                                )
-                                commit()
-                            }
+                            commit()
                         }
-
-
                     }
                 }
-
 
 
                 withContext(Dispatchers.Main) {
