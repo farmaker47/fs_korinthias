@@ -1,6 +1,7 @@
 package com.george.fs_korinthias
 
 import android.app.ActivityOptions
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -172,8 +173,38 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
 
+            R.id.action_epikoinonia -> {
+
+                epikoinoniaDialog()
+
+                return true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun epikoinoniaDialog() {
+        val downloadDialog =
+            AlertDialog.Builder(this)
+        downloadDialog.setTitle(resources.getString(R.string.epikoinoniaMeSyllogo))
+        downloadDialog.setMessage(resources.getString(R.string.epikoinoniaTilefona))
+        downloadDialog.setPositiveButton(
+            resources.getString(R.string.epilogiOK)
+        ) { dialogInterface, i -> //Check for permissions
+            /*finish();*/
+        }
+        /*downloadDialog.setNegativeButton(
+                            resources.getString(R.string.epilogiDownload)
+                        ) { dialogInterface, i -> //Do some actions if user wants to manually insert addres
+                            val myWebLink = Intent(Intent.ACTION_VIEW)
+                            myWebLink.data =
+                                Uri.parse("https://play.google.com/store/apps/details?id=com.george.recipePro")
+                            if (myWebLink.resolveActivity(packageManager) != null) {
+                                startActivity(myWebLink)
+                            }
+                        }*/
+        downloadDialog.show()
     }
 }
 

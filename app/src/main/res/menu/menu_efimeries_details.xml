@@ -3,13 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.george.kotlin_medicines.KotlinMainActivity">
     <item
-        android:id="@+id/action_policy"
+        android:id="@+id/action_info"
         android:orderInCategory="100"
-        android:title="@string/action_policy"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_epikoinonia"
-        android:orderInCategory="100"
-        android:title="@string/action_epikoinonia"
+        android:title="@string/enimerosiFinal"
         app:showAsAction="never" />
 </menu>

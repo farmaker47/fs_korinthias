@@ -24,6 +24,13 @@
     <string name="save_first_news_article" translatable="false">first_news_article</string>
     <string name="action_policy">Privacy policy</string>
     <string name="title_efimeries">On Duty</string>
-    <string name="title_activity_efimeries_details">District</string>
+    <string name="title_activity_efimeries_details" translatable="false"></string>
+    <string name="action_info">It is clarified that, based on special provisions of Presidential Decree 479/1981, in the areas where 2 to 6 pharmacies operate, the on-call pharmacy: and Holidays are normally open from 9:00 to 13:00 During the noon break, as well as the rest beyond its opening hours  (from 23.00 for the period from 16 May to 15 October, from 22.00 for the period from 16 October to 15 May, and from 13:00 on Sundays and Holidays), the on-duty pharmacist posts his name, contact phone number, the address of the residence on the facade of the pharmacy and serves the public if it receives a telephone call.</string>
+    <string name="epilogiOK">OK</string>
+    <string name="enimerosiFinal">On Duty Info</string>
+    <string name="efimeriesShare">On Duty info:</string>
+    <string name="action_epikoinonia">Contact</string>
+    <string name="epikoinoniaMeSyllogo">Contact FS Korinthias</string>
+    <string name="epikoinoniaTilefona">Adeimantou 63 Korinthos \nTelephone 2741029778  \nFax 2741029778  \nemail : info@fsk.gr</string>
 
 </resources>

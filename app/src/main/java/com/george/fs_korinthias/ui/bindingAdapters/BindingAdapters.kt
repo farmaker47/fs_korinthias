@@ -124,3 +124,18 @@ fun bindTextViewHtml(textView: TextView, htmlValue: String?) {
         textView.text = Html.fromHtml(htmlValue);
     }
 }
+
+@BindingAdapter("efimeriesToString")
+fun bindTextViewEfimeriesImerominia(textView: TextView, textValue: String?) {
+
+    val date2020 = textValue?.split(" 2020")
+    val tilefono = date2020!![1].split("274")
+
+    if (tilefono.size==2){
+        textView.text = date2020!![0] + "\n" + tilefono[0] + "\n" + "274" + tilefono[1]
+    }else if(tilefono.size == 3){
+        textView.text = date2020!![0] + "\n" + tilefono[0] + "\n" + "274" + tilefono[1]+ "274" + tilefono[2]
+    }
+
+
+}
