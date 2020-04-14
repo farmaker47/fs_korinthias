@@ -18,6 +18,8 @@ import com.george.fs_korinthias.ui.adapters.EfimeriesAdapterMain
 import com.george.fs_korinthias.ui.adapters.NewsAdapter
 import com.george.fs_korinthias.ui.important.WeatherApiStatus
 import com.squareup.picasso.Picasso
+import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter
+import org.sufficientlysecure.htmltextview.HtmlTextView
 
 /**
  * When there is no MainInfo data (data is null), hide the [RecyclerView], otherwise show it.
@@ -115,13 +117,21 @@ fun bindStatusImageViewDetails(imageView: ImageView, status: NewsApiStatus?) {
 }
 
 @BindingAdapter("htmlToString")
-fun bindTextViewHtml(textView: TextView, htmlValue: String?) {
+fun bindTextViewHtml(textView: HtmlTextView, htmlValue: String) {
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        textView.text = Html.fromHtml(htmlValue, Html.FROM_HTML_MODE_COMPACT)
+        //textView.text = Html.fromHtml(htmlValue, Html.FROM_HTML_MODE_COMPACT)
+        textView.setHtml(
+            htmlValue,
+            HtmlHttpImageGetter(textView, "n", true)
+        );
         //Log.e("NEW_Adapter", Html.fromHtml(htmlValue, Html.FROM_HTML_MODE_COMPACT).toString())
     } else {
-        textView.text = Html.fromHtml(htmlValue);
+        //textView.text = Html.fromHtml(htmlValue);
+        textView.setHtml(
+            htmlValue,
+            HtmlHttpImageGetter(textView, "n", true)
+        );
     }
 }
 
@@ -158,7 +168,7 @@ fun bindTextViewEfimeriesImerominia(textView: TextView, textValue: String?) {
                 )
         } else {
             textView.text =
-                Html.fromHtml("<b>" + date2020!![0] + "</b>" + "<br>" + tilefono[0] + "<br>" + "274" + tilefono[1]+ "274" + tilefono[2]);
+                Html.fromHtml("<b>" + date2020!![0] + "</b>" + "<br>" + tilefono[0] + "<br>" + "274" + tilefono[1] + "274" + tilefono[2]);
         }
 
 

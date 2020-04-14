@@ -78,7 +78,7 @@ class DetailsActivity : AppCompatActivity() {
         //t2.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Observe if there are images inside page
-        viewModel.selectedImages.observe(this, Observer { listImages ->
+        /*viewModel.selectedImages.observe(this, Observer { listImages ->
 
             //Log.i("DETAILS", listImages[1])
 
@@ -97,7 +97,7 @@ class DetailsActivity : AppCompatActivity() {
                 ingredient.setBackgroundResource(outValue.resourceId)
 
                 ingredient
-                    .setOnClickListener { /*Toast.makeText(IngredientActivity.this,  urlText, Toast.LENGTH_LONG).show();*/
+                    .setOnClickListener { *//*Toast.makeText(IngredientActivity.this,  urlText, Toast.LENGTH_LONG).show();*//*
                         val myWebLink = Intent(Intent.ACTION_VIEW)
                         myWebLink.data =
                             Uri.parse(image)
@@ -114,7 +114,7 @@ class DetailsActivity : AppCompatActivity() {
 
 
 
-        })
+        })*/
 
 
     }

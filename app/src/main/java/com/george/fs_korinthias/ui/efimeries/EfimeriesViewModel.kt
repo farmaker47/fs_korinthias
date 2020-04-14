@@ -65,7 +65,7 @@ class EfimeriesViewModel : ViewModel() {
                     .execute()
                 cookies.putAll(importantResponse.cookies())
                 val doc = importantResponse.parse()
-                Log.e("EFIMERIES", doc.toString())
+                Log.i("EFIMERIES", doc.toString())
                 //check if element exists
                 if (checkElement(
                         doc.select(".vc_tta-panels").select(".vc_tta-title-text").first()
@@ -80,7 +80,7 @@ class EfimeriesViewModel : ViewModel() {
                             "INFORMATION",
                             information.select("td").get(601).text().toString()
                         )*/
-                        Log.e(
+                        Log.i(
                             "INFORMATION",
                             information.size.toString()
                         )
@@ -125,7 +125,7 @@ class EfimeriesViewModel : ViewModel() {
                     // call to UI thread
                     _titlePerioxes.value = _toUseArrayList
                     _status.value = WeatherApiStatus.DONE
-                    Log.e("PERIOXES", titlePerioxes.value.toString())
+                    Log.i("PERIOXES", titlePerioxes.value.toString())
                 }
 
             } catch (e: IOException) {

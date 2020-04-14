@@ -77,7 +77,7 @@ class ImportantFragment : Fragment() {
             if (currentPosition == RecyclerView.NO_POSITION) {
                 return RecyclerView.NO_POSITION
             }
-            Log.e("PositionA", currentPosition.toString())
+            Log.i("PositionA", currentPosition.toString())
             //changeWheelsFunction(currentPosition)
             return currentPosition
         }

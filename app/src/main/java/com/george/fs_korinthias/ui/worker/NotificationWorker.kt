@@ -9,6 +9,7 @@ import android.content.SharedPreferences
 import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.work.CoroutineWorker
@@ -21,6 +22,7 @@ import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.IOException
+import java.lang.Exception
 import java.util.HashMap
 
 class NotificationWorker(
@@ -36,9 +38,16 @@ class NotificationWorker(
     override suspend fun doWork(): Result {
         //Log.d(javaClass.simpleName, "Worker Started!")
 
-        fetchImportantNews()
+        //fetchImportantNews()
 
-        return Result.success()
+        return try {
+            fetchImportantNews()
+            Log.e("WORKER_SUCCESS", "Success")
+            Result.success()
+        } catch (exception: Exception) {
+            Log.e("WORKER_RETRY", "Retry")
+            Result.retry()
+        }
 
         /*return try {
 
@@ -134,7 +143,8 @@ class NotificationWorker(
                             context.getString(R.string.save_first_news_article),
                             context.getString(R.string.notification_message)
                         )
-                    Log.i("WORKER", firstNews)
+                    Log.e("WORKER_BEFORE", firstNews)
+                    //Toast.makeText(context, "YEAP", Toast.LENGTH_LONG).show()
 
                     // Check if news are not the same
                     if (firstNews != toUseArrayList[0].link) {
@@ -149,12 +159,15 @@ class NotificationWorker(
                             )
                             commit()
                         }
+
+                        Log.e("WORKER_AFTER", toUseArrayList[0].link)
                     }
                 }
 
 
                 withContext(Dispatchers.Main) {
                     // call to UI thread
+                    //Toast.makeText(context, "YEAP THIS WORKER SHOWS LINKS", Toast.LENGTH_LONG).show()
                     //_status.value = WeatherApiStatus.DONE
                     //_titleList.value = _toUseArrayList
                 }

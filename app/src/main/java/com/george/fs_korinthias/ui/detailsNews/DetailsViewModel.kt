@@ -88,7 +88,7 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
 
                 //check if element exists
                 if (checkElement(doc.select("div[itemprop=articleBody]").first())) {
-                    Log.e("NEW", doc.select("div[itemprop=articleBody]").select("p").toString())
+                    Log.i("NEW", doc.select("div[itemprop=articleBody]").select("p").toString())
 
                     withContext(Dispatchers.Main) {
                         // call to UI thread

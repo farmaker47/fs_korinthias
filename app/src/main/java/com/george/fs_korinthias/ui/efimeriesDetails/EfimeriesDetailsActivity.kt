@@ -34,7 +34,7 @@ class EfimeriesDetailsActivity : AppCompatActivity() {
         val intent = intent
         if (intent.hasExtra(PARCEL_TO_PASS)) {
             efimeriesPassed = intent.getParcelableExtra<MainEfimeries>(PARCEL_TO_PASS)
-            Log.e("SOMETHING", efimeriesPassed.titlePerioxi)
+            Log.i("SOMETHING", efimeriesPassed.titlePerioxi)
 
             //Picasso.get().load(somethingPassed?.image).into(binding.detailActivityImage)
             val viewModelFactory =

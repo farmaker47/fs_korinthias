@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.transition.Explode
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.Window
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // Save first value to SharedPrefs
-        saveTitle()
+        //saveTitle()
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
@@ -129,13 +130,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initWorker() {
+
+        val sharedPref = getSharedPreferences(
+            getString(R.string.save_first_news_article),
+            Context.MODE_PRIVATE
+        )
+
+        val firstNews =
+            sharedPref.getString(
+                getString(R.string.save_first_news_article),
+                getString(R.string.notification_message)
+            )
+        Log.e("WORKER_INIT", firstNews)
         val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
+            //.setRequiredNetworkType(NetworkType.CONNECTED)
             //.setRequiresBatteryNotLow(true)
             .build()
 
         val notificationWorkRequest =
-            PeriodicWorkRequestBuilder<NotificationWorker>(30, TimeUnit.MINUTES)
+            PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .build()
 
@@ -228,3 +241,4 @@ data class InfoOnoma(
     val onoma: String?,
     val tilefono: String?
 ) : Parcelable
+
