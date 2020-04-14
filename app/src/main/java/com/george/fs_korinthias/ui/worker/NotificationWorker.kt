@@ -42,10 +42,10 @@ class NotificationWorker(
 
         return try {
             fetchImportantNews()
-            Log.e("WORKER_SUCCESS", "Success")
+            Log.i("WORKER_SUCCESS", "Success")
             Result.success()
         } catch (exception: Exception) {
-            Log.e("WORKER_RETRY", "Retry")
+            Log.i("WORKER_RETRY", "Retry")
             Result.retry()
         }
 
@@ -143,7 +143,7 @@ class NotificationWorker(
                             context.getString(R.string.save_first_news_article),
                             context.getString(R.string.notification_message)
                         )
-                    Log.e("WORKER_BEFORE", firstNews)
+                    Log.i("WORKER_BEFORE", firstNews)
                     //Toast.makeText(context, "YEAP", Toast.LENGTH_LONG).show()
 
                     // Check if news are not the same
@@ -160,7 +160,7 @@ class NotificationWorker(
                             commit()
                         }
 
-                        Log.e("WORKER_AFTER", toUseArrayList[0].link)
+                        Log.i("WORKER_AFTER", toUseArrayList[0].link)
                     }
                 }
 

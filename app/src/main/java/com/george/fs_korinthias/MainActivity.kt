@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity() {
                 getString(R.string.save_first_news_article),
                 getString(R.string.notification_message)
             )
-        Log.e("WORKER_INIT", firstNews)
+        Log.i("WORKER_INIT", firstNews)
         val constraints = Constraints.Builder()
             //.setRequiredNetworkType(NetworkType.CONNECTED)
             //.setRequiresBatteryNotLow(true)
