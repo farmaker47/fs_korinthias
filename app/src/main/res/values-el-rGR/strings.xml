@@ -3,14 +3,14 @@
     <string name="app_name">ΦΣ Κορινθίας</string>
     <string name="title_home">ΦΣ Κορινθίας</string>
     <string name="title_dashboard">ΦΣ Κορινθίας</string>
-    <string name="title_home_bottom">Σημαντικά Άρθρα</string>
+    <string name="title_home_bottom">Σημαντικά</string>
     <string name="title_dashboard_bottom">Άρθρα</string>
     <string name="title_activity_details">ΦΣ Κορινθίας</string>
     <string name="next">Επόμενο</string>
     <string name="previous">Προηγούμενο</string>
     <string name="mainShareNews">Άρθρο απο το Φ.Σ.Κορινθίας:</string>
     <string name="shareNews">Αποστολή:</string>
-    <string name="notification_title">ΦΣ Κορινθίας νέα</string>
+    <string name="notification_title">ΦΣ Κορινθίας - Νέο άρθρο</string>
     <string name="action_policy">Πολιτική απορρήτου</string>
     <string name="title_efimeries">Εφημερίες</string>
     <string name="title_activity_efimeries_details"></string>
@@ -20,5 +20,8 @@
     <string name="efimeriesShare">Εφημερίες απο το ΦΣ Κορινθίας:</string>
     <string name="action_epikoinonia">Επικοινωνία</string>
     <string name="epikoinoniaMeSyllogo">Επικοινωνία με το Φαρμακευτικό Σύλλογο</string>
+    <string name="mainShareApp">Κατεβάστε την εφαρμογή του Φαρμακευτικού Συλλόγου Κορινθίας από την παρακάτω διεύθυνση, διαβάστε πρόσφατα άρθρα και βρείτε τα εφημερεύοντα φαρμακεία: https://play.google.com/store/apps/details?id=com.george.fs_korinthias</string>
     <string name="epikoinoniaTilefona">Αδειμάντου 63 Κόρινθος \nΤηλέφωνο 2741029778  \nFax 2741029778  \nemail : info@fsk.gr</string>
+    <string name="action_apostoli">Μοιραστείτε το</string>
+    <string name="shareApplication">Share app:</string>
 </resources>

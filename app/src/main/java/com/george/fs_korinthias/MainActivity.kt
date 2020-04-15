@@ -10,16 +10,21 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.transition.Explode
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.Window
+import android.view.*
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import com.george.fs_korinthias.databinding.ActivityMainBinding
 import com.george.fs_korinthias.ui.detailsNews.DetailsActivity
 import com.george.fs_korinthias.ui.efimeriesDetails.EfimeriesDetailsActivity
 import com.george.fs_korinthias.ui.worker.NotificationWorker
@@ -31,6 +36,8 @@ const val PARCEL_TO_PASS = "parcel_to_pass"
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,7 +48,8 @@ class MainActivity : AppCompatActivity() {
             exitTransition = Explode()
         }
 
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Save first value to SharedPrefs
         //saveTitle()
@@ -58,6 +66,30 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        binding.fabMessage.setOnClickListener {
+            //Toast.makeText(this,"LIKE",Toast.LENGTH_LONG).show()
+            val bottomUp: Animation = AnimationUtils.loadAnimation(
+                this,
+                R.anim.bottom_up
+            )
+            binding.slidingLayout.startAnimation(bottomUp)
+            binding.slidingLayout.visibility = View.VISIBLE
+
+            binding.fabMessage.visibility = View.INVISIBLE
+
+        }
+
+        binding.imageButtonClose.setOnClickListener {
+            val bottomDown: Animation = AnimationUtils.loadAnimation(
+                this,
+                R.anim.bottom_down
+            )
+            binding.slidingLayout.startAnimation(bottomDown)
+            binding.slidingLayout.visibility = View.GONE
+
+            binding.fabMessage.visibility = View.VISIBLE
+        }
 
         // Init worker
         initWorker()
@@ -193,8 +225,24 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
 
+            R.id.action_apostoli -> {
+
+                shareApp()
+
+                return true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun shareApp() {
+        val text = getString(R.string.mainShareApp)
+        val shire = Intent()
+        shire.action = Intent.ACTION_SEND
+        shire.putExtra(Intent.EXTRA_TEXT, text)
+        shire.type = "text/plain"
+        startActivity(Intent.createChooser(shire, getString(R.string.shareApplication)))
     }
 
     private fun epikoinoniaDialog() {
@@ -241,4 +289,3 @@ data class InfoOnoma(
     val onoma: String?,
     val tilefono: String?
 ) : Parcelable
-

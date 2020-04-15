@@ -19,7 +19,7 @@
     <string name="shareNews">Share app:</string>
 
     <string name="default_notification_channel_id" translatable="false">default</string>
-    <string name="notification_title">FSKorinthias News</string>
+    <string name="notification_title">FSKorinthias - New article</string>
     <string name="notification_message" translatable="false">FSKorinthias News</string>
     <string name="save_first_news_article" translatable="false">first_news_article</string>
     <string name="action_policy">Privacy policy</string>
@@ -31,6 +31,10 @@
     <string name="efimeriesShare">On Duty info:</string>
     <string name="action_epikoinonia">Contact</string>
     <string name="epikoinoniaMeSyllogo">Contact FS Korinthias</string>
+    <string name="mainShareApp">"Download FS Korinthias application from below link, read most recent articles and find pharmacies on duty: https://play.google.com/store/apps/details?id=com.george.fs_korinthias "</string>
     <string name="epikoinoniaTilefona">Adeimantou 63 Korinthos \nTelephone 2741029778  \nFax 2741029778  \nemail : info@fsk.gr</string>
+    <string name="action_apostoli">Share app</string>
+    <string name="shareApplication">Share app:</string>
+    <string name="dummy_text">Ολοκληρώθηκε σήμερα η δωρεά ειδών ατομικής προστασίας και υγιεινής στα Κέντρα Υγείας τοου Νομού. Ο ΠΕΙΦΑΣΥΝ προσέφερε στα 6 Κέντρα Υγείας του Νομού Κορινθίας μάσκες και αντισηπτικά με προτεραιότητα σε αυτά αστικού τύπου. Είχε προηγηθεί αντίστοιχη δράση προσφοράς στο Νοσοκομείο της Κορίνθου και εξοπλισμού των μονάδων του ΕΚΑΒ...</string>
 
 </resources>

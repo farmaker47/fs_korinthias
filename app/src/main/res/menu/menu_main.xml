@@ -12,4 +12,10 @@
         android:orderInCategory="100"
         android:title="@string/action_epikoinonia"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_apostoli"
+        android:orderInCategory="100"
+        android:title="@string/action_apostoli"
+        app:showAsAction="never" />
+
 </menu>
