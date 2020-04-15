@@ -37,6 +37,7 @@ const val PARCEL_TO_PASS = "parcel_to_pass"
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private var slidingOpen: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,31 +70,50 @@ class MainActivity : AppCompatActivity() {
 
         binding.fabMessage.setOnClickListener {
             //Toast.makeText(this,"LIKE",Toast.LENGTH_LONG).show()
-            val bottomUp: Animation = AnimationUtils.loadAnimation(
-                this,
-                R.anim.bottom_up
-            )
-            binding.slidingLayout.startAnimation(bottomUp)
-            binding.slidingLayout.visibility = View.VISIBLE
-
-            binding.fabMessage.visibility = View.INVISIBLE
+            openSliding()
 
         }
 
         binding.imageButtonClose.setOnClickListener {
-            val bottomDown: Animation = AnimationUtils.loadAnimation(
-                this,
-                R.anim.bottom_down
-            )
-            binding.slidingLayout.startAnimation(bottomDown)
-            binding.slidingLayout.visibility = View.GONE
-
-            binding.fabMessage.visibility = View.VISIBLE
+            closeSliding()
         }
 
         // Init worker
         initWorker()
 
+    }
+
+    private fun openSliding() {
+        val bottomUp: Animation = AnimationUtils.loadAnimation(
+            this,
+            R.anim.bottom_up
+        )
+        binding.slidingLayout.startAnimation(bottomUp)
+        binding.slidingLayout.visibility = View.VISIBLE
+
+        binding.fabMessage.visibility = View.INVISIBLE
+        slidingOpen = true
+    }
+
+    override fun onBackPressed() {
+        //super.onBackPressed()
+        if (slidingOpen) {
+            closeSliding()
+        } else {
+            finish()
+        }
+    }
+
+    private fun closeSliding() {
+        val bottomDown: Animation = AnimationUtils.loadAnimation(
+            this,
+            R.anim.bottom_down
+        )
+        binding.slidingLayout.startAnimation(bottomDown)
+        binding.slidingLayout.visibility = View.GONE
+
+        binding.fabMessage.visibility = View.VISIBLE
+        slidingOpen = false
     }
 
     private fun saveTitle() {
