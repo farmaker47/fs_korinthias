@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.os.Parcelable
 import android.transition.Explode
 import android.util.Log
@@ -31,8 +32,6 @@ import com.george.fs_korinthias.ui.worker.NotificationWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.parcel.Parcelize
 import java.util.concurrent.TimeUnit
-
-const val PARCEL_TO_PASS = "parcel_to_pass"
 
 class MainActivity : AppCompatActivity() {
 
@@ -78,6 +77,10 @@ class MainActivity : AppCompatActivity() {
             closeSliding()
         }
 
+        binding.someDummyText?.setOnClickListener{
+            //Toast.makeText(this,"SOME",Toast.LENGTH_LONG).show()
+        }
+
         // Init worker
         initWorker()
 
@@ -112,8 +115,15 @@ class MainActivity : AppCompatActivity() {
         binding.slidingLayout.startAnimation(bottomDown)
         binding.slidingLayout.visibility = View.GONE
 
-        binding.fabMessage.visibility = View.VISIBLE
         slidingOpen = false
+
+        val handler = Handler()
+        handler.postDelayed(
+            {
+                binding.fabMessage.visibility = View.VISIBLE
+            },
+            400
+        )
     }
 
     private fun saveTitle() {
@@ -213,6 +223,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val JOB_TAG = "notificationWorkTag"
+        const val PARCEL_TO_PASS = "parcel_to_pass"
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

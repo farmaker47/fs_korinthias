@@ -10,8 +10,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.george.fs_korinthias.InfoOnoma
+import com.george.fs_korinthias.MainActivity.Companion.PARCEL_TO_PASS
 import com.george.fs_korinthias.MainEfimeries
-import com.george.fs_korinthias.PARCEL_TO_PASS
 import com.george.fs_korinthias.R
 import com.george.fs_korinthias.databinding.ActivityEfimeriesDetailsBinding
 import com.george.fs_korinthias.ui.adapters.EfimeriesAdapterDetails

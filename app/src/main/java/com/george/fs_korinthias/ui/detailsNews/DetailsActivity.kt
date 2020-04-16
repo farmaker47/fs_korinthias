@@ -11,8 +11,8 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.george.fs_korinthias.MainActivity.Companion.PARCEL_TO_PASS
 import com.george.fs_korinthias.MainInfo
-import com.george.fs_korinthias.PARCEL_TO_PASS
 import com.george.fs_korinthias.R
 import com.george.fs_korinthias.databinding.ActivityDetailsBinding
 import com.squareup.picasso.Picasso
