@@ -20,7 +20,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     fun setArratListMainActivityMessages(list: ArrayList<FirebaseMainActivityMessages?>) {
         _messagesList.value = list
-        Log.e("Messages_List", _messagesList.value!![0]?.message)
+        //Log.e("Messages_List", _messagesList.value!![1]?.message)
         Log.e("Messages_List", _messagesList.value!!.size.toString())
     }
 }

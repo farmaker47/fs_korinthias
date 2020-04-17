@@ -9,9 +9,15 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Parcelable
+import android.text.Editable
+import android.text.InputFilter
+import android.text.TextWatcher
 import android.transition.Explode
 import android.util.Log
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
@@ -30,7 +36,10 @@ import com.george.fs_korinthias.ui.detailsNews.DetailsActivity
 import com.george.fs_korinthias.ui.efimeriesDetails.EfimeriesDetailsActivity
 import com.george.fs_korinthias.ui.worker.NotificationWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.database.*
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
@@ -97,26 +106,7 @@ class MainActivity : AppCompatActivity() {
         val referenceMainActivityMessages =
             database.reference.child("MainActivity_messages")
 
-        /*val messagesListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Get Post object and use the values to update the UI
-                //val messagesList = dataSnapshot.getValue<FirebaseMainActivityMessages>()
-                val messagesList = ArrayList<FirebaseMainActivityMessages>()
-                for(message in dataSnapshot.children){
-                    messagesList.add(FirebaseMainActivityMessages(message.key,message.key))
-                }
-                viewModel.setArratListMainActivityMessages(messagesList)
-                // ...
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                Log.e("MAIN_ACTIVITY_Firebase", "loadPost:onCancelled", databaseError.toException())
-                // ...
-            }
-        }*/
-
-        messagesList = ArrayList<FirebaseMainActivityMessages?>()
+        messagesList = ArrayList()
         val childEventListener = object : ChildEventListener {
 
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
@@ -127,33 +117,18 @@ class MainActivity : AppCompatActivity() {
 
                 viewModel.setArratListMainActivityMessages(messagesList)
 
-                // ...
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
 
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so displayed the changed comment.
-
-
-                // ...
             }
 
             override fun onChildRemoved(dataSnapshot: DataSnapshot) {
 
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so remove it.
-
-                // ...
             }
 
             override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
-                //Log.d(TAG, "onChildMoved:" + dataSnapshot.key!!)
 
-                // A comment has changed position, use the key to determine if we are
-                // displaying this comment and if so move it.
-
-                // ...
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -163,7 +138,7 @@ class MainActivity : AppCompatActivity() {
         referenceMainActivityMessages.addChildEventListener(childEventListener)
 
         // Listener for button to send messages
-        binding.buttonSendMessage?.setOnClickListener {
+        binding.buttonSendMessage.setOnClickListener {
             //Toast.makeText(this,"SOME",Toast.LENGTH_LONG).show()
             // Write a message to the database
 
@@ -172,10 +147,43 @@ class MainActivity : AppCompatActivity() {
             referenceMainActivityMessages.push().setValue(
                 FirebaseMainActivityMessages(
                     "George",
-                    binding.editTextSlidingMainActivity?.text?.trim().toString()
+                    binding.editTextSlidingMainActivity.text?.trim().toString()
                 )
             )
+            binding.editTextSlidingMainActivity.setText("")
         }
+
+        // Adds textchange listener
+        binding.editTextSlidingMainActivity.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence?,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+            }
+            override fun onTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int
+            ) {
+                if (charSequence.toString().trim { it <= ' ' }.length > 0) {
+                    binding.buttonSendMessage.setImageResource(R.drawable.ic_send_green)
+                    binding.buttonSendMessage.isEnabled = true
+                } else {
+                    binding.buttonSendMessage.setImageResource(R.drawable.ic_send_gray)
+                    binding.buttonSendMessage.isEnabled = false
+                }
+            }
+
+            override fun afterTextChanged(editable: Editable?) {}
+        })
+        binding.editTextSlidingMainActivity.filters = arrayOf<InputFilter>(
+            InputFilter.LengthFilter(
+                DEFAULT_MSG_LENGTH_LIMIT
+            )
+        )
 
         // Init worker
         initWorker()
@@ -320,6 +328,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val JOB_TAG = "notificationWorkTag"
         const val PARCEL_TO_PASS = "parcel_to_pass"
+        const val DEFAULT_MSG_LENGTH_LIMIT = 1000
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
