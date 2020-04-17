@@ -13,14 +13,20 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     val titleMessages: LiveData<ArrayList<FirebaseMainActivityMessages?>>
         get() = _messagesList
 
+    private var _numberMessages = MutableLiveData<Int>()
+    val numberMessages: LiveData<Int>
+        get() = _numberMessages
+
     init {
         _selectedVideo.value = app.getString(R.string.video)
         _messagesList.value = ArrayList()
+        _numberMessages.value = 0
     }
 
     fun setArratListMainActivityMessages(list: ArrayList<FirebaseMainActivityMessages?>) {
         _messagesList.value = list
         //Log.e("Messages_List", _messagesList.value!![1]?.message)
         Log.e("Messages_List", _messagesList.value!!.size.toString())
+        _numberMessages.value = _messagesList.value?.size
     }
 }

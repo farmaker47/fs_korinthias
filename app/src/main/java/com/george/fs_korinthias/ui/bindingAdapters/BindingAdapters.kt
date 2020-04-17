@@ -8,13 +8,11 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.george.fs_korinthias.InfoOnoma
-import com.george.fs_korinthias.MainEfimeries
-import com.george.fs_korinthias.MainInfo
-import com.george.fs_korinthias.R
+import com.george.fs_korinthias.*
 import com.george.fs_korinthias.ui.adapters.EfimeriesAdapterDetails
 import com.george.fs_korinthias.ui.detailsNews.NewsApiStatus
 import com.george.fs_korinthias.ui.adapters.EfimeriesAdapterMain
+import com.george.fs_korinthias.ui.adapters.MainActivityFirebaseMessagesAdapter
 import com.george.fs_korinthias.ui.adapters.NewsAdapter
 import com.george.fs_korinthias.ui.important.WeatherApiStatus
 import com.squareup.picasso.Picasso
@@ -39,6 +37,12 @@ fun bindRecyclerViewEfimeriesMain(recyclerView: RecyclerView, data: List<MainEfi
 @BindingAdapter("listDataEfimeriesDetails")
 fun bindRecyclerViewEfimeriesDetails(recyclerView: RecyclerView, data: List<InfoOnoma>?) {
     val adapter = recyclerView.adapter as EfimeriesAdapterDetails
+    adapter.submitList(data)
+}
+
+@BindingAdapter("listFireBaseMainMessages")
+fun bindRecyclerViewMainFireBase(recyclerView: RecyclerView, data: List<FirebaseMainActivityMessages>?) {
+    val adapter = recyclerView.adapter as MainActivityFirebaseMessagesAdapter
     adapter.submitList(data)
 }
 

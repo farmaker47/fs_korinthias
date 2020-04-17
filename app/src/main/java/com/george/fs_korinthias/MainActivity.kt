@@ -32,6 +32,8 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.george.fs_korinthias.databinding.ActivityMainBinding
+import com.george.fs_korinthias.ui.adapters.EfimeriesAdapterMain
+import com.george.fs_korinthias.ui.adapters.MainActivityFirebaseMessagesAdapter
 import com.george.fs_korinthias.ui.detailsNews.DetailsActivity
 import com.george.fs_korinthias.ui.efimeriesDetails.EfimeriesDetailsActivity
 import com.george.fs_korinthias.ui.worker.NotificationWorker
@@ -66,6 +68,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.lifecycleOwner = this
 
         // Save first value to SharedPrefs
         //saveTitle()
@@ -77,6 +80,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(
             this, viewModelFactory
         ).get(MainActivityViewModel::class.java)
+        binding.viewmodelXml = viewModel
 
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
@@ -117,6 +121,9 @@ class MainActivity : AppCompatActivity() {
 
                 viewModel.setArratListMainActivityMessages(messagesList)
 
+                binding.recyclerMainFireBaseMessages?.adapter?.notifyDataSetChanged()
+                binding.recyclerMainFireBaseMessages?.scrollToPosition(messagesList.size - 1)
+
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
@@ -154,6 +161,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Adds textchange listener
+        // First button is disabled
+        binding.buttonSendMessage.isEnabled = false
         binding.editTextSlidingMainActivity.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
                 charSequence: CharSequence?,
@@ -162,6 +171,7 @@ class MainActivity : AppCompatActivity() {
                 i2: Int
             ) {
             }
+
             override fun onTextChanged(
                 charSequence: CharSequence,
                 i: Int,
@@ -184,6 +194,13 @@ class MainActivity : AppCompatActivity() {
                 DEFAULT_MSG_LENGTH_LIMIT
             )
         )
+
+        binding.recyclerMainFireBaseMessages?.adapter =
+            MainActivityFirebaseMessagesAdapter(
+                MainActivityFirebaseMessagesAdapter.OnClickListener { mainMessages ->
+
+                    //(activity as MainActivity?)?.fragmentMethodTransitionEfimeries(mainEfimeries)
+                })
 
         // Init worker
         initWorker()
