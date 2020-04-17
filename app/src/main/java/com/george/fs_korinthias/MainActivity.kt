@@ -15,8 +15,8 @@ import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -30,8 +30,9 @@ import com.george.fs_korinthias.ui.detailsNews.DetailsActivity
 import com.george.fs_korinthias.ui.efimeriesDetails.EfimeriesDetailsActivity
 import com.george.fs_korinthias.ui.worker.NotificationWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.parcel.Parcelize
 import java.util.concurrent.TimeUnit
@@ -41,6 +42,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var slidingOpen: Boolean = false
     private lateinit var database: FirebaseDatabase
+    private lateinit var viewModel: MainActivityViewModel
+    private lateinit var messagesList: ArrayList<FirebaseMainActivityMessages?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +60,15 @@ class MainActivity : AppCompatActivity() {
 
         // Save first value to SharedPrefs
         //saveTitle()
+
+        val viewModelFactory =
+            MainActivityViewModelFactory(
+                application
+            )
+        viewModel = ViewModelProvider(
+            this, viewModelFactory
+        ).get(MainActivityViewModel::class.java)
+
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
@@ -82,14 +94,82 @@ class MainActivity : AppCompatActivity() {
         }
 
         database = Firebase.database
+        val referenceMainActivityMessages =
+            database.reference.child("MainActivity_messages")
+
+        /*val messagesListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get Post object and use the values to update the UI
+                //val messagesList = dataSnapshot.getValue<FirebaseMainActivityMessages>()
+                val messagesList = ArrayList<FirebaseMainActivityMessages>()
+                for(message in dataSnapshot.children){
+                    messagesList.add(FirebaseMainActivityMessages(message.key,message.key))
+                }
+                viewModel.setArratListMainActivityMessages(messagesList)
+                // ...
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.e("MAIN_ACTIVITY_Firebase", "loadPost:onCancelled", databaseError.toException())
+                // ...
+            }
+        }*/
+
+        messagesList = ArrayList<FirebaseMainActivityMessages?>()
+        val childEventListener = object : ChildEventListener {
+
+            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                // A new comment has been added, add it to the displayed list
+                val comment = dataSnapshot.getValue<FirebaseMainActivityMessages>()
+
+                messagesList.add(comment)
+
+                viewModel.setArratListMainActivityMessages(messagesList)
+
+                // ...
+            }
+
+            override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
+
+                // A comment has changed, use the key to determine if we are displaying this
+                // comment and if so displayed the changed comment.
+
+
+                // ...
+            }
+
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
+
+                // A comment has changed, use the key to determine if we are displaying this
+                // comment and if so remove it.
+
+                // ...
+            }
+
+            override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                //Log.d(TAG, "onChildMoved:" + dataSnapshot.key!!)
+
+                // A comment has changed position, use the key to determine if we are
+                // displaying this comment and if so move it.
+
+                // ...
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        }
+        referenceMainActivityMessages.addChildEventListener(childEventListener)
+
+        // Listener for button to send messages
         binding.buttonSendMessage?.setOnClickListener {
             //Toast.makeText(this,"SOME",Toast.LENGTH_LONG).show()
             // Write a message to the database
 
-            val myRef =
-                database.reference.child("MainActivity_messages")//.child((1..100).random().toString())
+            //.child((1..100).random().toString())
 
-            myRef.push().setValue(
+            referenceMainActivityMessages.push().setValue(
                 FirebaseMainActivityMessages(
                     "George",
                     binding.editTextSlidingMainActivity?.text?.trim().toString()

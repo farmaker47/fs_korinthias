@@ -126,11 +126,11 @@
                         android:id="@+id/buttonSendMessage"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
+                        android:layout_gravity="center_vertical|center_horizontal"
                         android:layout_weight="1"
                         android:padding="8dp"
                         android:foreground="?android:attr/selectableItemBackground"
-                        android:src="@drawable/ic_send_gray" />
+                        android:src="@drawable/ic_send_green" />
                 </LinearLayout>
             </LinearLayout>
 
