@@ -30,6 +30,9 @@ import com.george.fs_korinthias.ui.detailsNews.DetailsActivity
 import com.george.fs_korinthias.ui.efimeriesDetails.EfimeriesDetailsActivity
 import com.george.fs_korinthias.ui.worker.NotificationWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.parcel.Parcelize
 import java.util.concurrent.TimeUnit
 
@@ -37,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private var slidingOpen: Boolean = false
+    private lateinit var database: FirebaseDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,8 +81,20 @@ class MainActivity : AppCompatActivity() {
             closeSliding()
         }
 
-        binding.someDummyText?.setOnClickListener{
+        database = Firebase.database
+        binding.buttonSendMessage?.setOnClickListener {
             //Toast.makeText(this,"SOME",Toast.LENGTH_LONG).show()
+            // Write a message to the database
+
+            val myRef =
+                database.reference.child("MainActivity_messages")//.child((1..100).random().toString())
+
+            myRef.push().setValue(
+                FirebaseMainActivityMessages(
+                    "George",
+                    binding.editTextSlidingMainActivity?.text?.trim().toString()
+                )
+            )
         }
 
         // Init worker
@@ -320,3 +336,9 @@ data class InfoOnoma(
     val onoma: String?,
     val tilefono: String?
 ) : Parcelable
+
+
+data class FirebaseMainActivityMessages(
+    val name: String? = "",
+    val message: String? = ""
+)

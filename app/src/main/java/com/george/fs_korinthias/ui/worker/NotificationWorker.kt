@@ -24,6 +24,8 @@ import org.jsoup.nodes.Element
 import java.io.IOException
 import java.lang.Exception
 import java.util.HashMap
+import kotlin.random.Random
+import kotlin.random.Random.Default.nextInt
 
 class NotificationWorker(
     private val context: Context,
@@ -34,6 +36,8 @@ class NotificationWorker(
         context.getString(R.string.save_first_news_article),
         Context.MODE_PRIVATE
     )
+
+    private var idChannelForNotifications: Int = 0
 
     override suspend fun doWork(): Result {
         //Log.d(javaClass.simpleName, "Worker Started!")
@@ -58,7 +62,7 @@ class NotificationWorker(
 
     }
 
-    private fun showNotification(news: String?) {
+    private fun showNotification(news: String?, idNotification: Int) {
         val intent = Intent(context, MainActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(
@@ -91,7 +95,8 @@ class NotificationWorker(
             notificationManager.createNotificationChannel(channel)
         }
 
-        notificationManager.notify(0, notificationBuilder.build())
+        notificationManager.notify(idNotification, notificationBuilder.build())
+        Log.e("NOTIF_NUMBER", idNotification.toString())
     }
 
     companion object {
@@ -145,11 +150,17 @@ class NotificationWorker(
                         )
                     Log.i("WORKER_BEFORE", firstNews)
                     //Toast.makeText(context, "YEAP", Toast.LENGTH_LONG).show()
+                    Log.e("NOTIFIIII", (0..100).random().toString())
 
                     // Check if news are not the same
                     if (firstNews != toUseArrayList[0].link) {
                         // Show notification
-                        showNotification(toUseArrayList[0].title)
+                        idChannelForNotifications = (0..100).random()
+                        showNotification(
+                            toUseArrayList[0].title,
+                            idChannelForNotifications
+
+                        )
 
                         // And save the new link
                         with(sharedPref.edit()) {

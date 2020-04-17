@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.george.fs_korinthias.MainInfo
+import com.george.fs_korinthias.R
 import kotlinx.coroutines.*
 import org.jsoup.Connection
 import org.jsoup.Jsoup
@@ -20,12 +21,14 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
 
     // Only if there are Images in html
     private val _selectedImages = MutableLiveData<ArrayList<String>>()
+
     // The external LiveData for the SelectedImages
     val selectedImages: LiveData<ArrayList<String>>
         get() = _selectedImages
 
 
     private val _selectedNews = MutableLiveData<MainInfo>()
+
     // The external LiveData for the SelectedNews
     val selectedNews: LiveData<MainInfo>
         get() = _selectedNews
@@ -35,6 +38,8 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
     // The external LiveData for the SelectedNews
     val selectedText: LiveData<String>
         get() = _selectedText
+
+    private val _selectedVideo = MutableLiveData<String>()
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
@@ -53,6 +58,7 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
 
     // Initialize the _selectedNews MutableLiveData
     init {
+        _selectedVideo.value = app.getString(R.string.video)
         _selectedText.value = " "
         _selectedNews.value = detailsInfo
         getNews()
@@ -104,7 +110,7 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
                             _selectedText.value +=
                                 "<a href=\"" + doc.select("div[itemprop=articleBody]")
                                     .select("iframe[src]")
-                                    .attr("src") + "\" data-blogger-escaped-target=\"_blank\">Βίντεο</a>"
+                                    .attr("src") + "\" data-blogger-escaped-target=\"_blank\">" + _selectedVideo.value + "</a>"
                             Log.i("BINTEO", _selectedText.value)
                         }
 
@@ -116,13 +122,15 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
                         }*/
 
                         // If contains Images
-                        if (checkElement(doc.select("div[itemprop=articleBody]")
-                                .select("a[href]").first())
+                        if (checkElement(
+                                doc.select("div[itemprop=articleBody]")
+                                    .select("a[href]").first()
+                            )
                         ) {
                             val imagesLinks = doc.select("div[itemprop=articleBody]")
                                 .select("a[href]")
                             //Log.e("LINKS",imagesLinks.toString())
-                            for (link in imagesLinks){
+                            for (link in imagesLinks) {
 
                                 _toUseArrayList.add(link.attr("href").toString())
                             }
