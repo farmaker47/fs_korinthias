@@ -45,7 +45,7 @@
         <LinearLayout
             android:id="@+id/slidingLayout"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="440dp"
             android:layout_marginStart="2dp"
             android:layout_marginEnd="2dp"
             android:layout_marginBottom="?attr/actionBarSize"
@@ -68,7 +68,7 @@
                     android:layout_weight="9"
                     android:gravity="center_horizontal"
                     android:paddingTop="6dp"
-                    android:text="@{viewmodelXml.numberMessages.toString() + ` messages`}"
+                    app:numberMessagesToString="@{viewmodelXml.numberMessages.toString()}"
                     android:textAlignment="gravity" />
 
                 <ImageView
@@ -90,7 +90,7 @@
                 android:id="@+id/recyclerMainFireBaseMessages"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="7"
+                android:layout_weight="6"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:listFireBaseMainMessages="@{viewmodelXml.titleMessages}"
                 tools:listitem="@layout/firebase_main_activity_list_item" />

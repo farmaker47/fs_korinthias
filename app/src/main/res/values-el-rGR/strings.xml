@@ -26,4 +26,5 @@
     <string name="shareApplication">Share app:</string>
     <string name="video">Βίντεο</string>
     <string name="hint_editTextView_sliding_layout">Προσθέστε σχόλιο</string>
+    <string name="numberMessages">μηνύματα</string>
 </resources>

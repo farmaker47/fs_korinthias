@@ -35,11 +35,12 @@
     <string name="epikoinoniaTilefona">Adeimantou 63 Korinthos \nTelephone 2741029778  \nFax 2741029778  \nemail : info@fsk.gr</string>
     <string name="action_apostoli">Share app</string>
     <string name="shareApplication">Share app:</string>
-    <string name="dummy_text">Ολοκληρώθηκε σήμερα η δωρεά ειδών ατομικής προστασίας
+    <string name="dummy_text" translatable="false">Ολοκληρώθηκε σήμερα η δωρεά ειδών ατομικής προστασίας
         και υγιεινής στα Κέντρα Υγείας τοου Νομού. Ο ΠΕΙΦΑΣΥΝ προσέφερε στα 6 Κέντρα Υγείας του
         Νομού Κορινθίας μάσκες και αντισηπτικά με προτεραιότητα σε αυτά αστικού τύπου. Είχε προηγηθεί
         αντίστοιχη δράση προσφοράς στο Νοσοκομείο της Κορίνθου και εξοπλισμού των μονάδων του ΕΚΑΒ…</string>
     <string name="video">Video</string>
     <string name="hint_editTextView_sliding_layout">Comment</string>
+    <string name="numberMessages">messages</string>
 
 </resources>

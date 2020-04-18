@@ -41,7 +41,10 @@ fun bindRecyclerViewEfimeriesDetails(recyclerView: RecyclerView, data: List<Info
 }
 
 @BindingAdapter("listFireBaseMainMessages")
-fun bindRecyclerViewMainFireBase(recyclerView: RecyclerView, data: List<FirebaseMainActivityMessages>?) {
+fun bindRecyclerViewMainFireBase(
+    recyclerView: RecyclerView,
+    data: List<FirebaseMainActivityMessages>?
+) {
     val adapter = recyclerView.adapter as MainActivityFirebaseMessagesAdapter
     adapter.submitList(data)
 }
@@ -179,6 +182,12 @@ fun bindTextViewEfimeriesImerominia(textView: TextView, textValue: String?) {
         /*textView.text =
             date2020!![0] + "\n" + tilefono[0] + "\n" + "274" + tilefono[1] + "274" + tilefono[2]*/
     }
+
+}
+
+@BindingAdapter("numberMessagesToString")
+fun bindTextViewNumberMessages(textView: TextView, textValue: String?) {
+    textView.text = "$textValue ${textView.context.getString(R.string.numberMessages)}"
 
 
 }

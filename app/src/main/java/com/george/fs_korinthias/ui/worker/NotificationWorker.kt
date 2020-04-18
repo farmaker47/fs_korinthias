@@ -3,13 +3,13 @@ package com.george.fs_korinthias.ui.worker
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.media.RingtoneManager
+import android.media.AudioAttributes
+import android.net.Uri
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.work.CoroutineWorker
@@ -22,10 +22,6 @@ import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.IOException
-import java.lang.Exception
-import java.util.HashMap
-import kotlin.random.Random
-import kotlin.random.Random.Default.nextInt
 
 class NotificationWorker(
     private val context: Context,
@@ -71,7 +67,7 @@ class NotificationWorker(
         )
 
         val channelId = context.getString(R.string.default_notification_channel_id)
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val defaultSoundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"+ applicationContext.packageName + "/" + R.raw.inflicted)//RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
             .setColor(ContextCompat.getColor(context, android.R.color.holo_green_light))
             .setSmallIcon(R.drawable.notification_icon)
@@ -86,17 +82,26 @@ class NotificationWorker(
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         // Since android Oreo notification channel is needed.
+        // To play sound you have to engage to channel
+        val attributes: AudioAttributes = AudioAttributes.Builder()
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+            .build();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 channelId,
                 "Default Channel",
                 NotificationManager.IMPORTANCE_HIGH
             )
+
+            channel.setSound(defaultSoundUri, attributes)
+            channel.enableVibration(true)
             notificationManager.createNotificationChannel(channel)
         }
 
         notificationManager.notify(idNotification, notificationBuilder.build())
-        Log.e("NOTIF_NUMBER", idNotification.toString())
+        Log.i("NOTIF_NUMBER", idNotification.toString())
     }
 
     companion object {
@@ -150,7 +155,7 @@ class NotificationWorker(
                         )
                     Log.i("WORKER_BEFORE", firstNews)
                     //Toast.makeText(context, "YEAP", Toast.LENGTH_LONG).show()
-                    Log.e("NOTIFIIII", (0..100).random().toString())
+                    Log.i("NOTIFIIII", (0..100).random().toString())
 
                     // Check if news are not the same
                     if (firstNews != toUseArrayList[0].link) {

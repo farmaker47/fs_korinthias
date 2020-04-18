@@ -121,8 +121,8 @@ class MainActivity : AppCompatActivity() {
 
                 viewModel.setArratListMainActivityMessages(messagesList)
 
-                binding.recyclerMainFireBaseMessages?.adapter?.notifyDataSetChanged()
-                binding.recyclerMainFireBaseMessages?.scrollToPosition(messagesList.size - 1)
+                binding.recyclerMainFireBaseMessages.adapter?.notifyDataSetChanged()
+                binding.recyclerMainFireBaseMessages.scrollToPosition(messagesList.size - 1)
 
             }
 
@@ -195,7 +195,7 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        binding.recyclerMainFireBaseMessages?.adapter =
+        binding.recyclerMainFireBaseMessages.adapter =
             MainActivityFirebaseMessagesAdapter(
                 MainActivityFirebaseMessagesAdapter.OnClickListener { mainMessages ->
 

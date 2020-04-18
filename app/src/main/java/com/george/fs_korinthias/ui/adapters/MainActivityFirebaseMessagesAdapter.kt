@@ -11,7 +11,7 @@ import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.databinding.CardEfimeriesDetailsBinding
 import com.george.fs_korinthias.databinding.FirebaseMainActivityListItemBinding
 
-class MainActivityFirebaseMessagesAdapter (
+class MainActivityFirebaseMessagesAdapter(
     val onClickListener: OnClickListener
     //val weatherViewModel: WeatherViewModel
 ) :
@@ -35,11 +35,17 @@ class MainActivityFirebaseMessagesAdapter (
      * has been updated.
      */
     companion object DiffCallback : DiffUtil.ItemCallback<FirebaseMainActivityMessages>() {
-        override fun areItemsTheSame(oldItem: FirebaseMainActivityMessages, newItem: FirebaseMainActivityMessages): Boolean {
+        override fun areItemsTheSame(
+            oldItem: FirebaseMainActivityMessages,
+            newItem: FirebaseMainActivityMessages
+        ): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: FirebaseMainActivityMessages, newItem: FirebaseMainActivityMessages): Boolean {
+        override fun areContentsTheSame(
+            oldItem: FirebaseMainActivityMessages,
+            newItem: FirebaseMainActivityMessages
+        ): Boolean {
             return oldItem.message == newItem.message
         }
     }
@@ -52,7 +58,11 @@ class MainActivityFirebaseMessagesAdapter (
         viewType: Int
     ): ImportantNewsViewHolder {
         return ImportantNewsViewHolder(
-            FirebaseMainActivityListItemBinding.inflate(LayoutInflater.from(parent.context))
+            FirebaseMainActivityListItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         )
     }
 
