@@ -7,6 +7,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
+import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.util.Log
@@ -22,6 +23,7 @@ import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.io.IOException
+
 
 class NotificationWorker(
     private val context: Context,
@@ -102,6 +104,9 @@ class NotificationWorker(
 
         notificationManager.notify(idNotification, notificationBuilder.build())
         Log.i("NOTIF_NUMBER", idNotification.toString())
+
+        // If no sound is heard
+        playNotificationSound()
     }
 
     companion object {
@@ -197,6 +202,18 @@ class NotificationWorker(
 
     private fun checkElement(elem: Element?): Boolean {
         return elem != null
+    }
+
+    private fun playNotificationSound() {
+        try {
+            val alarmSound = Uri.parse(
+                ContentResolver.SCHEME_ANDROID_RESOURCE + "://"+ applicationContext.packageName + "/" + R.raw.inflicted
+            )
+            val r = RingtoneManager.getRingtone(context, alarmSound)
+            r.play()
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
     }
 
 

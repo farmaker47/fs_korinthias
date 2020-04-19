@@ -1,5 +1,6 @@
 package com.george.fs_korinthias
 
+import android.app.Activity
 import android.app.ActivityOptions
 import android.app.AlertDialog
 import android.content.Context
@@ -21,6 +22,7 @@ import android.view.Window
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -31,13 +33,20 @@ import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.AuthUI.IdpConfig
+import com.firebase.ui.auth.AuthUI.IdpConfig.EmailBuilder
+import com.firebase.ui.auth.AuthUI.IdpConfig.GoogleBuilder
+import com.firebase.ui.auth.IdpResponse
 import com.george.fs_korinthias.databinding.ActivityMainBinding
-import com.george.fs_korinthias.ui.adapters.EfimeriesAdapterMain
 import com.george.fs_korinthias.ui.adapters.MainActivityFirebaseMessagesAdapter
 import com.george.fs_korinthias.ui.detailsNews.DetailsActivity
 import com.george.fs_korinthias.ui.efimeriesDetails.EfimeriesDetailsActivity
 import com.george.fs_korinthias.ui.worker.NotificationWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuth.AuthStateListener
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -46,7 +55,9 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -55,6 +66,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var database: FirebaseDatabase
     private lateinit var viewModel: MainActivityViewModel
     private lateinit var messagesList: ArrayList<FirebaseMainActivityMessages?>
+
+    private lateinit var mFirebaseAuth: FirebaseAuth
+    private lateinit var mAuthStateListener: AuthStateListener
+    private val providers = arrayListOf(
+        EmailBuilder().build(),
+        GoogleBuilder().build()
+    )
+    private var name: String = ""
+    private var email = ""
+    private var photoUrl = ""
+    private val emailVerified: Array<String> = arrayOf("soloupis@gmail.com")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +91,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.lifecycleOwner = this
+
+        // Init FireBase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance()
 
         // Save first value to SharedPrefs
         //saveTitle()
@@ -153,7 +178,7 @@ class MainActivity : AppCompatActivity() {
 
             referenceMainActivityMessages.push().setValue(
                 FirebaseMainActivityMessages(
-                    "George",
+                    name,
                     binding.editTextSlidingMainActivity.text?.trim().toString()
                 )
             )
@@ -205,6 +230,120 @@ class MainActivity : AppCompatActivity() {
         // Init worker
         initWorker()
 
+        // Auth state listener
+        //checkForAuth()
+
+        mAuthStateListener = AuthStateListener { firebaseAuth ->
+            val user: FirebaseUser? = firebaseAuth.currentUser
+            Log.e("CURRENT_USER", user?.photoUrl.toString())
+            if (user != null) {
+                //user is signedin
+                /*Toast.makeText(
+                    this,
+                    "You're now signed in!",
+                    Toast.LENGTH_SHORT
+                ).show()*/
+                if (user.email.toString() in emailVerified) {
+                    name = user.displayName.toString()
+                    email = user.email.toString()
+                    photoUrl = user.photoUrl.toString()
+                    binding.fabMessage.visibility = View.VISIBLE
+                }
+            } else {
+                //user is signed out
+                // Choose authentication providers
+                /*val providers: List<IdpConfig> = Arrays.asList(
+                    EmailBuilder().build(),
+                    GoogleBuilder().build()
+                )*/
+
+                // Create and launch sign-in intent
+                startActivityForResult(
+                    AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(providers)
+                        .build(),
+                    RC_SIGN_IN
+                )
+            }
+        }
+
+
+    }
+
+    /*public override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = mFirebaseAuth.currentUser
+        //updateUI(currentUser)
+        Log.e("CURRENT_USER", currentUser?.email.toString())
+        currentUser?.let {
+            // Name, email address, and profile photo Url
+            val name = currentUser.displayName
+            val email = currentUser.email
+            val photoUrl = currentUser.photoUrl
+
+            // Check if user's email is verified
+            val emailVerified = currentUser.isEmailVerified
+
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getToken() instead.
+            val uid = currentUser.uid
+            //val token = FirebaseUser.getToken()
+        }
+    }*/
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            val response = IdpResponse.fromResultIntent(data)
+
+            if (resultCode == Activity.RESULT_OK) {
+                // Successfully signed in
+                val user = FirebaseAuth.getInstance().currentUser
+                if (user?.email.toString() in emailVerified) {
+                    name = user?.displayName.toString()
+                    email = user?.email.toString()
+                    photoUrl = user?.photoUrl.toString()
+                    binding.fabMessage.visibility = View.VISIBLE
+                }
+
+                // ...
+            } else {
+                Toast.makeText(
+                    this,
+                    getString(R.string.error_firebase_auth),
+                    Toast.LENGTH_SHORT
+                ).show()
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                // response.getError().getErrorCode() and handle the error.
+                // ...
+                checkForAuth()
+            }
+        }
+    }
+
+    private fun checkForAuth() {
+        startActivityForResult(
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .build(),
+            RC_SIGN_IN
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mFirebaseAuth.removeAuthStateListener(mAuthStateListener)
     }
 
     private fun openSliding() {
@@ -346,6 +485,7 @@ class MainActivity : AppCompatActivity() {
         const val JOB_TAG = "notificationWorkTag"
         const val PARCEL_TO_PASS = "parcel_to_pass"
         const val DEFAULT_MSG_LENGTH_LIMIT = 1000
+        const val RC_SIGN_IN = 14
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -381,6 +521,18 @@ class MainActivity : AppCompatActivity() {
             R.id.action_apostoli -> {
 
                 shareApp()
+
+                return true
+            }
+
+            R.id.action_log_out -> {
+
+                AuthUI.getInstance()
+                    .signOut(this)
+                    .addOnCompleteListener {
+                        // ...
+                    }
+                finish()
 
                 return true
             }
@@ -446,5 +598,6 @@ data class InfoOnoma(
 
 data class FirebaseMainActivityMessages(
     val name: String? = "",
-    val message: String? = ""
+    val message: String? = ""/*,
+    val photo: String?*/
 )

@@ -18,4 +18,10 @@
         android:title="@string/action_apostoli"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_log_out"
+        android:orderInCategory="100"
+        android:title="Log out"
+        app:showAsAction="never" />
+
 </menu>

@@ -42,5 +42,6 @@
     <string name="video">Video</string>
     <string name="hint_editTextView_sliding_layout">Comment</string>
     <string name="numberMessages">messages</string>
+    <string name="error_firebase_auth">Error occurred. Please try again!</string>
 
 </resources>
