@@ -47,10 +47,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
@@ -73,10 +70,17 @@ class MainActivity : AppCompatActivity() {
         EmailBuilder().build(),
         GoogleBuilder().build()
     )
+    private lateinit var referenceMainActivityMessages: DatabaseReference
+    private lateinit var childEventListener: ChildEventListener
     private var name: String = ""
     private var email = ""
     private var photoUrl = ""
-    private val emailVerified: Array<String> = arrayOf("soloupis@gmail.com")
+    private val emailVerified: Array<String> = arrayOf(
+        "soloupis@gmail.com",
+        "farmaker47@gmail.com",
+        "dtpharm@gmail.com",
+        "asxetou@gmail.com"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +111,6 @@ class MainActivity : AppCompatActivity() {
         ).get(MainActivityViewModel::class.java)
         binding.viewmodelXml = viewModel
 
-
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)
@@ -124,6 +127,8 @@ class MainActivity : AppCompatActivity() {
         binding.fabMessage.setOnClickListener {
             //Toast.makeText(this,"LIKE",Toast.LENGTH_LONG).show()
             openSliding()
+            // For authenticated users to read data
+            attachDatabaseReadListener()
 
         }
 
@@ -132,42 +137,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         database = Firebase.database
-        val referenceMainActivityMessages =
+        referenceMainActivityMessages =
             database.reference.child("MainActivity_messages")
-
-        messagesList = ArrayList()
-        val childEventListener = object : ChildEventListener {
-
-            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
-                // A new comment has been added, add it to the displayed list
-                val comment = dataSnapshot.getValue<FirebaseMainActivityMessages>()
-
-                messagesList.add(comment)
-
-                viewModel.setArratListMainActivityMessages(messagesList)
-
-                binding.recyclerMainFireBaseMessages.adapter?.notifyDataSetChanged()
-                binding.recyclerMainFireBaseMessages.scrollToPosition(messagesList.size - 1)
-
-            }
-
-            override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
-
-            }
-
-            override fun onChildRemoved(dataSnapshot: DataSnapshot) {
-
-            }
-
-            override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
-
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-
-            }
-        }
-        referenceMainActivityMessages.addChildEventListener(childEventListener)
 
         // Listener for button to send messages
         binding.buttonSendMessage.setOnClickListener {
@@ -179,7 +150,8 @@ class MainActivity : AppCompatActivity() {
             referenceMainActivityMessages.push().setValue(
                 FirebaseMainActivityMessages(
                     name,
-                    binding.editTextSlidingMainActivity.text?.trim().toString()
+                    binding.editTextSlidingMainActivity.text?.trim().toString(),
+                    photoUrl
                 )
             )
             binding.editTextSlidingMainActivity.setText("")
@@ -247,8 +219,11 @@ class MainActivity : AppCompatActivity() {
                     name = user.displayName.toString()
                     email = user.email.toString()
                     photoUrl = user.photoUrl.toString()
-                    binding.fabMessage.visibility = View.VISIBLE
+                    if(!slidingOpen){
+                        binding.fabMessage.visibility = View.VISIBLE
+                    }
                 }
+
             } else {
                 //user is signed out
                 // Choose authentication providers
@@ -269,6 +244,31 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun attachDatabaseReadListener() {
+        messagesList = ArrayList()
+        childEventListener = object : ChildEventListener {
+
+            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                // A new comment has been added, add it to the displayed list
+                val comment = dataSnapshot.getValue<FirebaseMainActivityMessages>()
+
+                messagesList.add(comment)
+
+                viewModel.setArratListMainActivityMessages(messagesList)
+
+                binding.recyclerMainFireBaseMessages.adapter?.notifyDataSetChanged()
+                binding.recyclerMainFireBaseMessages.scrollToPosition(messagesList.size - 1)
+
+            }
+
+            override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onChildRemoved(dataSnapshot: DataSnapshot) {}
+            override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {}
+            override fun onCancelled(databaseError: DatabaseError) {}
+        }
+        referenceMainActivityMessages.addChildEventListener(childEventListener)
     }
 
     /*public override fun onStart() {
@@ -307,7 +307,10 @@ class MainActivity : AppCompatActivity() {
                     name = user?.displayName.toString()
                     email = user?.email.toString()
                     photoUrl = user?.photoUrl.toString()
-                    binding.fabMessage.visibility = View.VISIBLE
+                    if(!slidingOpen){
+                        binding.fabMessage.visibility = View.VISIBLE
+                    }
+
                 }
 
                 // ...
@@ -320,8 +323,9 @@ class MainActivity : AppCompatActivity() {
                 // Sign in failed. If response is null the user canceled the
                 // sign-in flow using the back button. Otherwise check
                 // response.getError().getErrorCode() and handle the error.
+                Log.i("ERROR_SIGN_IN", response?.getError()?.getErrorCode().toString())
                 // ...
-                checkForAuth()
+                finish()
             }
         }
     }
@@ -339,6 +343,10 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         mFirebaseAuth.addAuthStateListener(mAuthStateListener)
+        if (slidingOpen) {
+            binding.fabMessage.visibility = View.INVISIBLE
+            binding.recyclerMainFireBaseMessages.scrollToPosition(messagesList.size - 1)
+        }
     }
 
     override fun onPause() {
@@ -532,6 +540,8 @@ class MainActivity : AppCompatActivity() {
                     .addOnCompleteListener {
                         // ...
                     }
+                referenceMainActivityMessages.removeEventListener(childEventListener)
+
                 finish()
 
                 return true
@@ -598,6 +608,6 @@ data class InfoOnoma(
 
 data class FirebaseMainActivityMessages(
     val name: String? = "",
-    val message: String? = ""/*,
-    val photo: String?*/
+    val message: String? = "",
+    val photo: String? = ""
 )

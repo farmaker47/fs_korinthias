@@ -43,5 +43,6 @@
     <string name="hint_editTextView_sliding_layout">Comment</string>
     <string name="numberMessages">messages</string>
     <string name="error_firebase_auth">Error occurred. Please try again!</string>
+    <string name="log_out">Log out</string>
 
 </resources>
