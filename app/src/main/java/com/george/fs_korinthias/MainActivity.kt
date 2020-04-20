@@ -34,7 +34,6 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.AuthUI.IdpConfig
 import com.firebase.ui.auth.AuthUI.IdpConfig.EmailBuilder
 import com.firebase.ui.auth.AuthUI.IdpConfig.GoogleBuilder
 import com.firebase.ui.auth.IdpResponse
@@ -52,6 +51,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.parcel.Parcelize
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
@@ -78,9 +78,9 @@ class MainActivity : AppCompatActivity() {
     private val emailVerified: Array<String> = arrayOf(
         "soloupis@gmail.com",
         "farmaker47@gmail.com",
-        "dtpharm@gmail.com",
-        "asxetou@gmail.com"
+        "dtpharm@gmail.com"
     )
+    private lateinit var currentDate: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -145,6 +145,7 @@ class MainActivity : AppCompatActivity() {
         binding.imageButtonClose.setOnClickListener {
             closeSliding()
             referenceMainActivityMessages.removeEventListener(childEventListener)
+            viewModel.setArratListMainActivityMessages(ArrayList())
         }
 
         database = Firebase.database
@@ -157,12 +158,17 @@ class MainActivity : AppCompatActivity() {
             // Write a message to the database
 
             //.child((1..100).random().toString())
+            currentDate =
+                SimpleDateFormat("dd/MM", Locale.getDefault()).format(Date())
+            //String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+            //String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
             referenceMainActivityMessages.push().setValue(
                 FirebaseMainActivityMessages(
                     name,
                     binding.editTextSlidingMainActivity.text?.trim().toString(),
-                    photoUrl
+                    photoUrl,
+                    currentDate
                 )
             )
             binding.editTextSlidingMainActivity.setText("")
@@ -230,7 +236,7 @@ class MainActivity : AppCompatActivity() {
                     name = user.displayName.toString()
                     email = user.email.toString()
                     photoUrl = user.photoUrl.toString()
-                    if(!slidingOpen){
+                    if (!slidingOpen) {
                         binding.fabMessage.visibility = View.VISIBLE
                     }
                 }
@@ -318,7 +324,7 @@ class MainActivity : AppCompatActivity() {
                     name = user?.displayName.toString()
                     email = user?.email.toString()
                     photoUrl = user?.photoUrl.toString()
-                    if(!slidingOpen){
+                    if (!slidingOpen) {
                         binding.fabMessage.visibility = View.VISIBLE
                     }
 
@@ -383,6 +389,7 @@ class MainActivity : AppCompatActivity() {
         if (slidingOpen) {
             closeSliding()
             referenceMainActivityMessages.removeEventListener(childEventListener)
+            viewModel.setArratListMainActivityMessages(ArrayList())
         } else {
             finish()
         }
@@ -553,7 +560,8 @@ class MainActivity : AppCompatActivity() {
                     .addOnCompleteListener {
                         // ...
                     }
-                referenceMainActivityMessages.removeEventListener(childEventListener)
+                //referenceMainActivityMessages.removeEventListener(childEventListener)
+                //viewModel.setArratListMainActivityMessages(ArrayList())
 
                 finish()
 
@@ -622,5 +630,6 @@ data class InfoOnoma(
 data class FirebaseMainActivityMessages(
     val name: String? = "",
     val message: String? = "",
-    val photo: String? = ""
+    val photo: String? = "",
+    val date: String? = ""
 )
