@@ -126,14 +126,25 @@ class MainActivity : AppCompatActivity() {
 
         binding.fabMessage.setOnClickListener {
             //Toast.makeText(this,"LIKE",Toast.LENGTH_LONG).show()
-            openSliding()
+
             // For authenticated users to read data
             attachDatabaseReadListener()
+
+            openSliding()
+
+            val handler = Handler()
+            handler.postDelayed(
+                {
+                    binding.recyclerMainFireBaseMessages.scrollToPosition(messagesList.size - 1)
+                },
+                400
+            )
 
         }
 
         binding.imageButtonClose.setOnClickListener {
             closeSliding()
+            referenceMainActivityMessages.removeEventListener(childEventListener)
         }
 
         database = Firebase.database
@@ -207,7 +218,7 @@ class MainActivity : AppCompatActivity() {
 
         mAuthStateListener = AuthStateListener { firebaseAuth ->
             val user: FirebaseUser? = firebaseAuth.currentUser
-            Log.e("CURRENT_USER", user?.photoUrl.toString())
+            Log.i("CURRENT_USER", user?.photoUrl.toString())
             if (user != null) {
                 //user is signedin
                 /*Toast.makeText(
@@ -352,6 +363,7 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         mFirebaseAuth.removeAuthStateListener(mAuthStateListener)
+        //referenceMainActivityMessages.removeEventListener(childEventListener)
     }
 
     private fun openSliding() {
@@ -370,6 +382,7 @@ class MainActivity : AppCompatActivity() {
         //super.onBackPressed()
         if (slidingOpen) {
             closeSliding()
+            referenceMainActivityMessages.removeEventListener(childEventListener)
         } else {
             finish()
         }
