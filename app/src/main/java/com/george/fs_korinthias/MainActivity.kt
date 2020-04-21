@@ -50,6 +50,7 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.parcel.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
@@ -229,6 +230,9 @@ class MainActivity : AppCompatActivity() {
                     if (!slidingOpen) {
                         binding.fabMessage.visibility = View.VISIBLE
                     }
+
+                    // If they are registered users then subscribe to topic
+                    //subscribeToTopic()
                 }
 
             } else {
@@ -245,6 +249,18 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun subscribeToTopic() {
+        FirebaseMessaging.getInstance().subscribeToTopic("meli")
+            .addOnCompleteListener { task ->
+                var msg = getString(R.string.msg_subscribed)
+                if (!task.isSuccessful) {
+                    msg = getString(R.string.msg_subscribe_failed)
+                }
+                Log.e("Subscription", msg)
+                //Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun attachDatabaseReadListener() {
@@ -312,6 +328,8 @@ class MainActivity : AppCompatActivity() {
                         binding.fabMessage.visibility = View.VISIBLE
                     }
 
+                    // If they are registered users then subscribe to topic
+                    //subscribeToTopic()
                 }
 
                 // ...

@@ -44,5 +44,7 @@
     <string name="numberMessages">messages</string>
     <string name="error_firebase_auth">Error occurred. Please try again!</string>
     <string name="log_out">Log out</string>
+    <string name="msg_subscribed" translatable="false">Succesfull subscribed</string>
+    <string name="msg_subscribe_failed" translatable="false">Subscribe failed</string>
 
 </resources>
