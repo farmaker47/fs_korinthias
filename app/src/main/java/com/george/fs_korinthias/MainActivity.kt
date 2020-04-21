@@ -125,8 +125,6 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         binding.fabMessage.setOnClickListener {
-            //Toast.makeText(this,"LIKE",Toast.LENGTH_LONG).show()
-
             // For authenticated users to read data
             attachDatabaseReadListener()
 
@@ -154,8 +152,6 @@ class MainActivity : AppCompatActivity() {
 
         // Listener for button to send messages
         binding.buttonSendMessage.setOnClickListener {
-            //Toast.makeText(this,"SOME",Toast.LENGTH_LONG).show()
-            // Write a message to the database
 
             //.child((1..100).random().toString())
             currentDate =
@@ -163,6 +159,7 @@ class MainActivity : AppCompatActivity() {
             //String currentDate = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
             //String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
+            // Write a message to the database
             referenceMainActivityMessages.push().setValue(
                 FirebaseMainActivityMessages(
                     name,
@@ -174,7 +171,6 @@ class MainActivity : AppCompatActivity() {
             binding.editTextSlidingMainActivity.setText("")
         }
 
-        // Adds textchange listener
         // First button is disabled
         binding.buttonSendMessage.isEnabled = false
         binding.editTextSlidingMainActivity.addTextChangedListener(object : TextWatcher {
@@ -192,7 +188,7 @@ class MainActivity : AppCompatActivity() {
                 i1: Int,
                 i2: Int
             ) {
-                if (charSequence.toString().trim { it <= ' ' }.length > 0) {
+                if (charSequence.toString().trim { it <= ' ' }.isNotEmpty()) {
                     binding.buttonSendMessage.setImageResource(R.drawable.ic_send_green)
                     binding.buttonSendMessage.isEnabled = true
                 } else {
@@ -221,17 +217,11 @@ class MainActivity : AppCompatActivity() {
 
         // Auth state listener
         //checkForAuth()
-
         mAuthStateListener = AuthStateListener { firebaseAuth ->
             val user: FirebaseUser? = firebaseAuth.currentUser
             Log.i("CURRENT_USER", user?.photoUrl.toString())
             if (user != null) {
-                //user is signedin
-                /*Toast.makeText(
-                    this,
-                    "You're now signed in!",
-                    Toast.LENGTH_SHORT
-                ).show()*/
+                //user is signed in
                 if (user.email.toString() in emailVerified) {
                     name = user.displayName.toString()
                     email = user.email.toString()
@@ -242,13 +232,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
             } else {
-                //user is signed out
-                // Choose authentication providers
-                /*val providers: List<IdpConfig> = Arrays.asList(
-                    EmailBuilder().build(),
-                    GoogleBuilder().build()
-                )*/
-
+                // user is signed out
                 // Create and launch sign-in intent
                 startActivityForResult(
                     AuthUI.getInstance()
@@ -369,7 +353,6 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         mFirebaseAuth.removeAuthStateListener(mAuthStateListener)
-        //referenceMainActivityMessages.removeEventListener(childEventListener)
     }
 
     private fun openSliding() {
@@ -560,8 +543,6 @@ class MainActivity : AppCompatActivity() {
                     .addOnCompleteListener {
                         // ...
                     }
-                //referenceMainActivityMessages.removeEventListener(childEventListener)
-                //viewModel.setArratListMainActivityMessages(ArrayList())
 
                 finish()
 

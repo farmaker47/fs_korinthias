@@ -57,7 +57,7 @@ fun bindWeatherIcon(iconImageView: ImageView, htmlValue: String?) {
 @BindingAdapter("photoFirebaseDisplay")
 fun bindPhotoIcon(iconImageView: ImageView, htmlValue: String?) {
     if (htmlValue != null) {
-        Picasso.get().load(htmlValue).placeholder(R.drawable.ic_chat).into(iconImageView)
+        Picasso.get().load(htmlValue).placeholder(R.drawable.ic_account).into(iconImageView)
     }
 }
 

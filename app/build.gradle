@@ -31,8 +31,8 @@ android {
         applicationId "com.george.fs_korinthias"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 11
-        versionName "11.0"
+        versionCode 13
+        versionName "13.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -115,5 +115,8 @@ dependencies {
 
     // Html TextView with Images
     implementation 'org.sufficientlysecure:html-textview:3.9'
+
+    // CircularImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 }
