@@ -19,7 +19,7 @@
     <string name="shareNews">Share app:</string>
 
     <string name="default_notification_channel_id" translatable="false">default</string>
-    <string name="notification_title">FSKorinthias - New article</string>
+    <string name="notification_title">New article</string>
     <string name="notification_message" translatable="false">FSKorinthias News</string>
     <string name="save_first_news_article" translatable="false">first_news_article</string>
     <string name="action_policy">Privacy policy</string>

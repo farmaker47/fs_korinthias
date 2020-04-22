@@ -232,7 +232,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     // If they are registered users then subscribe to topic
-                    subscribeToTopic()
+                    //subscribeToTopic()
                 }
 
             } else {
@@ -258,7 +258,7 @@ class MainActivity : AppCompatActivity() {
                 if (!task.isSuccessful) {
                     msg = getString(R.string.msg_subscribe_failed)
                 }
-                Log.e("Subscription", msg)
+                Log.i("Subscription", msg)
                 //Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
             }
     }

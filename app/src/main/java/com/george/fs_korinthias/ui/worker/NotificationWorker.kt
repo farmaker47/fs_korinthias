@@ -166,7 +166,7 @@ class NotificationWorker(
                         )
                     Log.i("WORKER_BEFORE", firstNews)
                     //Toast.makeText(context, "YEAP", Toast.LENGTH_LONG).show()
-                    Log.i("NOTIFIIII", (0..100).random().toString())
+                    //Log.i("NOTIFIIII", (0..100).random().toString())
 
                     // Check if news are not the same
                     if (firstNews != toUseArrayList[0].link) {
