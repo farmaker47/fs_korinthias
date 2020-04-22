@@ -232,7 +232,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     // If they are registered users then subscribe to topic
-                    //subscribeToTopic()
+                    subscribeToTopic()
                 }
 
             } else {
@@ -252,7 +252,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeToTopic() {
-        FirebaseMessaging.getInstance().subscribeToTopic("meli")
+        FirebaseMessaging.getInstance().subscribeToTopic("syllogos")
             .addOnCompleteListener { task ->
                 var msg = getString(R.string.msg_subscribed)
                 if (!task.isSuccessful) {
@@ -329,7 +329,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     // If they are registered users then subscribe to topic
-                    //subscribeToTopic()
+                    subscribeToTopic()
                 }
 
                 // ...
