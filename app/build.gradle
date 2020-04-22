@@ -28,7 +28,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.george.fs_korinthias"
+        applicationId "com.george.fs_antarktikis"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 13

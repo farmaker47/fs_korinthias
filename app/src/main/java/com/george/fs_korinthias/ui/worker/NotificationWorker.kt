@@ -71,10 +71,16 @@ class NotificationWorker(
         val channelId = context.getString(R.string.default_notification_channel_id)
         val defaultSoundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"+ applicationContext.packageName + "/" + R.raw.inflicted)//RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
-            .setColor(ContextCompat.getColor(context, android.R.color.holo_green_light))
-            .setSmallIcon(R.drawable.notification_icon)
+            .setColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.colorPrimary
+                )
+            )
+            .setSmallIcon(R.drawable.ic_stat_notification)
             .setContentTitle(context.getString(R.string.notification_title))
             .setContentText(news)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(news))
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSound(defaultSoundUri)
@@ -195,7 +201,7 @@ class NotificationWorker(
 
 
             } catch (e: IOException) {
-                Log.e("EXCEPTION", e.toString())
+                Log.e("EXCEPTION_WORKER", e.toString())
             }
         }
     }
