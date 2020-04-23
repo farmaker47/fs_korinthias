@@ -2,6 +2,7 @@ package com.george.fs_korinthias.ui.bindingAdapters
 
 import android.os.Build
 import android.text.Html
+import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -195,6 +196,10 @@ fun bindTextViewEfimeriesImerominia(textView: TextView, textValue: String?) {
 @BindingAdapter("numberMessagesToString")
 fun bindTextViewNumberMessages(textView: TextView, textValue: String?) {
     textView.text = "$textValue ${textView.context.getString(R.string.numberMessages)}"
+}
 
+@BindingAdapter("firebaseMessagesLink")
+fun bindTextViewFirebaseLinks(textView: TextView, string: String?) {
+    textView.movementMethod = LinkMovementMethod.getInstance()
 
 }

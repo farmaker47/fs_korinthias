@@ -112,6 +112,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="@color/secondary_text"
                     android:textSize="17sp"
+                    android:autoLink="all"
                     app:layout_constraintLeft_toLeftOf="@+id/name"
                     app:layout_constraintTop_toTopOf="@+id/guideline"
                     tools:text="Hello" />

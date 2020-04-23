@@ -10,6 +10,7 @@ import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -76,7 +77,8 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
 
         val channelId = getString(R.string.default_notification_channel_id)
         val defaultSoundUri =
-            Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + applicationContext.packageName + "/" + R.raw.inflicted)//RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            /*Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + applicationContext.packageName +
+                    "/" + R.raw.inflicted)*/RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             //.setColor(ContextCompat.getColor(this, android.R.color.holo_green_light))
             .setColor(
@@ -93,6 +95,7 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
+            //.setOngoing(true)
 
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -120,7 +123,10 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
         Log.i("NOTIF_NUMBER", idNotification.toString())
 
         // If no sound is heard
-        playNotificationSound()
+        //playNotificationSound()
+
+        // wake up screen
+        wakeScreen()
     }
 
     private fun playNotificationSound() {
@@ -132,6 +138,19 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
             r.play()
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
+        }
+    }
+
+    private fun wakeScreen() {
+        val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+        val isScreenOn = pm.isInteractive // check if screen is on
+
+        if (!isScreenOn) {
+            val wl = pm.newWakeLock(
+                PowerManager.ACQUIRE_CAUSES_WAKEUP,
+                "myApp:notificationLock"
+            )
+            wl.acquire(3000) //set your time in milliseconds
         }
     }
 }

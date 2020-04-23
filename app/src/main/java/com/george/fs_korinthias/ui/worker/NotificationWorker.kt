@@ -1,5 +1,6 @@
 package com.george.fs_korinthias.ui.worker
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -10,6 +11,7 @@ import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -69,7 +71,9 @@ class NotificationWorker(
         )
 
         val channelId = context.getString(R.string.default_notification_channel_id)
-        val defaultSoundUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"+ applicationContext.packageName + "/" + R.raw.inflicted)//RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val defaultSoundUri = /*Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                "://"+ applicationContext.packageName + "/" + R.raw.inflicted)*/
+            RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(context, channelId)
             .setColor(
                 ContextCompat.getColor(
@@ -85,6 +89,8 @@ class NotificationWorker(
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setSound(defaultSoundUri)
             .setContentIntent(pendingIntent)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            //.setOngoing(true)
 
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -105,6 +111,7 @@ class NotificationWorker(
 
             channel.setSound(defaultSoundUri, attributes)
             channel.enableVibration(true)
+            channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
             notificationManager.createNotificationChannel(channel)
         }
 
@@ -112,7 +119,9 @@ class NotificationWorker(
         Log.i("NOTIF_NUMBER", idNotification.toString())
 
         // If no sound is heard
-        playNotificationSound()
+        //playNotificationSound()
+        // wake up screen
+        wakeScreen()
     }
 
     companion object {
@@ -213,12 +222,25 @@ class NotificationWorker(
     private fun playNotificationSound() {
         try {
             val alarmSound = Uri.parse(
-                ContentResolver.SCHEME_ANDROID_RESOURCE + "://"+ applicationContext.packageName + "/" + R.raw.inflicted
+                ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + applicationContext.packageName + "/" + R.raw.inflicted
             )
             val r = RingtoneManager.getRingtone(context, alarmSound)
             r.play()
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
+        }
+    }
+
+    private fun wakeScreen() {
+        val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+        val isScreenOn = pm.isInteractive // check if screen is on
+
+        if (!isScreenOn) {
+            val wl = pm.newWakeLock(
+                PowerManager.ACQUIRE_CAUSES_WAKEUP,
+                "myApp:notificationLock"
+            )
+            wl.acquire(3000) //set your time in milliseconds
         }
     }
 
