@@ -108,17 +108,38 @@ class MainActivity : AppCompatActivity() {
         //saveTitle()
 
         // Get intent from notifications
-        val intent = intent
+        /*val intent = intent
         if (intent.action != null) {
             //Log.e("INTENT_ACTION", intent.action)
+        }*/
+
+        val intent = intent
+        if (intent != null && intent.extras != null) {
+            val extras = intent.extras
+            Log.i("BACKGROUND_EXEI", extras!!.containsKey("link").toString())
+            Log.i("BACKGROUND", extras.toString())
+            if (extras.containsKey("link")) {
+                val someData = extras.getString("link")
+                //Log.e("BACKGROUND", someData)
+                if (intent.resolveActivity(packageManager) != null) {
+                    val intentWeb = Intent(Intent.ACTION_VIEW)
+                    intentWeb.data = Uri.parse(someData)
+                    startActivity(intentWeb)
+                }
+                finish()
+            }else if(!extras.containsKey("link") && extras.containsKey("google.sent_time")){
+                finish()
+            }
+
+
         }
 
-        if (intent.hasExtra("messages")) {
+        /*if (intent.hasExtra("messages")) {
 
             //Log.e("MESSAGE_NOTIFICATION", intent.getStringExtra("messages"))
 
 
-        }
+        }*/
 
         receiver = OnNotificationReceived()
         intentFilter = IntentFilter()
