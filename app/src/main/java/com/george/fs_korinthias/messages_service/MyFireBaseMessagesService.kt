@@ -55,7 +55,7 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
 
         // Check if message contains a notification payload.
         remoteMessage.notification?.let {
-            Log.e("MESSAGES+PAYLOAD", "Message Notification Body: ${it.body}")
+            Log.e("MESSAGES_PAYLOAD", "Message Notification Body: ${it.body}")
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
@@ -68,7 +68,14 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
     }
 
     private fun showNotification(title: String?, body: String?, idNotification: Int) {
-        val intent = Intent(this, MainActivity::class.java)
+        //val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent()
+
+        val intentB = Intent()
+        intentB.action = "notification_message"
+        intentB.putExtra("messages", body)
+        sendBroadcast(intentB)
+
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(
             this, 0, intent,
@@ -127,6 +134,14 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
 
         // wake up screen
         wakeScreen()
+
+
+
+
+
+
+        //intent.putExtra(EXTRA_EPILOGI_TO_FARMAKO_FRAGMENT,String.valueOf(linearDummy.getId()));
+        sendBroadcast(intent);
     }
 
     private fun playNotificationSound() {

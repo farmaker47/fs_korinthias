@@ -3,8 +3,10 @@ package com.george.fs_korinthias
 import android.app.Activity
 import android.app.ActivityOptions
 import android.app.AlertDialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -82,6 +84,8 @@ class MainActivity : AppCompatActivity() {
         "dtpharm@gmail.com"
     )
     private lateinit var currentDate: String
+    private lateinit var intentFilter: IntentFilter
+    private lateinit var receiver: OnNotificationReceived
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,6 +106,19 @@ class MainActivity : AppCompatActivity() {
 
         // Save first value to SharedPrefs
         //saveTitle()
+
+        // Get intent from notifications
+        val intent = intent
+        if (intent.hasExtra("messages")) {
+
+            Log.e("MESSAGE_NOTIFICATION", intent.getStringExtra("messages"))
+
+
+        }
+
+        receiver = OnNotificationReceived()
+        intentFilter = IntentFilter()
+        intentFilter.addAction("notification_message")
 
         val viewModelFactory =
             MainActivityViewModelFactory(
@@ -138,6 +155,12 @@ class MainActivity : AppCompatActivity() {
                 },
                 400
             )
+
+
+            val intentB = Intent()
+            intentB.action = "notification_message"
+            intentB.putExtra("messages", "FAB")
+            sendBroadcast(intentB)
 
         }
 
@@ -366,11 +389,18 @@ class MainActivity : AppCompatActivity() {
             binding.fabMessage.visibility = View.INVISIBLE
             binding.recyclerMainFireBaseMessages.scrollToPosition(messagesList.size - 1)
         }
+
+        //registerReceiver(receiver, filter)
+        registerReceiver(
+            receiver,
+            intentFilter
+        )
     }
 
     override fun onPause() {
         super.onPause()
         mFirebaseAuth.removeAuthStateListener(mAuthStateListener)
+        unregisterReceiver(receiver)
     }
 
     private fun openSliding() {
@@ -515,6 +545,7 @@ class MainActivity : AppCompatActivity() {
         const val PARCEL_TO_PASS = "parcel_to_pass"
         const val DEFAULT_MSG_LENGTH_LIMIT = 1000
         const val RC_SIGN_IN = 14
+        const val NOTIFICATION_MESSAGES = "messages"
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -602,7 +633,37 @@ class MainActivity : AppCompatActivity() {
                         }*/
         downloadDialog.show()
     }
+
+
+    /*private val onNotificationReceived: BroadcastReceiver = object : BroadcastReceiver() {
+
+        override fun onReceive(context: Context, intent: Intent) {
+
+            if (intent.action == "notification_message"){
+                Log.e("MESSAGE_Broadcast", intent.getStringExtra("message"))
+            }
+        }
+    }*/
+
+
 }
+
+class OnNotificationReceived : BroadcastReceiver() {
+
+    override fun onReceive(context: Context, intent: Intent) {
+
+        Toast.makeText(
+            context, "Broadcast Intent Detected.",
+            Toast.LENGTH_LONG
+        ).show()
+        // an Intent broadcast.
+        if (intent.action == "notification_message") {
+            Log.e("MESSAGE_Broadcast", intent.getStringExtra("messages"))
+        }
+        //throw UnsupportedOperationException("Not yet implemented")
+    }
+}
+
 
 @Parcelize
 data class MainInfo(
