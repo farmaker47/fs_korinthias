@@ -180,7 +180,7 @@ class NotificationWorker(
                     // Check if news are not the same
                     if (firstNews != toUseArrayList[0].link) {
                         // Show notification
-                        idChannelForNotifications = (0..100).random()
+                        idChannelForNotifications = (0..1000).random()
                         showNotification(
                             toUseArrayList[0].title,
                             idChannelForNotifications

@@ -109,9 +109,13 @@ class MainActivity : AppCompatActivity() {
 
         // Get intent from notifications
         val intent = intent
+        if (intent.action != null) {
+            //Log.e("INTENT_ACTION", intent.action)
+        }
+
         if (intent.hasExtra("messages")) {
 
-            Log.e("MESSAGE_NOTIFICATION", intent.getStringExtra("messages"))
+            //Log.e("MESSAGE_NOTIFICATION", intent.getStringExtra("messages"))
 
 
         }
@@ -157,10 +161,10 @@ class MainActivity : AppCompatActivity() {
             )
 
 
-            val intentB = Intent()
+            /*val intentB = Intent()
             intentB.action = "notification_message"
             intentB.putExtra("messages", "FAB")
-            sendBroadcast(intentB)
+            sendBroadcast(intentB)*/
 
         }
 
@@ -391,16 +395,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         //registerReceiver(receiver, filter)
-        registerReceiver(
+        /*registerReceiver(
             receiver,
             intentFilter
-        )
+        )*/
     }
 
     override fun onPause() {
         super.onPause()
         mFirebaseAuth.removeAuthStateListener(mAuthStateListener)
-        unregisterReceiver(receiver)
+        //unregisterReceiver(receiver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        //unregisterReceiver(receiver)
     }
 
     private fun openSliding() {
@@ -652,13 +661,13 @@ class OnNotificationReceived : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
 
-        Toast.makeText(
+        /*Toast.makeText(
             context, "Broadcast Intent Detected.",
             Toast.LENGTH_LONG
-        ).show()
+        ).show()*/
         // an Intent broadcast.
         if (intent.action == "notification_message") {
-            Log.e("MESSAGE_Broadcast", intent.getStringExtra("messages"))
+            //Log.e("MESSAGE_Broadcast", intent.getStringExtra("messages"))
         }
         //throw UnsupportedOperationException("Not yet implemented")
     }

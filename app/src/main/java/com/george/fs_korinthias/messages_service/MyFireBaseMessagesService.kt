@@ -14,12 +14,15 @@ import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.george.fs_korinthias.MainActivity
 import com.george.fs_korinthias.R
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class MyFireBaseMessagesService : FirebaseMessagingService() {
+
+    private lateinit var intent: Intent
 
     override fun onNewToken(p0: String) {
 
@@ -32,7 +35,7 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
             showNotification(
                 remoteMessage.notification?.title,
                 remoteMessage.notification?.body,
-                (0..100).random()
+                (0..1000).random()
             )
         }
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
@@ -69,12 +72,19 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
 
     private fun showNotification(title: String?, body: String?, idNotification: Int) {
         //val intent = Intent(this, MainActivity::class.java)
-        val intent = Intent()
+        //var intent = Intent()
 
-        val intentB = Intent()
+        /*val intentB = Intent()
         intentB.action = "notification_message"
         intentB.putExtra("messages", body)
-        sendBroadcast(intentB)
+        sendBroadcast(intentB)*/
+
+        if (body!!.contains("http")){
+            intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(extractUrls(body)[0])
+        }else{
+            intent = Intent()
+        }
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(
@@ -141,7 +151,7 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
 
 
         //intent.putExtra(EXTRA_EPILOGI_TO_FARMAKO_FRAGMENT,String.valueOf(linearDummy.getId()));
-        sendBroadcast(intent);
+        //sendBroadcast(intent);
     }
 
     private fun playNotificationSound() {
@@ -167,5 +177,23 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
             )
             wl.acquire(3000) //set your time in milliseconds
         }
+    }
+
+    private fun extractUrls(text: String): List<String> {
+        val containedUrls: MutableList<String> =
+            ArrayList()
+        val urlRegex =
+            "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)"
+        val pattern: Pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE)
+        val urlMatcher: Matcher = pattern.matcher(text)
+        while (urlMatcher.find()) {
+            containedUrls.add(
+                text.substring(
+                    urlMatcher.start(0),
+                    urlMatcher.end(0)
+                )
+            )
+        }
+        return containedUrls
     }
 }
