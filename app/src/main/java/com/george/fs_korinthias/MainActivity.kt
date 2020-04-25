@@ -54,6 +54,7 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.parcel.Parcelize
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -64,7 +65,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var slidingOpen: Boolean = false
     private lateinit var database: FirebaseDatabase
-    private lateinit var viewModel: MainActivityViewModel
+    /*private lateinit var viewModel: MainActivityViewModel*/
+    val viewModel: MainActivityViewModel by viewModel()
     private lateinit var messagesList: ArrayList<FirebaseMainActivityMessages?>
 
     private lateinit var mFirebaseAuth: FirebaseAuth
@@ -132,13 +134,13 @@ class MainActivity : AppCompatActivity() {
         intentFilter = IntentFilter()
         intentFilter.addAction("notification_message")
 
-        val viewModelFactory =
+        /*val viewModelFactory =
             MainActivityViewModelFactory(
                 application
             )
         viewModel = ViewModelProvider(
             this, viewModelFactory
-        ).get(MainActivityViewModel::class.java)
+        ).get(MainActivityViewModel::class.java)*/
         binding.viewmodelXml = viewModel
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
@@ -282,7 +284,6 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
-
 
     }
 

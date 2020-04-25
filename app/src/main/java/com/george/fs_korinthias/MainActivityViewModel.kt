@@ -19,6 +19,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     init {
         _selectedVideo.value = app.getString(R.string.video)
+        Log.e("KOIN_VIDEO", _selectedVideo.value)
         _messagesList.value = ArrayList()
         _numberMessages.value = 0
     }
