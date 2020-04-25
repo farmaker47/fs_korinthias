@@ -107,12 +107,6 @@ class MainActivity : AppCompatActivity() {
         // Save first value to SharedPrefs
         //saveTitle()
 
-        // Get intent from notifications
-        /*val intent = intent
-        if (intent.action != null) {
-            //Log.e("INTENT_ACTION", intent.action)
-        }*/
-
         val intent = intent
         if (intent != null && intent.extras != null) {
             val extras = intent.extras
@@ -133,13 +127,6 @@ class MainActivity : AppCompatActivity() {
 
 
         }
-
-        /*if (intent.hasExtra("messages")) {
-
-            //Log.e("MESSAGE_NOTIFICATION", intent.getStringExtra("messages"))
-
-
-        }*/
 
         receiver = OnNotificationReceived()
         intentFilter = IntentFilter()

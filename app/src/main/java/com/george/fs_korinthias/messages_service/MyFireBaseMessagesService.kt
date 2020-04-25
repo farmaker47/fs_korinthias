@@ -24,9 +24,7 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
 
     private lateinit var intent: Intent
 
-    override fun onNewToken(p0: String) {
-
-    }
+    override fun onNewToken(p0: String) {}
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 
@@ -39,11 +37,11 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
             )
         }
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.e("MessagesReceived", "From: ${remoteMessage.from}")
+        Log.i("MessagesReceived", "From: ${remoteMessage.from}")
 
         // Check if message contains a data payload.
         remoteMessage.data.isNotEmpty().let {
-            Log.e("MESSAGES_DATA", "Message data payload: " + remoteMessage.data)
+            Log.i("MESSAGES_DATA", "Message data payload: " + remoteMessage.data)
 
             if (/* Check if data needs to be processed by long running job */ true) {
                 // For long-running tasks (10 seconds or more) use WorkManager.
@@ -58,7 +56,7 @@ class MyFireBaseMessagesService : FirebaseMessagingService() {
 
         // Check if message contains a notification payload.
         remoteMessage.notification?.let {
-            Log.e("MESSAGES_PAYLOAD", "Message Notification Body: ${it.body}")
+            Log.i("MESSAGES_PAYLOAD", "Message Notification Body: ${it.body}")
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
