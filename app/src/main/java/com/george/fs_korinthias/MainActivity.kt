@@ -26,7 +26,6 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -65,6 +64,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var slidingOpen: Boolean = false
     private lateinit var database: FirebaseDatabase
+
     /*private lateinit var viewModel: MainActivityViewModel*/
     val viewModel: MainActivityViewModel by viewModel()
     private lateinit var messagesList: ArrayList<FirebaseMainActivityMessages?>
@@ -83,6 +83,19 @@ class MainActivity : AppCompatActivity() {
     private val emailVerified: Array<String> = arrayOf(
         "soloupis@gmail.com",
         "farmaker47@gmail.com",
+        "dtpharm@gmail.com"
+    )
+    private val dousouKatalogos: Array<String> = arrayOf(
+        "soloupis@gmail.com",
+        "farmaker47@gmail.com",
+        "Vasileiou_virg@hotmail.com",
+        "far.papafili@gmail.com",
+        "sklokoni@gmail.com",
+        "Efi.Skarmoutsou@hotmail.com",
+        "farmakeiomarinos@gmail.com",
+        "zonitsaspharm@yahoo.com",
+        "hel.konst@gmail.com",
+        "matatsikaterina@yahoo.gr",
         "dtpharm@gmail.com"
     )
     private lateinit var currentDate: String
@@ -123,7 +136,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intentWeb)
                 }
                 finish()
-            }else if(!extras.containsKey("link") && extras.containsKey("google.sent_time")){
+            } else if (!extras.containsKey("link") && extras.containsKey("google.sent_time")) {
                 finish()
             }
 
@@ -141,6 +154,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(
             this, viewModelFactory
         ).get(MainActivityViewModel::class.java)*/
+
         binding.viewmodelXml = viewModel
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
@@ -271,6 +285,17 @@ class MainActivity : AppCompatActivity() {
                     // If they are registered users then subscribe to topic
                     //subscribeToTopic()
                 }
+                if (user.email.toString() in dousouKatalogos) {
+                    name = user.displayName.toString()
+                    email = user.email.toString()
+                    photoUrl = user.photoUrl.toString()
+                    if (!slidingOpen) {
+                        binding.fabMessage.visibility = View.VISIBLE
+                    }
+
+                    // If they are registered users then subscribe to topic
+                    //subscribeToTopic()
+                }
 
             } else {
                 // user is signed out
@@ -287,8 +312,20 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun subscribeToTopic() {
+    private fun subscribeToTopicSyllogos() {
         FirebaseMessaging.getInstance().subscribeToTopic("syllogos")
+            .addOnCompleteListener { task ->
+                var msg = getString(R.string.msg_subscribed)
+                if (!task.isSuccessful) {
+                    msg = getString(R.string.msg_subscribe_failed)
+                }
+                Log.i("Subscription", msg)
+                //Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun subscribeToTopicDousou() {
+        FirebaseMessaging.getInstance().subscribeToTopic("dousou")
             .addOnCompleteListener { task ->
                 var msg = getString(R.string.msg_subscribed)
                 if (!task.isSuccessful) {
@@ -365,7 +402,18 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     // If they are registered users then subscribe to topic
-                    subscribeToTopic()
+                    subscribeToTopicSyllogos()
+                }
+                if (user?.email.toString() in dousouKatalogos) {
+                    name = user?.displayName.toString()
+                    email = user?.email.toString()
+                    photoUrl = user?.photoUrl.toString()
+                    if (!slidingOpen) {
+                        binding.fabMessage.visibility = View.VISIBLE
+                    }
+
+                    // If they are registered users then subscribe to topic
+                    subscribeToTopicDousou()
                 }
 
                 // ...

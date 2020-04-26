@@ -10,7 +10,8 @@ class FSKorinthiasApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
-            androidContext(applicationContext)
+            //androidContext(applicationContext)
+            androidContext(this@FSKorinthiasApplication)
             modules(mainViewModelModule)
         }
     }
