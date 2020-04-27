@@ -23,7 +23,7 @@ class EfimeriesViewModel : ViewModel() {
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
 
-    // the Coroutine runs using the Main (UI) dispatcher
+    // the Coroutine runs using dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
     private var _titlePerioxes = MutableLiveData<ArrayList<MainEfimeries>>()

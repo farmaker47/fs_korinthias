@@ -67,6 +67,9 @@ class MainActivity : AppCompatActivity() {
 
     /*private lateinit var viewModel: MainActivityViewModel*/
     val viewModel: MainActivityViewModel by viewModel()
+    // if you want to share viewmodel with fragment
+    // val viewModel: MainActivityViewModel by sharedViewMOdel()
+
     private lateinit var messagesList: ArrayList<FirebaseMainActivityMessages?>
 
     private lateinit var mFirebaseAuth: FirebaseAuth
