@@ -12,15 +12,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.george.fs_korinthias.MainActivity.Companion.PARCEL_TO_PASS
+import com.george.fs_korinthias.MainActivityViewModel
 import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.R
 import com.george.fs_korinthias.databinding.ActivityDetailsBinding
 import com.squareup.picasso.Picasso
+import org.koin.android.ext.android.getKoin
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailsBinding
-    private lateinit var viewModel: DetailsViewModel
+    //private lateinit var viewModel: DetailsViewModel
+    val viewModel: DetailsViewModel by viewModel()
     private var shareString: String? = " "
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,15 +52,18 @@ class DetailsActivity : AppCompatActivity() {
             Log.i("SOMETHING", newsPassed.date)
             shareString = newsPassed.link
 
+            // DI setProperty
+            getKoin().setProperty("detailsInfo", newsPassed)
+
             //Picasso.get().load(somethingPassed?.image).into(binding.detailActivityImage)
-            val viewModelFactory =
+            /*val viewModelFactory =
                 DetailsActivityViewModelFactory(
                     newsPassed,
                     application
                 )
             viewModel = ViewModelProvider(
                 this, viewModelFactory
-            ).get(DetailsViewModel::class.java)
+            ).get(DetailsViewModel::class.java)*/
             binding.detailsViewModel = viewModel
         }
 

@@ -54,6 +54,9 @@ class EfimeriesViewModel : ViewModel() {
 
         coroutineScope.launch {
             val cookies = HashMap<String, String>()
+            /*kotlin.runCatching {
+
+            }.onSuccess {  }.onFailure {  }*/
             try {
 
                 // status loading
