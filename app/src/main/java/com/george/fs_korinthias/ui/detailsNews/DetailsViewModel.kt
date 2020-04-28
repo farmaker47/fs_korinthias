@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.george.fs_korinthias.MainInfo
 import com.george.fs_korinthias.R
 import kotlinx.coroutines.*
@@ -61,10 +62,13 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
         _selectedVideo.value = app.getString(R.string.video)
         _selectedText.value = " "
         _selectedNews.value = detailsInfo
-        getNews()
+
+        viewModelScope.launch {
+            getNews()
+        }
     }
 
-    private fun getNews() {
+    private suspend fun getNews() = withContext(Dispatchers.IO){
 
         /*Log.e("IMPORTANT", "IMPORTANT")
         Thread(Runnable {
@@ -72,105 +76,94 @@ class DetailsViewModel(detailsInfo: MainInfo?, app: Application) : AndroidViewMo
         }).start()*/
 
         //_statusProgress.value = NewsApiStatus.LOADING
+        val cookies = HashMap<String, String>()
+        try {
 
-        coroutineScope.launch {
-            //delay(1000)
-            val cookies = HashMap<String, String>()
-            try {
+            // status loading
+            withContext(Dispatchers.Main) {
+                // call to UI thread
+                _statusProgress.value =
+                    NewsApiStatus.LOADING
+            }
 
-                // status loading
+            val importantResponse = Jsoup.connect(_selectedNews.value?.link)
+                .method(Connection.Method.GET)
+                .userAgent("Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36")
+                .execute()
+            cookies.putAll(importantResponse.cookies())
+            val doc = importantResponse.parse()
+
+            //check if element exists
+            if (checkElement(doc.select("div[itemprop=articleBody]").first())) {
+                Log.i("NEW", doc.select("div[itemprop=articleBody]").select("p").toString())
+
                 withContext(Dispatchers.Main) {
                     // call to UI thread
-                    _statusProgress.value =
-                        NewsApiStatus.LOADING
-                }
+                    _selectedText.value =
+                        doc.select("div[itemprop=articleBody]").outerHtml()
 
-                val importantResponse = Jsoup.connect(_selectedNews.value?.link)
-                    .method(Connection.Method.GET)
-                    .userAgent("Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36")
-                    .execute()
-                cookies.putAll(importantResponse.cookies())
-                val doc = importantResponse.parse()
-
-                //check if element exists
-                if (checkElement(doc.select("div[itemprop=articleBody]").first())) {
-                    Log.i("NEW", doc.select("div[itemprop=articleBody]").select("p").toString())
-
-                    withContext(Dispatchers.Main) {
-                        // call to UI thread
-                        _selectedText.value =
-                            doc.select("div[itemprop=articleBody]").outerHtml()
-
-                        // If doc contains youtube link
-                        //<a href="https://ehealth.gov.gr/p-rv/p" data-blogger-escaped-target="_blank">διαδικτυακής πύλης gov.gr</a>
-                        if (doc.select("div[itemprop=articleBody]").select("p")
-                                .select("iframe[src]").toString().contains("youtube")
-                        ) {
-                            // Make link clickable
-                            _selectedText.value +=
-                                "<a href=\"" + doc.select("div[itemprop=articleBody]")
-                                    .select("iframe[src]")
-                                    .attr("src") + "\" data-blogger-escaped-target=\"_blank\">" + _selectedVideo.value + "</a>"
-                            Log.i("BINTEO", _selectedText.value)
-                        }
-
-                        /*// If contains embedded pdf go to original page
-                        if(checkElement(doc.select(".pdfemb-viewer").first())){
-                            //Log.e("PDF_EMMBEDED", "PDF")
-                            _selectedText.value +=
-                                "<a href=\"" + _selectedNews.value?.link + "\" data-blogger-escaped-target=\"_blank\">Σελίδα</a>"
-                        }*/
-
-                        // If contains Images
-                        if (checkElement(
-                                doc.select("div[itemprop=articleBody]")
-                                    .select("a[href]").first()
-                            )
-                        ) {
-                            val imagesLinks = doc.select("div[itemprop=articleBody]")
-                                .select("a[href]")
-                            //Log.e("LINKS",imagesLinks.toString())
-                            for (link in imagesLinks) {
-
-                                _toUseArrayList.add(link.attr("href").toString())
-                            }
-
-                            _selectedImages.value = _toUseArrayList
-                            //Log.e("LINKS",_selectedImages.value.toString())
-                        }
-
-                        _statusProgress.value =
-                            NewsApiStatus.DONE
+                    // If doc contains youtube link
+                    //<a href="https://ehealth.gov.gr/p-rv/p" data-blogger-escaped-target="_blank">διαδικτυακής πύλης gov.gr</a>
+                    if (doc.select("div[itemprop=articleBody]").select("p")
+                            .select("iframe[src]").toString().contains("youtube")
+                    ) {
+                        // Make link clickable
+                        _selectedText.value +=
+                            "<a href=\"" + doc.select("div[itemprop=articleBody]")
+                                .select("iframe[src]")
+                                .attr("src") + "\" data-blogger-escaped-target=\"_blank\">" + _selectedVideo.value + "</a>"
+                        Log.i("BINTEO", _selectedText.value)
                     }
 
-                }
+                    /*// If contains embedded pdf go to original page
+                    if(checkElement(doc.select(".pdfemb-viewer").first())){
+                        //Log.e("PDF_EMMBEDED", "PDF")
+                        _selectedText.value +=
+                            "<a href=\"" + _selectedNews.value?.link + "\" data-blogger-escaped-target=\"_blank\">Σελίδα</a>"
+                    }*/
 
+                    // If contains Images
+                    if (checkElement(
+                            doc.select("div[itemprop=articleBody]")
+                                .select("a[href]").first()
+                        )
+                    ) {
+                        val imagesLinks = doc.select("div[itemprop=articleBody]")
+                            .select("a[href]")
+                        //Log.e("LINKS",imagesLinks.toString())
+                        for (link in imagesLinks) {
 
-                //_status.value=WeatherApiStatus.DONE
-                //_selectedText.postValue(doc.select("div[itemprop=articleBody]").select("p").toString())
+                            _toUseArrayList.add(link.attr("href").toString())
+                        }
 
+                        _selectedImages.value = _toUseArrayList
+                        //Log.e("LINKS",_selectedImages.value.toString())
+                    }
 
-            } catch (e: IOException) {
-                Log.e("EXCEPTION", e.toString())
-                //_status.value=WeatherApiStatus.ERROR
-                //_statusProgress.postValue(NewsApiStatus.ERROR)
-                withContext(Dispatchers.Main) {
-                    // call to UI thread
                     _statusProgress.value =
-                        NewsApiStatus.ERROR
+                        NewsApiStatus.DONE
                 }
+
             }
 
 
+            //_status.value=WeatherApiStatus.DONE
+            //_selectedText.postValue(doc.select("div[itemprop=articleBody]").select("p").toString())
+
+
+        } catch (e: IOException) {
+            Log.e("EXCEPTION", e.toString())
+            //_status.value=WeatherApiStatus.ERROR
+            //_statusProgress.postValue(NewsApiStatus.ERROR)
+            withContext(Dispatchers.Main) {
+                // call to UI thread
+                _statusProgress.value =
+                    NewsApiStatus.ERROR
+            }
         }
 
         //_statusProgress.value = NewsApiStatus.DONE
 
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 
     private fun checkElement(elem: Element?): Boolean {

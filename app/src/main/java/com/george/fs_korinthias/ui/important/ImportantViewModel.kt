@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.george.fs_korinthias.MainInfo
 import kotlinx.coroutines.*
 import org.jsoup.Connection
@@ -21,10 +22,10 @@ class ImportantViewModel : ViewModel() {
     }
 
     // Create a Coroutine scope using a job to be able to cancel when needed
-    private var viewModelJob = Job()
+    //private var viewModelJob = Job()
 
     // the Coroutine runs using the Main (UI) dispatcher
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
+    //private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
     private var _titleList = MutableLiveData<ArrayList<MainInfo>>()
 
@@ -42,80 +43,74 @@ class ImportantViewModel : ViewModel() {
         get() = _status
 
     init {
-        getImportantNews()
+        viewModelScope.launch {
+            getImportantNews()
+        }
+
     }
 
-    private fun getImportantNews() {
+    private suspend fun getImportantNews()= withContext(Dispatchers.IO) {
 
         /*Log.e("IMPORTANT", "IMPORTANT")
         Thread(Runnable {
             //run on UI
         }).start()*/
+        val cookies = HashMap<String, String>()
+        try {
 
-        coroutineScope.launch {
-            val cookies = HashMap<String, String>()
-            try {
+            // status loading
+            _status.postValue(WeatherApiStatus.LOADING)
 
-                // status loading
-                _status.postValue(WeatherApiStatus.LOADING)
+            // 2 pages of important news
+            for (i in 1..2) {
+                val importantResponse = Jsoup.connect(BASE_URL_IMPORTANT + i.toString())
+                    .method(Connection.Method.GET)
+                    .userAgent("Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36")
+                    .execute()
+                cookies.putAll(importantResponse.cookies())
+                val doc = importantResponse.parse()
+                //check if element exists
+                if (checkElement(doc.select(".main-content-column-1").first())) {
+                    val image = doc.select(".main-content-column-1").select(".blog-block-2")
+                        .select(".items").select(".image")
+                    for ((index, element) in image.withIndex()) {
+                        val datePlus = " " +
+                                doc.select(".blog-block-2").select(".items").select(".title")
+                                    .select(".updated").text() + " "
+                        //val date = datePlus.substring(index * 16, index * 16 + 16)
+                        val date = datePlus.split("202")
+                        //val dateWithoutYear = dateYear[0]
+                        val generalElement = MainInfo(
+                            element.select(".image").select("img[alt]").attr("alt"),
+                            element.select(".image").select("img[src]").attr("src"),
+                            element.select(".image").select("a[href]").attr("href"),
+                            date[index].substring(1)
+                        )
+                        _toUseArrayList.add(generalElement)
 
-                // 2 pages of important news
-                for (i in 1..2) {
-                    val importantResponse = Jsoup.connect(BASE_URL_IMPORTANT + i.toString())
-                        .method(Connection.Method.GET)
-                        .userAgent("Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36")
-                        .execute()
-                    cookies.putAll(importantResponse.cookies())
-                    val doc = importantResponse.parse()
-                    //check if element exists
-                    if (checkElement(doc.select(".main-content-column-1").first())) {
-                        val image = doc.select(".main-content-column-1").select(".blog-block-2")
-                            .select(".items").select(".image")
-                        for ((index, element) in image.withIndex()) {
-                            val datePlus = " " +
-                                    doc.select(".blog-block-2").select(".items").select(".title")
-                                        .select(".updated").text() + " "
-                            //val date = datePlus.substring(index * 16, index * 16 + 16)
-                            val date = datePlus.split("202")
-                            //val dateWithoutYear = dateYear[0]
-                            val generalElement = MainInfo(
-                                element.select(".image").select("img[alt]").attr("alt"),
-                                element.select(".image").select("img[src]").attr("src"),
-                                element.select(".image").select("a[href]").attr("href"),
-                                date[index].substring(1)
-                            )
-                            _toUseArrayList.add(generalElement)
-
-                        }
-                    }
-
-                    //_status.postValue(WeatherApiStatus.DONE)
-
-                    withContext(Dispatchers.Main) {
-                        // call to UI thread
-                        _titleList.value = _toUseArrayList
                     }
                 }
+
+                //_status.postValue(WeatherApiStatus.DONE)
 
                 withContext(Dispatchers.Main) {
                     // call to UI thread
-                    _status.value = WeatherApiStatus.DONE
                     _titleList.value = _toUseArrayList
                 }
-
-
-            } catch (e: IOException) {
-                Log.e("EXCEPTION", e.toString())
-                _status.postValue(WeatherApiStatus.ERROR)
             }
+
+            withContext(Dispatchers.Main) {
+                // call to UI thread
+                _status.value = WeatherApiStatus.DONE
+                _titleList.value = _toUseArrayList
+            }
+
+
+        } catch (e: IOException) {
+            Log.e("EXCEPTION", e.toString())
+            _status.postValue(WeatherApiStatus.ERROR)
         }
 
-
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 
     private fun checkElement(elem: Element?): Boolean {

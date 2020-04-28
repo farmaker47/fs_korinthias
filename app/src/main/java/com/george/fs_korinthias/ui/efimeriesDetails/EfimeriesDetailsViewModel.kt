@@ -30,10 +30,10 @@ class EfimeriesDetailsViewModel (detailsInfo: MainEfimeries?, app: Application) 
         get() = _selectedText
 
     // Create a Coroutine scope using a job to be able to cancel when needed
-    private var viewModelJob = Job()
+    //private var viewModelJob = Job()
 
     // the Coroutine runs using the Main (UI) dispatcher
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
+    //private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
 
     // The internal MutableLiveData that stores the status of the most recent request
     private val _statusProgress = MutableLiveData<NewsApiStatus>()
@@ -60,19 +60,19 @@ class EfimeriesDetailsViewModel (detailsInfo: MainEfimeries?, app: Application) 
 
         //_statusProgress.value = NewsApiStatus.LOADING
 
-        coroutineScope.launch {
+        /*coroutineScope.launch {
 
 
-        }
+        }*/
 
         //_statusProgress.value = NewsApiStatus.DONE
 
     }
 
-    override fun onCleared() {
+    /*override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
-    }
+    }*/
 
     private fun checkElement(elem: Element?): Boolean {
         return elem != null
