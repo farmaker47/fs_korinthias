@@ -16,11 +16,13 @@ import com.george.fs_korinthias.R
 import com.george.fs_korinthias.databinding.ActivityEfimeriesDetailsBinding
 import com.george.fs_korinthias.ui.adapters.EfimeriesAdapterDetails
 import com.google.android.material.snackbar.Snackbar
+import org.koin.android.ext.android.getKoin
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class EfimeriesDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEfimeriesDetailsBinding
-    private lateinit var viewModel: EfimeriesDetailsViewModel
+    private val viewModel: EfimeriesDetailsViewModel by viewModel()
     private lateinit var efimeriesPassed: MainEfimeries
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,14 +39,15 @@ class EfimeriesDetailsActivity : AppCompatActivity() {
             Log.i("SOMETHING", efimeriesPassed.titlePerioxi)
 
             //Picasso.get().load(somethingPassed?.image).into(binding.detailActivityImage)
-            val viewModelFactory =
+            /*val viewModelFactory =
                 EfimeriesDetailsViewModelFactory(
                     efimeriesPassed,
                     application
                 )
             viewModel = ViewModelProvider(
                 this, viewModelFactory
-            ).get(EfimeriesDetailsViewModel::class.java)
+            ).get(EfimeriesDetailsViewModel::class.java)*/
+            getKoin().setProperty("efimeriesInfo", efimeriesPassed)
 
             binding.efimeriesViewModel = viewModel
 

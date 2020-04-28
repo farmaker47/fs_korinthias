@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var database: FirebaseDatabase
 
     /*private lateinit var viewModel: MainActivityViewModel*/
-    val viewModel: MainActivityViewModel by viewModel()
+    private val viewModel: MainActivityViewModel by viewModel()
     // if you want to share viewmodel with fragment
     // val viewModel: MainActivityViewModel by sharedViewMOdel()
 
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     private var name: String = ""
     private var email = ""
     private var photoUrl = ""
-    private val emailVerified: Array<String> = arrayOf(
+    private val syllogosKatalogos: Array<String> = arrayOf(
         "soloupis@gmail.com",
         "farmaker47@gmail.com",
         "dtpharm@gmail.com"
@@ -277,7 +277,7 @@ class MainActivity : AppCompatActivity() {
             Log.i("CURRENT_USER", user?.photoUrl.toString())
             if (user != null) {
                 //user is signed in
-                if (user.email.toString() in emailVerified) {
+                if (user.email.toString() in syllogosKatalogos) {
                     name = user.displayName.toString()
                     email = user.email.toString()
                     photoUrl = user.photoUrl.toString()
@@ -396,7 +396,7 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
                 val user = FirebaseAuth.getInstance().currentUser
-                if (user?.email.toString() in emailVerified) {
+                if (user?.email.toString() in syllogosKatalogos) {
                     name = user?.displayName.toString()
                     email = user?.email.toString()
                     photoUrl = user?.photoUrl.toString()

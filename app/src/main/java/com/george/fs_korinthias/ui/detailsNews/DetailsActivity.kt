@@ -24,7 +24,10 @@ class DetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailsBinding
     //private lateinit var viewModel: DetailsViewModel
-    val viewModel: DetailsViewModel by viewModel()
+
+    // Now with DI
+    private val viewModel: DetailsViewModel by viewModel()
+
     private var shareString: String? = " "
 
     override fun onCreate(savedInstanceState: Bundle?) {

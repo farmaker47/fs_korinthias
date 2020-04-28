@@ -14,10 +14,11 @@ import androidx.recyclerview.widget.RecyclerView.SmoothScroller.ScrollVectorProv
 import com.george.fs_korinthias.MainActivity
 import com.george.fs_korinthias.databinding.FragmentImportantBinding
 import com.george.fs_korinthias.ui.adapters.NewsAdapter
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class ImportantFragment : Fragment() {
 
-    private lateinit var importantViewModel: ImportantViewModel
+    private val importantViewModel: ImportantViewModel by viewModel()
     private lateinit var binding: FragmentImportantBinding
 
     override fun onCreateView(
@@ -28,7 +29,7 @@ class ImportantFragment : Fragment() {
 
         binding = FragmentImportantBinding.inflate(inflater)
         binding.lifecycleOwner = this
-        importantViewModel = ViewModelProvider(this).get(ImportantViewModel::class.java)
+        //importantViewModel = ViewModelProvider(this).get(ImportantViewModel::class.java)
 
         binding.viewModel = importantViewModel
 

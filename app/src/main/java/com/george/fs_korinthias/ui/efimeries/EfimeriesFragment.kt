@@ -14,11 +14,13 @@ import com.george.fs_korinthias.R
 import com.george.fs_korinthias.databinding.FragmentEfimeriesBinding
 import com.george.fs_korinthias.ui.adapters.EfimeriesAdapterMain
 import com.george.fs_korinthias.ui.adapters.NewsAdapter
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class EfimeriesFragment : Fragment() {
 
-    private lateinit var notificationsViewModel: EfimeriesViewModel
+    //private lateinit var notificationsViewModel: EfimeriesViewModel
     private lateinit var binding: FragmentEfimeriesBinding
+    private val notificationsViewModel:EfimeriesViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,8 +29,7 @@ class EfimeriesFragment : Fragment() {
     ): View? {
         binding = FragmentEfimeriesBinding.inflate(inflater)
         binding.lifecycleOwner = this
-        notificationsViewModel =
-            ViewModelProvider(this).get(EfimeriesViewModel::class.java)
+        //notificationsViewModel =ViewModelProvider(this).get(EfimeriesViewModel::class.java)
 
         binding.viewModel=notificationsViewModel
 
