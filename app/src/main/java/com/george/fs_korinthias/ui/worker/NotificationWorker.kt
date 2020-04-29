@@ -237,7 +237,7 @@ class NotificationWorker(
 
         if (!isScreenOn) {
             val wl = pm.newWakeLock(
-                PowerManager.ACQUIRE_CAUSES_WAKEUP,
+                PowerManager.PARTIAL_WAKE_LOCK,
                 "myApp:notificationLock"
             )
             wl.acquire(3000) //set your time in milliseconds

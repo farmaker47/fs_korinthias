@@ -42,7 +42,6 @@ class EfimeriesFragment : Fragment() {
 
         //running the animation at the beggining of showing the list
         notificationsViewModel.titlePerioxes.observe(viewLifecycleOwner, Observer {
-
             runLayoutAnimation(binding.efimeriesRecyclerView)
         })
 

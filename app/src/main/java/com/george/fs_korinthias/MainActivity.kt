@@ -86,8 +86,135 @@ class MainActivity : AppCompatActivity() {
     private val syllogosKatalogos: Array<String> = arrayOf(
         "soloupis@gmail.com",
         "farmaker47@gmail.com",
-        "dtpharm@gmail.com"
-    )
+        "dtpharm@gmail.com",
+        "eiriniang87@yahoo.gr",
+        "aaggelidi@gmail.com",
+        "agrafiotis_pet@yahoo.gr",
+        "eleonora472@gmail.com",
+        "skoulalog@gmail.com",
+        "george.aba@hotmail.com",
+        "farmakeioanagnostopoulou@gmail.com",
+        "attaliatis@gmail.vom",
+        "vavoulistavroula@gmail.com",
+        "vivi-vasileiou@hotmail.com",
+        "Vasileiou_virg@hotmail.com",
+        "teo_biliou@hotmail.com",
+        "vasilopoulosfarmakeio@gmail.com",
+        "ag.kar@hotmail.com",
+        "georgarak@gmail.com",
+        "mariageorgiou128@hotmail.com",
+        "info@pharmacybonus.gr",
+        "oii4bx@otenet.gr",
+        "giannoukostas@hol.gr",
+        "info@gkelicenter.gr",
+        "nikolaosgi@hotmail.com",
+        "golfinos.an@gmail.com",
+        "loukgoulas17@gmail.com",
+        "mariannaddanihl@yahoo.gr",
+        "dedessotirios@yahoo.gr",
+        "panosdeligiannis6@gmail.com",
+        "vudeli@hotmail.com",
+        "alexandros.detzanis@gail.com",
+        "roxanidimitrellou@hotmail.com",
+        "pharmacydimitriou@gmail.com",
+        "m.d.dimogeronta@gmail.com",
+        "zaxoumarina@hotmail.com",
+        "marilu_6586@hotmail.com",
+        "zervasv@hotmail.gr",
+        "nziouva@gmail.com",
+        "gezorbas@hotmail.com",
+        "zonitsaspharm@yahoo.gr",
+        "binos04@otenet.gr",
+        "topfarmacy@yahoo.gr",
+        "despoina13kor@hotmail.com",
+        "katrinkalara@yahoo.gr",
+        "kalpaxisa@gmail.com",
+        "elinakalpaxi@yahoo.com",
+        "kanellopmar@yahoo.gr",
+        "athkaxira@hotmail.com",
+        "marokar@hotmail.com",
+        "maria.karapanagioti@hotmail.com",
+        "ioankatsaros@gmail.com",
+        "angelica_kefala@yahoo.it",
+        "orders@kladouhospharmacy.gr",
+        "miklar11@yahoo.gr",
+        "zwi_klepetsani@hotmail.com",
+        "sklokoni@gmail.com",
+        "amaliakd@gmail.com",
+        "Kontoulisfarmakeio@gmail.com",
+        "farma4@otenet.gr",
+        "kristikor20@hotmail.com",
+        "hel.konst@gmail.com",
+        "dimitriskon90@hotmail.com",
+        "lekkas.argiris@gmail.com",
+        "liapissk@hotmail.com",
+        "loutpan@otenet.gr",
+        "gmamaloukas@gmail.com",
+        "farmakeiomarinos@gmail.com",
+        "matatsikaterina@yahoo.gr",
+        "kosmav2@yahoo.gr",
+        "spyrosmavrommatis@yahoo.gr",
+        "pharmacyagm@gmail.com",
+        "mp.korinthos@gmail.com",
+        "farmakeio.mitrou@gmail.com",
+        "danah_mou@windowslive.com",
+        "anabartzi@gmail.com",
+        "mariaba@windowslive.com",
+        "panos.bekris@hotmail.com",
+        "ompi@otenet.gr",
+        "tabou46@gmail.com",
+        "Bouga.maria@gmail.com",
+        "grgiorgosbou@gmail.com",
+        "bouskoukap@gmail.com",
+        "briniasvag@yahoo.gr",
+        "anastasiamorait@yahoo.gr",
+        "gio.tobros@yahoo.it",
+        "xitos76@yahoo.com",
+        "efpantel@gmail.com",
+        "olympiampapadimitriou@gmail.com",
+        "farmakeiopapvass@hotmail.com",
+        "elenipap1981@hotmail.com",
+        "ninann78@yahoo.gr",
+        "Tecni3@yahoo.gr",
+        "klenia15@yahoo.gr",
+        "totapap@msn.com",
+        "annivas7@windowslive.com",
+        "epapaleka@yahoo.com",
+        "far.papafili@gmail.com",
+        "spis62@otenet.gr",
+        "evans_pits@yahoo.gr",
+        "farmacypratsa@gmail.com",
+        "david_rota@yahoo.it",
+        "a.saba@pharma7.gr",
+        "ath-sard@otenet.gr",
+        "siapkarasamfarm@gmail.com",
+        "marinasolveig@gmail.com",
+        "siapkaras@yahoo.gr",
+        "Efi.Skarmoutsou@hotmail.com",
+        "krista_sk@windowslive.com",
+        "hspanos@otenet.gr",
+        "123456ka@otenet.gr",
+        "pspr@otenet.gr",
+        "stsnsf@yahoo.gr",
+        "farmakeion@hotmail.com",
+        "Pharmasyg@gmail.com",
+        "pharmasyg1@gmail.com",
+        "paris_tz@yahoo.com",
+        "tomaras.konstantinos@gmail.com",
+        "martrib@otenet.gr",
+        "tetitsiami@gmail.com",
+        "teotsivilis@hotmail.com",
+        "angeliki.tsiligkiri@gmail.com",
+        "tsiotakaterina@gmail.com",
+        "farmakeio97@gmail.com",
+        "kellypharm77@yahoo.com",
+        "Nchatzithoma@yahoo.gr",
+        "Kchristara@gmail.com",
+        "nemeatis@gmail.com",
+        "katestamouli@gmail.com",
+        "polyxenidim9@gmail.com",
+        "fasyko@otenet.gr"
+        )
     private val dousouKatalogos: Array<String> = arrayOf(
         "soloupis@gmail.com",
         "farmaker47@gmail.com",
@@ -102,8 +229,8 @@ class MainActivity : AppCompatActivity() {
         "dtpharm@gmail.com"
     )
     private lateinit var currentDate: String
-    private lateinit var intentFilter: IntentFilter
-    private lateinit var receiver: OnNotificationReceived
+    //private lateinit var intentFilter: IntentFilter
+    //private lateinit var receiver: OnNotificationReceived
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -146,9 +273,9 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        receiver = OnNotificationReceived()
+        /*receiver = OnNotificationReceived()
         intentFilter = IntentFilter()
-        intentFilter.addAction("notification_message")
+        intentFilter.addAction("notification_message")*/
 
         /*val viewModelFactory =
             MainActivityViewModelFactory(
@@ -288,7 +415,7 @@ class MainActivity : AppCompatActivity() {
                     // If they are registered users then subscribe to topic
                     //subscribeToTopic()
                 }
-                if (user.email.toString() in dousouKatalogos) {
+                /*if (user.email.toString() in dousouKatalogos) {
                     name = user.displayName.toString()
                     email = user.email.toString()
                     photoUrl = user.photoUrl.toString()
@@ -298,7 +425,7 @@ class MainActivity : AppCompatActivity() {
 
                     // If they are registered users then subscribe to topic
                     //subscribeToTopic()
-                }
+                }*/
 
             } else {
                 // user is signed out
@@ -408,12 +535,12 @@ class MainActivity : AppCompatActivity() {
                     subscribeToTopicSyllogos()
                 }
                 if (user?.email.toString() in dousouKatalogos) {
-                    name = user?.displayName.toString()
+                    /*name = user?.displayName.toString()
                     email = user?.email.toString()
                     photoUrl = user?.photoUrl.toString()
                     if (!slidingOpen) {
                         binding.fabMessage.visibility = View.VISIBLE
-                    }
+                    }*/
 
                     // If they are registered users then subscribe to topic
                     subscribeToTopicDousou()
@@ -754,7 +881,6 @@ data class InfoOnoma(
     val onoma: String?,
     val tilefono: String?
 ) : Parcelable
-
 
 data class FirebaseMainActivityMessages(
     val name: String? = "",

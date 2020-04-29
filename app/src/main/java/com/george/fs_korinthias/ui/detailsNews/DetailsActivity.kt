@@ -87,6 +87,7 @@ class DetailsActivity : AppCompatActivity() {
         binding.allNewsBlockTextView.movementMethod = LinkMovementMethod.getInstance()
         //t2.setMovementMethod(LinkMovementMethod.getInstance());
 
+
         // Observe if there are images inside page
         /*viewModel.selectedImages.observe(this, Observer { listImages ->
 
