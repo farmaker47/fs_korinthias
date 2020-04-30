@@ -31,8 +31,8 @@ android {
         applicationId "com.george.fs_korinthias"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 18
-        versionName "18.0"
+        versionCode 20
+        versionName "20.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

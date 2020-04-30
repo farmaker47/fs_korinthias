@@ -46,7 +46,6 @@ class ImportantViewModel : ViewModel() {
         viewModelScope.launch {
             getImportantNews()
         }
-
     }
 
     private suspend fun getImportantNews()= withContext(Dispatchers.IO) {
