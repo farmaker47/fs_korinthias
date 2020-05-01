@@ -17,5 +17,6 @@ also:
 8) Navigation Component usage
 9) MVVM with Coroutines
 
-In the near future it will have a ML Smart reply feature for greek language...
+# Check the python notebook how ML model is created in Keras (Tensorflow backend)
+Text is classified in 13 labels as empty, sadness, enthusiasm, neutral, worry, love, fun, surprise, hate, happiness, boredom, relief, anger. After classification for each new message in chatbox we have 3 smart reply options for user to select
 
