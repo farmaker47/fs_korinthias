@@ -18,5 +18,5 @@ also:
 9) MVVM with Coroutines
 
 # Check the python notebook how ML model is created in Keras (Tensorflow backend)
-Text is classified in 13 labels as empty, sadness, enthusiasm, neutral, worry, love, fun, surprise, hate, happiness, boredom, relief, anger. After classification for each new message in chatbox we have 3 smart reply options for user to select
+Text is classified in 3 labels as sadness, enthusiasm, neutral. After classification for each new message in chatbox we have 3 smart reply options for user to select
 
