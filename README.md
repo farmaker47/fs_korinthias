@@ -28,5 +28,6 @@ The on-device model comes with several benefits. It is:
 - Privacy-friendly: The user data never leaves the device and this eliminates any privacy restrictions.
 
 # Check the python notebook how ML model is created in Keras (Tensorflow backend)
-Text is classified in 3 labels as sadness, enthusiasm, neutral. After classification for each new message in chatbox we have 3 smart reply options for user to select
+Text is classified in 3 labels as sadness, enthusiasm, neutral. After classification for each new message in chatbox we have 3 smart reply options for user to select. Check below diagram in Tensorboard:
+![TensorBoard](https://github.com/farmaker47/fs_korinthias/blob/master/smart_reply_diagram.JPG)
 
