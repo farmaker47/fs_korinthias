@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -52,8 +51,12 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.parcel.Parcelize
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -214,7 +217,7 @@ class MainActivity : AppCompatActivity() {
         "katestamouli@gmail.com",
         "polyxenidim9@gmail.com",
         "fasyko@otenet.gr"
-        )
+    )
     private val dousouKatalogos: Array<String> = arrayOf(
         "soloupis@gmail.com",
         "farmaker47@gmail.com",
@@ -229,6 +232,9 @@ class MainActivity : AppCompatActivity() {
         "dtpharm@gmail.com"
     )
     private lateinit var currentDate: String
+    private var vocabMap: Map<String, Int>? = null
+    private var finalWords: ArrayList<String>? = null
+    private var wordsTrancuated: List<String>? = null
     //private lateinit var intentFilter: IntentFilter
     //private lateinit var receiver: OnNotificationReceived
 
@@ -322,15 +328,17 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        database = Firebase.database
+        referenceMainActivityMessages =
+                // Antarktiki
+                //database.reference.child("MainActivity_messages")
+            database.reference.child("Antarktiki_messages")
+
         binding.imageButtonClose.setOnClickListener {
             closeSliding()
             referenceMainActivityMessages.removeEventListener(childEventListener)
             viewModel.setArratListMainActivityMessages(ArrayList())
         }
-
-        database = Firebase.database
-        referenceMainActivityMessages =
-            database.reference.child("MainActivity_messages")
 
         // Listener for button to send messages
         binding.buttonSendMessage.setOnClickListener {
@@ -350,6 +358,10 @@ class MainActivity : AppCompatActivity() {
                     currentDate
                 )
             )
+
+            // Antarktiki get text to integers
+            transformText(binding.editTextSlidingMainActivity.text?.trim().toString())
+
             binding.editTextSlidingMainActivity.setText("")
         }
 
@@ -742,6 +754,8 @@ class MainActivity : AppCompatActivity() {
         const val DEFAULT_MSG_LENGTH_LIMIT = 1000
         const val RC_SIGN_IN = 14
         const val NOTIFICATION_MESSAGES = "messages"
+        const val maxLenght = 40
+        const val vocabFilename = "result.json"
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -840,6 +854,108 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }*/
+
+    // function to transform text tp float [] from edittext input
+    private fun transformText(textToFormat: String): FloatArray? {
+
+        Log.e("TEXT",textToFormat)
+        //Replace Upper case letters,remove punctuation and split string
+        /*val words =
+            textToFormat//.replace("[^a-zA-Z ]".toRegex(), "").toLowerCase()
+                .split("\\s+")
+                .toTypedArray()*/
+        val words = textToFormat.split("\\s+".toRegex()).map { word ->
+            word.replace("""^[,\.]|[,\.]$""".toRegex(), "").toLowerCase()
+        }
+        //val words = listOf("κάνε", "με", "πέρα")
+
+
+        //Replace Upper case letters,remove punctuation and split string
+        /*val words =
+            textToFormat.replace("[^a-zA-Z ]".toRegex(), "").toLowerCase().split("\\s+")
+                .toTypedArray()*/
+
+        for (word in words) {
+            Log.e("WORDS", word)
+        }
+
+        //Initialize an input array with maxSize length
+        val input =
+            FloatArray(maxLenght) // 1 sentence by maxLenWords
+        //Make every position 0
+        for (l in 0 until maxLenght) {
+            input[l] = 0F
+        }
+
+        val vocabJson: String?
+        return try {
+            //Open .json file
+            val br =
+                BufferedReader(InputStreamReader(assets.open(vocabFilename)))
+            var line: String?
+            val sb = StringBuilder()
+            while (br.readLine().also { line = it } != null) {
+                sb.append(line).append("\n")
+            }
+            vocabJson = sb.toString()
+            br.close()
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            val type =
+                object : TypeToken<Map<String?, Int?>?>() {}.type
+            //Create mapped vocabulary
+            vocabMap = gson.fromJson<Map<String, Int>>(vocabJson, type)
+
+            //////////////////////////////////////////////////////////////
+            //Find words that exist in vocabulary
+            var p = 0
+            finalWords = ArrayList()
+            for (word in words) {
+                if (vocabMap!!.containsKey(word)) {
+                    finalWords?.add(word)
+                    p++
+                }
+            }
+            Log.e("LENGTH", finalWords?.size.toString())
+            //////////////////////////////////////////////////////////////
+            //Trancuate
+            if (finalWords!!.size >= 40) {
+                wordsTrancuated = finalWords?.subList(0, 40)
+                Log.e("LENGTH", "BIGGER")
+            } else {
+                wordsTrancuated = finalWords?.subList(0, finalWords!!.size)
+                Log.e("LENGTH", "SMALLER")
+            }
+            /////////////////////////////////////////////////////////////
+
+            ///////////////////////////////////////////////////
+            //Padding sequence of maxSize length with integers of final words
+            var j = 0
+            for (word in wordsTrancuated!!) {
+                if (j == maxLenght) break
+
+                if (vocabMap!!.containsKey(word)) {
+                    val index = vocabMap?.get(word)
+
+                    //Making integer to float
+                    input[input.size - wordsTrancuated!!.size + j] = index!!.toFloat()
+                    j++
+                }
+            }
+            /////////////////////////////////////////////////////
+
+            //Check all input array
+            for (k in input) {
+                Log.e("ArrayWords", k.toString())
+            }
+
+            Log.e("SIZE_INPUT", input.size.toString())
+
+            input
+        } catch (e: Exception) {
+            Log.e("exception", e.toString())
+            FloatArray(40)
+        }
+    }
 
 
 }
