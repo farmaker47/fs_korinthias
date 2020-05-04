@@ -37,6 +37,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.AuthUI.IdpConfig.EmailBuilder
 import com.firebase.ui.auth.AuthUI.IdpConfig.GoogleBuilder
 import com.firebase.ui.auth.IdpResponse
+import com.george.fs_korinthias.classifier.SmartReplyClassifier
 import com.george.fs_korinthias.databinding.ActivityMainBinding
 import com.george.fs_korinthias.ui.adapters.MainActivityFirebaseMessagesAdapter
 import com.george.fs_korinthias.ui.detailsNews.DetailsActivity
@@ -237,6 +238,7 @@ class MainActivity : AppCompatActivity() {
     private var wordsTrancuated: List<String>? = null
     //private lateinit var intentFilter: IntentFilter
     //private lateinit var receiver: OnNotificationReceived
+    private var smartReplyClassifier = SmartReplyClassifier(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -451,6 +453,12 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+
+        // Antarktiki
+        // Setup digit classifier.
+        smartReplyClassifier
+            .initialize()
+            .addOnFailureListener { e -> Log.e("MainActivity_classifier", "Error to setting up smart reply classifier.", e) }
 
     }
 
@@ -855,7 +863,8 @@ class MainActivity : AppCompatActivity() {
         }
     }*/
 
-    // function to transform text tp float [] from edittext input
+    // Antarktiki
+    // function to transform text to float[] from edittext input
     private fun transformText(textToFormat: String): FloatArray? {
 
         Log.e("TEXT",textToFormat)
@@ -865,15 +874,8 @@ class MainActivity : AppCompatActivity() {
                 .split("\\s+")
                 .toTypedArray()*/
         val words = textToFormat.split("\\s+".toRegex()).map { word ->
-            word.replace("""^[,\.]|[,\.]$""".toRegex(), "").toLowerCase()
+            word.replace("""^[,;!?.]|[,;!?.]$""".toRegex(), "").toLowerCase()
         }
-        //val words = listOf("κάνε", "με", "πέρα")
-
-
-        //Replace Upper case letters,remove punctuation and split string
-        /*val words =
-            textToFormat.replace("[^a-zA-Z ]".toRegex(), "").toLowerCase().split("\\s+")
-                .toTypedArray()*/
 
         for (word in words) {
             Log.e("WORDS", word)

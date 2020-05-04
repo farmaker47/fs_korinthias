@@ -48,6 +48,10 @@ android {
         enabled = true
     }
 
+    aaptOptions {
+        noCompress "tflite"
+    }
+
     androidExtensions {
         experimental = true
     }
@@ -127,5 +131,8 @@ dependencies {
     implementation "org.koin:koin-android-scope:$koin_version"
     // Koin Android ViewModel features
     implementation "org.koin:koin-android-viewmodel:$koin_version"
+
+    // TF Lite
+    implementation 'org.tensorflow:tensorflow-lite:2.1.0'
 
 }
