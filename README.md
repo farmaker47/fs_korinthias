@@ -11,6 +11,7 @@ This project is in __Kotlin__ language and has:
 4) Firebase Cloud Messaging, database and authentication
 
 also:
+
 5) Activity and TextView animations
 6) Databinding
 7) BindingAdapters
