@@ -133,6 +133,6 @@ dependencies {
     implementation "org.koin:koin-android-viewmodel:$koin_version"
 
     // TF Lite
-    implementation 'org.tensorflow:tensorflow-lite:2.1.0'
+    implementation('org.tensorflow:tensorflow-lite:2.1.0')
 
 }

@@ -25,7 +25,9 @@ import java.io.FileInputStream
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
+import java.util.*
 import java.util.concurrent.Callable
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -65,10 +67,11 @@ class SmartReplyClassifier(private val context: Context) {
         // Reads type and shape of input and output tensors, respectively.
         val imageTensorIndex = 0
         val imageShape: IntArray =
-            interpreter.getInputTensor(imageTensorIndex).shape() // {1, height, width, 3}
-        inputVector = imageShape[0]
-        Log.e("INPUT_TENSOR_0", imageShape[0].toString())
-        Log.e("INPUT_TENSOR_1", imageShape[1].toString())
+            interpreter.getInputTensor(imageTensorIndex).shape() // {1, length}
+        //inputVector = imageShape[0]
+        Log.e("INPUT_TENSOR_WHOLE", Arrays.toString(imageShape))
+        //Log.e("INPUT_TENSOR_0", imageShape[0].toString())
+        //Log.e("INPUT_TENSOR_1", imageShape[1].toString())
         val imageDataType: DataType =
             interpreter.getInputTensor(imageTensorIndex).dataType()
 
@@ -76,10 +79,18 @@ class SmartReplyClassifier(private val context: Context) {
 
 
         val probabilityTensorIndex = 0
-        val probabilityShape: IntArray =
-            interpreter.getOutputTensor(probabilityTensorIndex).shape() // {1, NUM_CLASSES}
+        val probabilityShape =
+            interpreter.getOutputTensor(probabilityTensorIndex).shape()// {1, NUM_CLASSES}
+        //interpreter.getOutputIndex("output_1")
 
-        //Log.e("OUTPUT_TENSOR_0", probabilityShape[0].toString())
+        /*val floatArray = FloatArray(probabilityShape.length)
+        for (i in 0 until doubleArray.length) {
+            floatArray[i] = doubleArray.get(i)
+        }*/
+
+        Log.e("OUTPUT_TENSOR_SHAPE", Arrays.toString(probabilityShape))
+
+        //Log.e("OUTPUT_TENSOR_0", probabilityShape!![0].toString())
         //Log.e("OUTPUT_TENSOR_1", probabilityShape[1].toString())
         val probabilityDataType: DataType =
             interpreter.getOutputTensor(probabilityTensorIndex).dataType()
@@ -102,33 +113,50 @@ class SmartReplyClassifier(private val context: Context) {
         Log.e(TAG, "Initialized TFLite interpreter.")
 
 
-        val output = Array(1) { FloatArray(OUTPUT_CLASSES_COUNT) }
+        //val output = Array(1) { FloatArray(OUTPUT_CLASSES_COUNT) }
+        //val output = FloatArray(0)
 
-        val byteBuffer = ByteBuffer.allocateDirect(160)
-        /*byteBuffer.order(ByteOrder.nativeOrder())
-        byteBuffer.putFloat(0F)
+        val byteBuffer = ByteBuffer.allocateDirect(4 * 40)
+        byteBuffer.order(ByteOrder.nativeOrder())
+        /*byteBuffer.putFloat(0F)
         byteBuffer.putFloat(0F)*/
 
 
-        val pixels = IntArray(40)
+        //val pixels = IntArray(40)
         for (i in 0..39) {
-            val normalizedPixelValue = 0F
-            byteBuffer.putFloat(normalizedPixelValue)
+            val value = 0F
+            byteBuffer.putFloat(value)
         }
+        byteBuffer.rewind();
+        //val outputBuffer = byteBuffer.asFloatBuffer().array();
 
         // Run inference with the input data.
-        interpreter.run(byteBuffer, output)
+        val flatArray = FloatArray(40) { 0F }
+        //Log.e("INPUT_TENSOR_MINE", flatArray.contentToString())
+
+        // 2D
+        //val m = Array(1) { FloatArray(40) { 0F } }
+        val m = Array(1) { FloatArray(INPUT_CLASSES_COUNT) }
+        Log.e("INPUT_TENSOR_MINE", m.contentToString())
+        val twoD_arr =
+            Array(2) { IntArray(20) }
+
+        //Log.e("2D_ARRAY", twoD_arr.contentToString())
+
+
+        val output = Array(1) { FloatArray(OUTPUT_CLASSES_COUNT) }
+        interpreter.run(m, probabilityShape)
 
         // Post-processing: find the digit that has the highest probability
         // and return it a human-readable string.
-        val result = output[0]
+        /*val result = output[0]
         Log.e("RESULT", result.toString())
         val maxIndex = result.indices.maxBy { result[it] } ?: -1
-        Log.e("MAX_INDEX", maxIndex.toString())
+        Log.e("MAX_INDEX", maxIndex.toString())*/
     }
 
     @Throws(IOException::class)
-    private fun loadModelFile(assetManager: AssetManager, filename: String): ByteBuffer {
+    private fun loadModelFile(assetManager: AssetManager, filename: String): MappedByteBuffer {
         val fileDescriptor = assetManager.openFd(filename)
         val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
         val fileChannel = inputStream.channel
@@ -211,5 +239,6 @@ class SmartReplyClassifier(private val context: Context) {
         private const val PIXEL_SIZE = 1
 
         private const val OUTPUT_CLASSES_COUNT = 3
+        private const val INPUT_CLASSES_COUNT = 40
     }
 }
