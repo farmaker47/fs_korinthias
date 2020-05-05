@@ -131,12 +131,12 @@ class SmartReplyClassifier(private val context: Context) {
         //val outputBuffer = byteBuffer.asFloatBuffer().array();
 
         // Run inference with the input data.
-        val flatArray = FloatArray(40) { 0F }
+        val flatArray = FloatArray(40) { 1F }
         //Log.e("INPUT_TENSOR_MINE", flatArray.contentToString())
 
         // 2D
         //val m = Array(1) { FloatArray(40) { 0F } }
-        val m = Array(1) { FloatArray(INPUT_CLASSES_COUNT) }
+        val m = Array(1) { FloatArray(INPUT_CLASSES_COUNT){1570F} }
         Log.e("INPUT_TENSOR_MINE", m.contentToString())
         val twoD_arr =
             Array(2) { IntArray(20) }
@@ -145,14 +145,14 @@ class SmartReplyClassifier(private val context: Context) {
 
 
         val output = Array(1) { FloatArray(OUTPUT_CLASSES_COUNT) }
-        interpreter.run(m, probabilityShape)
+        interpreter.run(m, output)
 
         // Post-processing: find the digit that has the highest probability
         // and return it a human-readable string.
-        /*val result = output[0]
-        Log.e("RESULT", result.toString())
+        val result = output[0]
+        Log.e("RESULT", Arrays.toString(result))
         val maxIndex = result.indices.maxBy { result[it] } ?: -1
-        Log.e("MAX_INDEX", maxIndex.toString())*/
+        Log.e("MAX_INDEX", maxIndex.toString())
     }
 
     @Throws(IOException::class)
@@ -239,6 +239,6 @@ class SmartReplyClassifier(private val context: Context) {
         private const val PIXEL_SIZE = 1
 
         private const val OUTPUT_CLASSES_COUNT = 3
-        private const val INPUT_CLASSES_COUNT = 40
+        private const val INPUT_CLASSES_COUNT = 39
     }
 }
