@@ -64,11 +64,11 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     }
 
-    fun setTextFromEditText(text: String, context: Context) {
+    /*fun setTextFromEditText(text: String, context: Context) {
         _inputText.value = text
         Log.e("InputText", inputText.value)
 
-    }
+    }*/
 
     private fun classifyText(floatArray: FloatArray?) {
         coroutineScope.launch {
@@ -189,7 +189,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun transformText(textToFormat: String, context: Context): FloatArray? {
 
-        Log.e("TEXT", textToFormat)
+        Log.i("TEXT", textToFormat)
         //Replace Upper case letters,remove punctuation and split string
         /*val words =
             textToFormat//.replace("[^a-zA-Z ]".toRegex(), "").toLowerCase()
@@ -200,7 +200,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         }
 
         for (word in words) {
-            Log.e("WORDS", word)
+            Log.i("WORDS", word)
         }
 
         //Initialize an input array with maxSize length
@@ -239,15 +239,13 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                     p++
                 }
             }
-            Log.e("LENGTH", finalWords?.size.toString())
+            Log.i("LENGTH", finalWords?.size.toString())
             //////////////////////////////////////////////////////////////
             //Trancuate
             if (finalWords!!.size >= 40) {
                 wordsTrancuated = finalWords?.subList(0, 40)
-                Log.e("LENGTH", "BIGGER")
             } else {
                 wordsTrancuated = finalWords?.subList(0, finalWords!!.size)
-                Log.e("LENGTH", "SMALLER")
             }
             /////////////////////////////////////////////////////////////
 
@@ -269,11 +267,11 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
             //Check all input array
             for (k in input) {
-                Log.e("ArrayWords", k.toString())
+                Log.i("ArrayWords", k.toString())
             }
 
-            Log.e("SIZE_INPUT", input.size.toString())
-            Log.e("Words_INPUT_whole", input.contentToString())
+            Log.i("SIZE_INPUT", input.size.toString())
+            Log.i("Words_INPUT_whole", input.contentToString())
 
             input
         } catch (e: Exception) {
