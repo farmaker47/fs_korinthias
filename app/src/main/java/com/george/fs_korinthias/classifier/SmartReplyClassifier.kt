@@ -136,14 +136,53 @@ class SmartReplyClassifier(private val context: Context) {
 
         // 2D
         //val m = Array(1) { FloatArray(40) { 0F } }
-        val m = Array(1) { FloatArray(INPUT_CLASSES_COUNT){1570F} }
-        Log.e("INPUT_TENSOR_MINE", m.contentToString())
-        val twoD_arr =
-            Array(2) { IntArray(20) }
-
-        //Log.e("2D_ARRAY", twoD_arr.contentToString())
-
-
+        // val m = Array(1) { FloatArray(INPUT_CLASSES_COUNT){1570F} }
+        val m = Array(1) {
+            floatArrayOf(
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                0F,
+                164F,
+                1F,
+                757F,
+                10F,
+                245F,
+                501F
+            )
+        }
+        Log.e("INPUT_TENSOR_M", Arrays.toString(m[0]))
+        Log.e("INPUT_TENSOR_M_SIZE", m[0].size.toString())
         val output = Array(1) { FloatArray(OUTPUT_CLASSES_COUNT) }
         interpreter.run(m, output)
 
