@@ -44,6 +44,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     private var vocabMap: Map<String, Int>? = null
     private var finalWords: ArrayList<String>? = null
     private var wordsTrancuated: List<String>? = null
+
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
 
@@ -67,16 +68,12 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         _inputText.value = text
         Log.e("InputText", inputText.value)
 
-        // Transform text
-        // Classify text
-        classifyText(transformText(text, context))
-
     }
 
     private fun classifyText(floatArray: FloatArray?) {
         coroutineScope.launch {
 
-            val arrayFinal = Array(1){floatArray}
+            val arrayFinal = Array(1) { floatArray }
 
             val m = Array(1) {
                 floatArrayOf(
@@ -137,11 +134,21 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun setArratListMainActivityMessages(list: ArrayList<FirebaseMainActivityMessages?>) {
+    fun setArrayListMainActivityMessages(
+        list: ArrayList<FirebaseMainActivityMessages?>,
+        context: Context
+    ) {
         _messagesList.value = list
         //Log.e("Messages_List", _messagesList.value!![1]?.message)
         Log.i("Messages_List", _messagesList.value!!.size.toString())
         _numberMessages.value = _messagesList.value?.size
+
+        // Transform text
+        // Classify text from the last input message from list
+        if(list.size!=0){
+            classifyText(transformText(list[list.size - 1]?.message!!, context))
+        }
+
     }
 
     @Throws(IOException::class)

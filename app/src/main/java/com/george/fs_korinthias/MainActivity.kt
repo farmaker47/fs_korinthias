@@ -52,12 +52,8 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import kotlinx.android.parcel.Parcelize
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -233,6 +229,7 @@ class MainActivity : AppCompatActivity() {
         "dtpharm@gmail.com"
     )
     private lateinit var currentDate: String
+
     //private lateinit var intentFilter: IntentFilter
     //private lateinit var receiver: OnNotificationReceived
     private var smartReplyClassifier = SmartReplyClassifier(this)
@@ -336,7 +333,7 @@ class MainActivity : AppCompatActivity() {
         binding.imageButtonClose.setOnClickListener {
             closeSliding()
             referenceMainActivityMessages.removeEventListener(childEventListener)
-            viewModel.setArratListMainActivityMessages(ArrayList())
+            viewModel.setArrayListMainActivityMessages(ArrayList(), this)
         }
 
         // Listener for button to send messages
@@ -360,7 +357,9 @@ class MainActivity : AppCompatActivity() {
 
             // Antarktiki get text to integers
             //transformText(binding.editTextSlidingMainActivity.text?.trim().toString())
-            viewModel.setTextFromEditText(binding.editTextSlidingMainActivity.text?.trim().toString(),this)
+            /*viewModel.setTextFromEditText(
+                binding.editTextSlidingMainActivity.text?.trim().toString(), this
+            )*/
 
             binding.editTextSlidingMainActivity.setText("")
         }
@@ -494,7 +493,7 @@ class MainActivity : AppCompatActivity() {
 
                 messagesList.add(comment)
 
-                viewModel.setArratListMainActivityMessages(messagesList)
+                viewModel.setArrayListMainActivityMessages(messagesList, this@MainActivity)
 
                 binding.recyclerMainFireBaseMessages.adapter?.notifyDataSetChanged()
                 binding.recyclerMainFireBaseMessages.scrollToPosition(messagesList.size - 1)
@@ -634,7 +633,7 @@ class MainActivity : AppCompatActivity() {
         if (slidingOpen) {
             closeSliding()
             referenceMainActivityMessages.removeEventListener(childEventListener)
-            viewModel.setArratListMainActivityMessages(ArrayList())
+            viewModel.setArrayListMainActivityMessages(ArrayList(),this)
         } else {
             finish()
         }
