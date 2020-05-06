@@ -233,9 +233,6 @@ class MainActivity : AppCompatActivity() {
         "dtpharm@gmail.com"
     )
     private lateinit var currentDate: String
-    private var vocabMap: Map<String, Int>? = null
-    private var finalWords: ArrayList<String>? = null
-    private var wordsTrancuated: List<String>? = null
     //private lateinit var intentFilter: IntentFilter
     //private lateinit var receiver: OnNotificationReceived
     private var smartReplyClassifier = SmartReplyClassifier(this)
@@ -362,7 +359,8 @@ class MainActivity : AppCompatActivity() {
             )
 
             // Antarktiki get text to integers
-            transformText(binding.editTextSlidingMainActivity.text?.trim().toString())
+            //transformText(binding.editTextSlidingMainActivity.text?.trim().toString())
+            viewModel.setTextFromEditText(binding.editTextSlidingMainActivity.text?.trim().toString(),this)
 
             binding.editTextSlidingMainActivity.setText("")
         }
@@ -456,10 +454,10 @@ class MainActivity : AppCompatActivity() {
 
         // Antarktiki
         // Setup digit classifier.
-        smartReplyClassifier
+        /*smartReplyClassifier
             .initialize()
             .addOnFailureListener { e -> Log.e("MainActivity_classifier", "Error to setting up smart reply classifier.", e) }
-
+*/
     }
 
     private fun subscribeToTopicSyllogos() {
@@ -865,99 +863,6 @@ class MainActivity : AppCompatActivity() {
 
     // Antarktiki
     // function to transform text to float[] from edittext input
-    private fun transformText(textToFormat: String): FloatArray? {
-
-        Log.e("TEXT",textToFormat)
-        //Replace Upper case letters,remove punctuation and split string
-        /*val words =
-            textToFormat//.replace("[^a-zA-Z ]".toRegex(), "").toLowerCase()
-                .split("\\s+")
-                .toTypedArray()*/
-        val words = textToFormat.split("\\s+".toRegex()).map { word ->
-            word.replace("""^[,;!?.]|[,;!?.]$""".toRegex(), "").toLowerCase()
-        }
-
-        for (word in words) {
-            Log.e("WORDS", word)
-        }
-
-        //Initialize an input array with maxSize length
-        val input =
-            FloatArray(maxLenght) // 1 sentence by maxLenWords
-        //Make every position 0
-        for (l in 0 until maxLenght) {
-            input[l] = 0F
-        }
-
-        val vocabJson: String?
-        return try {
-            //Open .json file
-            val br =
-                BufferedReader(InputStreamReader(assets.open(vocabFilename)))
-            var line: String?
-            val sb = StringBuilder()
-            while (br.readLine().also { line = it } != null) {
-                sb.append(line).append("\n")
-            }
-            vocabJson = sb.toString()
-            br.close()
-            val gson = GsonBuilder().setPrettyPrinting().create()
-            val type =
-                object : TypeToken<Map<String?, Int?>?>() {}.type
-            //Create mapped vocabulary
-            vocabMap = gson.fromJson<Map<String, Int>>(vocabJson, type)
-
-            //////////////////////////////////////////////////////////////
-            //Find words that exist in vocabulary
-            var p = 0
-            finalWords = ArrayList()
-            for (word in words) {
-                if (vocabMap!!.containsKey(word)) {
-                    finalWords?.add(word)
-                    p++
-                }
-            }
-            Log.e("LENGTH", finalWords?.size.toString())
-            //////////////////////////////////////////////////////////////
-            //Trancuate
-            if (finalWords!!.size >= 40) {
-                wordsTrancuated = finalWords?.subList(0, 40)
-                Log.e("LENGTH", "BIGGER")
-            } else {
-                wordsTrancuated = finalWords?.subList(0, finalWords!!.size)
-                Log.e("LENGTH", "SMALLER")
-            }
-            /////////////////////////////////////////////////////////////
-
-            ///////////////////////////////////////////////////
-            //Padding sequence of maxSize length with integers of final words
-            var j = 0
-            for (word in wordsTrancuated!!) {
-                if (j == maxLenght) break
-
-                if (vocabMap!!.containsKey(word)) {
-                    val index = vocabMap?.get(word)
-
-                    //Making integer to float
-                    input[input.size - wordsTrancuated!!.size + j] = index!!.toFloat()
-                    j++
-                }
-            }
-            /////////////////////////////////////////////////////
-
-            //Check all input array
-            for (k in input) {
-                Log.e("ArrayWords", k.toString())
-            }
-
-            Log.e("SIZE_INPUT", input.size.toString())
-
-            input
-        } catch (e: Exception) {
-            Log.e("exception", e.toString())
-            FloatArray(40)
-        }
-    }
 
 
 }

@@ -33,7 +33,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class SmartReplyClassifier(private val context: Context) {
-    // TODO: Add a TF Lite interpreter as a field.
+
     private var interpreter: Interpreter? = null
     var isInitialized = false
         private set
@@ -278,6 +278,6 @@ class SmartReplyClassifier(private val context: Context) {
         private const val PIXEL_SIZE = 1
 
         private const val OUTPUT_CLASSES_COUNT = 3
-        private const val INPUT_CLASSES_COUNT = 39
+        private const val INPUT_CLASSES_COUNT = 40
     }
 }
