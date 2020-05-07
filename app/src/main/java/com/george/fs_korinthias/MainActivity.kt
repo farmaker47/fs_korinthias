@@ -80,6 +80,7 @@ class MainActivity : AppCompatActivity() {
     )
     private lateinit var referenceMainActivityMessages: DatabaseReference
     private lateinit var childEventListener: ChildEventListener
+    private lateinit var valueEventListener: ValueEventListener
     private var name: String = ""
     private var email = ""
     private var photoUrl = ""
@@ -333,7 +334,8 @@ class MainActivity : AppCompatActivity() {
         binding.imageButtonClose.setOnClickListener {
             closeSliding()
             referenceMainActivityMessages.removeEventListener(childEventListener)
-            viewModel.setArrayListMainActivityMessages(ArrayList(), this)
+            referenceMainActivityMessages.removeEventListener(valueEventListener)
+            viewModel.setArrayListMainActivityMessages(ArrayList())
         }
 
         // Listener for button to send messages
@@ -493,11 +495,10 @@ class MainActivity : AppCompatActivity() {
 
                 messagesList.add(comment)
 
-                viewModel.setArrayListMainActivityMessages(messagesList, this@MainActivity)
-
                 binding.recyclerMainFireBaseMessages.adapter?.notifyDataSetChanged()
                 binding.recyclerMainFireBaseMessages.scrollToPosition(messagesList.size - 1)
 
+                viewModel.setArrayListMainActivityMessages(messagesList)
             }
 
             override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {}
@@ -505,7 +506,19 @@ class MainActivity : AppCompatActivity() {
             override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {}
             override fun onCancelled(databaseError: DatabaseError) {}
         }
+
+        valueEventListener = object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                viewModel.classifyLastMessage(messagesList, this@MainActivity)
+            }
+
+        }
         referenceMainActivityMessages.addChildEventListener(childEventListener)
+        referenceMainActivityMessages.addValueEventListener(valueEventListener)
     }
 
     /*public override fun onStart() {
@@ -633,7 +646,8 @@ class MainActivity : AppCompatActivity() {
         if (slidingOpen) {
             closeSliding()
             referenceMainActivityMessages.removeEventListener(childEventListener)
-            viewModel.setArrayListMainActivityMessages(ArrayList(),this)
+            referenceMainActivityMessages.removeEventListener(valueEventListener)
+            viewModel.setArrayListMainActivityMessages(ArrayList())
         } else {
             finish()
         }

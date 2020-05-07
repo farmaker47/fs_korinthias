@@ -135,20 +135,24 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun setArrayListMainActivityMessages(
-        list: ArrayList<FirebaseMainActivityMessages?>,
-        context: Context
+        list: ArrayList<FirebaseMainActivityMessages?>
     ) {
         _messagesList.value = list
         //Log.e("Messages_List", _messagesList.value!![1]?.message)
         Log.i("Messages_List", _messagesList.value!!.size.toString())
         _numberMessages.value = _messagesList.value?.size
 
+    }
+
+    fun classifyLastMessage(
+        list: ArrayList<FirebaseMainActivityMessages?>,
+        context: Context
+    ) {
         // Transform text
         // Classify text from the last input message from list
-        if(list.size!=0){
+        if (list.size != 0) {
             classifyText(transformText(list[list.size - 1]?.message!!, context))
         }
-
     }
 
     @Throws(IOException::class)
@@ -282,11 +286,11 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     companion object {
         private const val TAG = "MainActivityViewModel"
-
-        private const val FLOAT_TYPE_SIZE = 4
-        private const val PIXEL_SIZE = 1
-
         private const val OUTPUT_CLASSES_COUNT = 3
-        private const val INPUT_CLASSES_COUNT = 40
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }
