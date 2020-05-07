@@ -53,6 +53,7 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.parcel.Parcelize
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -459,6 +460,66 @@ class MainActivity : AppCompatActivity() {
             .initialize()
             .addOnFailureListener { e -> Log.e("MainActivity_classifier", "Error to setting up smart reply classifier.", e) }
 */
+
+        viewModel.maxIndex.observe(this, androidx.lifecycle.Observer { index ->
+            when (index) {
+                1 -> {
+                    binding.firstCommentTextView?.text = getString(R.string.happyComment)
+                    binding.secondCommentTextView?.text = getString(R.string.saintComment)
+                    binding.thirdCommentTextView?.text = getString(R.string.loveComment)
+                }
+                2 -> {
+                    binding.firstCommentTextView?.text = getString(R.string.happyComment)
+                    binding.secondCommentTextView?.text = getString(R.string.saintComment)
+                    binding.thirdCommentTextView?.text = getString(R.string.loveComment)
+                }
+                else -> {
+                    binding.firstCommentTextView?.text = getString(R.string.happyComment)
+                    binding.secondCommentTextView?.text = getString(R.string.saintComment)
+                    binding.thirdCommentTextView?.text = getString(R.string.loveComment)
+                }
+            }
+
+        })
+
+        binding.firstCommentTextView?.setOnClickListener {
+            currentDate =
+                SimpleDateFormat("dd/MM", Locale.getDefault()).format(Date())
+            referenceMainActivityMessages.push().setValue(
+                FirebaseMainActivityMessages(
+                    name,
+                    binding.firstCommentTextView?.text.toString(),
+                    photoUrl,
+                    currentDate
+                )
+            )
+        }
+
+        binding.secondCommentTextView?.setOnClickListener {
+            currentDate =
+                SimpleDateFormat("dd/MM", Locale.getDefault()).format(Date())
+            referenceMainActivityMessages.push().setValue(
+                FirebaseMainActivityMessages(
+                    name,
+                    binding.secondCommentTextView?.text.toString(),
+                    photoUrl,
+                    currentDate
+                )
+            )
+        }
+
+        binding.thirdCommentTextView?.setOnClickListener {
+            currentDate =
+                SimpleDateFormat("dd/MM", Locale.getDefault()).format(Date())
+            referenceMainActivityMessages.push().setValue(
+                FirebaseMainActivityMessages(
+                    name,
+                    binding.thirdCommentTextView?.text.toString(),
+                    photoUrl,
+                    currentDate
+                )
+            )
+        }
     }
 
     private fun subscribeToTopicSyllogos() {
@@ -508,15 +569,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         valueEventListener = object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
+            override fun onCancelled(p0: DatabaseError) {}
             override fun onDataChange(p0: DataSnapshot) {
                 viewModel.classifyLastMessage(messagesList, this@MainActivity)
             }
-
         }
+
         referenceMainActivityMessages.addChildEventListener(childEventListener)
         referenceMainActivityMessages.addValueEventListener(valueEventListener)
     }

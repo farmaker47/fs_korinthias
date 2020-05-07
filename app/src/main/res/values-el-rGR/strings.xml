@@ -29,4 +29,7 @@
     <string name="numberMessages">μηνύματα</string>
     <string name="error_firebase_auth">Πρόβλημα στην εγγραφή. Ξαναπροσπαθήστε!</string>
     <string name="log_out">Αποσύνδεση</string>
+    <string name="happyComment">&#128522;</string>
+    <string name="saintComment">&#128519;</string>
+    <string name="loveComment">&#128525;</string>
 </resources>

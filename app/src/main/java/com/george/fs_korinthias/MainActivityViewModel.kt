@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.george.fs_korinthias.ui.important.WeatherApiStatus
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.*
@@ -29,6 +30,11 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
     // The external LiveData for the SelectedNews
     val inputText: LiveData<String>
         get() = _inputText
+
+    private val _maxIndex = MutableLiveData<Int>()
+    // The external LiveData for the SelectedNews
+    val maxIndex: LiveData<Int>
+        get() = _maxIndex
 
     private val _selectedVideo = MutableLiveData<String>()
 
@@ -119,8 +125,8 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
                     501F
                 )
             }
-            Log.e("INPUT_TENSOR_M", arrayFinal[0]?.contentToString())
-            Log.e("INPUT_TENSOR_M_SIZE", arrayFinal[0]?.size.toString())
+            Log.i("INPUT_TENSOR_M", arrayFinal[0]?.contentToString())
+            Log.i("INPUT_TENSOR_M_SIZE", arrayFinal[0]?.size.toString())
             val output = Array(1) { FloatArray(OUTPUT_CLASSES_COUNT) }
             interpreter.run(arrayFinal, output)
 
@@ -128,8 +134,12 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
             // and return it a human-readable string.
             val result = output[0]
             Log.e("RESULT", Arrays.toString(result))
-            val maxIndex = result.indices.maxBy { result[it] } ?: -1
-            Log.e("MAX_INDEX", maxIndex.toString())
+
+            withContext(Dispatchers.Main) {
+                // call to UI thread
+                _maxIndex.value = result.indices.maxBy { result[it] } ?: -1
+                Log.e("MAX_INDEX", maxIndex.value.toString())
+            }
 
         }
     }
