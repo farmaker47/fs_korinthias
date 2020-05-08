@@ -234,7 +234,7 @@ class MainActivity : AppCompatActivity() {
 
     //private lateinit var intentFilter: IntentFilter
     //private lateinit var receiver: OnNotificationReceived
-    private var smartReplyClassifier = SmartReplyClassifier(this)
+    //private var smartReplyClassifier = SmartReplyClassifier(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -273,7 +273,6 @@ class MainActivity : AppCompatActivity() {
             } else if (!extras.containsKey("link") && extras.containsKey("google.sent_time")) {
                 finish()
             }
-
 
         }
 
@@ -358,12 +357,6 @@ class MainActivity : AppCompatActivity() {
                 )
             )
 
-            // Antarktiki get text to integers
-            //transformText(binding.editTextSlidingMainActivity.text?.trim().toString())
-            /*viewModel.setTextFromEditText(
-                binding.editTextSlidingMainActivity.text?.trim().toString(), this
-            )*/
-
             binding.editTextSlidingMainActivity.setText("")
         }
 
@@ -404,7 +397,6 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerMainFireBaseMessages.adapter =
             MainActivityFirebaseMessagesAdapter(
                 MainActivityFirebaseMessagesAdapter.OnClickListener { mainMessages ->
-
                     //(activity as MainActivity?)?.fragmentMethodTransitionEfimeries(mainEfimeries)
                 })
 
@@ -454,13 +446,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Antarktiki
-        // Setup digit classifier.
-        /*smartReplyClassifier
-            .initialize()
-            .addOnFailureListener { e -> Log.e("MainActivity_classifier", "Error to setting up smart reply classifier.", e) }
-*/
-
+        // Adds comments to 3 textviews
         viewModel.maxIndex.observe(this, androidx.lifecycle.Observer { index ->
             when (index) {
                 // Enthusiasm

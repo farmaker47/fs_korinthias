@@ -167,7 +167,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
 
     @Throws(IOException::class)
     private suspend fun initializeInterpreter(app: Application) = withContext(Dispatchers.IO) {
-        // Load the TF Lite model from asset folder and initialize TF Lite Interpreter with NNAPI enabled.
+        // Load the TF Lite model from asset folder and initialize TF Lite Interpreter without NNAPI enabled.
         val assetManager = app.assets
         val model = loadModelFile(assetManager, "greek_smart_reply_model.tflite")
         val options = Interpreter.Options()
