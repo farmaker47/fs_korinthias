@@ -17,6 +17,7 @@ import com.george.fs_korinthias.ui.adapters.MainActivityFirebaseMessagesAdapter
 import com.george.fs_korinthias.ui.adapters.NewsAdapter
 import com.george.fs_korinthias.ui.important.WeatherApiStatus
 import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter
 import org.sufficientlysecure.htmltextview.HtmlTextView
 
@@ -56,7 +57,7 @@ fun bindWeatherIcon(iconImageView: ImageView, htmlValue: String?) {
 }
 
 @BindingAdapter("photoFirebaseDisplay")
-fun bindPhotoIcon(iconImageView: ImageView, htmlValue: String?) {
+fun bindPhotoIcon(iconImageView: CircleImageView, htmlValue: String?) {
     if (htmlValue != null) {
         Picasso.get().load(htmlValue).placeholder(R.drawable.ic_account).into(iconImageView)
     }
