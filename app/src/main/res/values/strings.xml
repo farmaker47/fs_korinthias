@@ -46,8 +46,15 @@
     <string name="log_out">Log out</string>
     <string name="msg_subscribed" translatable="false">Succesfull subscribed</string>
     <string name="msg_subscribe_failed" translatable="false">Subscribe failed</string>
-    <string name="happyComment">I am happy &#128522;</string>
+    <string name="happyComment">&#128522;</string>
     <string name="saintComment">&#128519;</string>
     <string name="loveComment">&#128525;</string>
+    <string name="tooBadComment">Too bad!</string>
+    <string name="angerComment">&#128544;</string>
+    <string name="shoutComment">&#128549;</string>
+    <string name="bravoComment">Bravo!</string>
+    <string name="thumbUpComment">&#128077;</string>
+    <string name="agreeComment">I agree</string>
+    <string name="disAgreeComment">I disagree</string>
 
 </resources>

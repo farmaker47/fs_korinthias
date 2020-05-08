@@ -463,20 +463,23 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.maxIndex.observe(this, androidx.lifecycle.Observer { index ->
             when (index) {
+                // Enthusiasm
                 1 -> {
                     binding.firstCommentTextView?.text = getString(R.string.happyComment)
-                    binding.secondCommentTextView?.text = getString(R.string.saintComment)
-                    binding.thirdCommentTextView?.text = getString(R.string.loveComment)
+                    binding.secondCommentTextView?.text = getString(R.string.bravoComment)
+                    binding.thirdCommentTextView?.text = getString(R.string.thumbUpComment)
                 }
+                // Neutral
                 2 -> {
-                    binding.firstCommentTextView?.text = getString(R.string.happyComment)
-                    binding.secondCommentTextView?.text = getString(R.string.saintComment)
-                    binding.thirdCommentTextView?.text = getString(R.string.loveComment)
+                    binding.firstCommentTextView?.text = getString(R.string.disAgreeComment)
+                    binding.secondCommentTextView?.text = getString(R.string.thumbUpComment)
+                    binding.thirdCommentTextView?.text = getString(R.string.agreeComment)
                 }
+                // Sadness
                 else -> {
-                    binding.firstCommentTextView?.text = getString(R.string.happyComment)
-                    binding.secondCommentTextView?.text = getString(R.string.saintComment)
-                    binding.thirdCommentTextView?.text = getString(R.string.loveComment)
+                    binding.firstCommentTextView?.text = getString(R.string.tooBadComment)
+                    binding.secondCommentTextView?.text = getString(R.string.angerComment)
+                    binding.thirdCommentTextView?.text = getString(R.string.shoutComment)
                 }
             }
 

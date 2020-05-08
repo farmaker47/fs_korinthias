@@ -32,4 +32,11 @@
     <string name="happyComment">&#128522;</string>
     <string name="saintComment">&#128519;</string>
     <string name="loveComment">&#128525;</string>
+    <string name="tooBadComment">Κρίμα!</string>
+    <string name="angerComment">&#128544;</string>
+    <string name="shoutComment">&#128549;</string>
+    <string name="bravoComment">Μπράβο!</string>
+    <string name="thumbUpComment">&#128077;</string>
+    <string name="agreeComment">Συμφωνώ</string>
+    <string name="disAgreeComment">Δε συμφωνώ</string>
 </resources>

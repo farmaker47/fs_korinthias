@@ -116,7 +116,6 @@
                     android:padding="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/textview_black_border"
-                    android:text="Second"
                     android:textAlignment="center" />
 
                 <TextView
@@ -127,7 +126,6 @@
                     android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/textview_black_border"
-                    android:text="Third"
                     android:textAlignment="center" />
             </LinearLayout>
 
