@@ -1,5 +1,5 @@
 # fs_korinthias
-Kotlin android project to fetch news from FS Korinthias
+Kotlin android project to fetch news from FS Korinthias and Smart Reply to messages using Tensorflow
 
 Check this repo if you want to get an idea of JSOUP usage, Firebase cloud messaging, database and authentication. Also example of Tensorflow lite model inside android.
 
