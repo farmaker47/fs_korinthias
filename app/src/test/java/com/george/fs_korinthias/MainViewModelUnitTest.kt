@@ -12,31 +12,32 @@ import org.koin.dsl.koinApplication
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
+import org.koin.test.inject
 import org.mockito.Mock
+import org.mockito.Mockito.mock
 
 class DependencyGraphTest: KoinTest {
-    @Mock
-    private lateinit var context: Application
 
     @Test
     fun testMainActivityViewModel() {
         // declare module and sub-modules
-        val mainViewModelModule = module {
+        val applicationModuleMainViewModel = module (override = true) {
+            single { mock(Application::class.java) }
+        }
+        val mainViewModelModule = module{
             viewModel {
-                MainActivityViewModel(androidApplication())
+                MainActivityViewModel(get())
             }
         }
 
         startKoin {
-            //androidContext(applicationContext)
-            //context=Application()
-            //androidContext(context)
             modules(
+                applicationModuleMainViewModel,
                 mainViewModelModule
             )
         }
 
-        val service: MainActivityViewModel = get()
+        val service: MainActivityViewModel by inject()
 
         assertNotNull(service)
     }
