@@ -160,6 +160,7 @@
                         android:id="@+id/allNewsBlockTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textIsSelectable="true"
                         android:layout_margin="2dp"
                         android:textColor="#000"
                         android:textSize="18sp"

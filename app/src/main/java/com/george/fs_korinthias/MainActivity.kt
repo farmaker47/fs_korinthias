@@ -215,8 +215,7 @@ class MainActivity : AppCompatActivity() {
         "nemeatis@gmail.com",
         "katestamouli@gmail.com",
         "polyxenidim9@gmail.com",
-        "fasyko@otenet.gr",
-        "vakalopouloumaria@gmail.com"
+        "fasyko@otenet.gr"
     )
     private val dousouKatalogos: Array<String> = arrayOf(
         "soloupis@gmail.com",
@@ -329,8 +328,8 @@ class MainActivity : AppCompatActivity() {
         database = Firebase.database
         referenceMainActivityMessages =
                 // Antarktiki
-            database.reference.child("MainActivity_messages")
-        //database.reference.child("Antarktiki_messages")
+                //database.reference.child("MainActivity_messages")
+            database.reference.child("Antarktiki_messages")
 
         binding.imageButtonClose.setOnClickListener {
             closeSliding()
