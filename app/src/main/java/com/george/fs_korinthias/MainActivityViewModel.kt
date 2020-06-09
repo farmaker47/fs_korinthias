@@ -8,7 +8,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.george.fs_korinthias.ui.important.WeatherApiStatus
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.*
@@ -18,6 +17,8 @@ import java.io.BufferedReader
 import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStreamReader
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 import java.nio.MappedByteBuffer
 import java.nio.channels.FileChannel
 import java.util.*
@@ -32,6 +33,7 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
         get() = _inputText
 
     private val _maxIndex = MutableLiveData<Int>()
+
     // The external LiveData for the SelectedNews
     val maxIndex: LiveData<Int>
         get() = _maxIndex
@@ -127,8 +129,11 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
             }
             Log.i("INPUT_TENSOR_M", arrayFinal[0]?.contentToString())
             Log.i("INPUT_TENSOR_M_SIZE", arrayFinal[0]?.size.toString())
+
+            val input = convertArrayToByteBuffer(floatArray)
             val output = Array(1) { FloatArray(OUTPUT_CLASSES_COUNT) }
-            interpreter.run(arrayFinal, output)
+            //interpreter.run(arrayFinal, output)
+            interpreter.run(input, output)
 
             // Post-processing: find the digit that has the highest probability
             // and return it a human-readable string.
@@ -142,6 +147,25 @@ class MainActivityViewModel(app: Application) : AndroidViewModel(app) {
             }
 
         }
+    }
+
+    private fun convertArrayToByteBuffer(twoDArray: FloatArray?): ByteBuffer {
+        // Pre-process the input: convert a Bitmap instance to a ByteBuffer instance
+        // containing the pixel values of all pixels in the input image.
+        // We use ByteBuffer because it is faster than a Kotlin native float multidimensional array.
+        val byteBuffer = ByteBuffer.allocateDirect(4 * 40)
+        byteBuffer.order(ByteOrder.nativeOrder())
+
+        //bitmap.getPixels(pixels, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+
+        if (twoDArray != null) {
+            for (input in twoDArray) {
+
+                byteBuffer.putFloat(input)
+            }
+        }
+
+        return byteBuffer
     }
 
     fun setArrayListMainActivityMessages(
